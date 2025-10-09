@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Mappedin Conference POC - Production Ready</title>
 
   <!-- Lucide Icons - Modern outline icons -->
@@ -1435,10 +1438,33 @@
   </script>
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { width: 100%; height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow: hidden; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    #mappedin-map { width: 100%; height: 100%; }
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: fixed;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x pan-y;
+    }
+
+    /* Prevent pull-to-refresh on mobile */
+    body {
+      overscroll-behavior: none;
+    }
+
+    #mappedin-map {
+      width: 100%;
+      height: 100%;
+      touch-action: pan-x pan-y pinch-zoom;
+    }
 
     /* Search Bar - Always Visible */
     .search-container {
@@ -1476,18 +1502,33 @@
     }
 
     .search-suggestion {
-      padding: 12px 16px;
+      padding: 14px 16px;
       cursor: pointer;
       border-bottom: 1px solid #f0f0f0;
-      transition: background 0.2s;
+      transition: background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .search-suggestion:last-child {
       border-bottom: none;
     }
 
-    .search-suggestion:hover {
+    .search-suggestion:hover,
+    .search-suggestion:active {
       background: #f8f9fa;
+    }
+
+    /* Better touch feedback for mobile */
+    @media (hover: none) {
+      .search-suggestion:active {
+        background: #e8eaed;
+        transform: scale(0.98);
+      }
     }
 
     .suggestion-name {
@@ -1572,12 +1613,13 @@
 
     .toggle-btn {
       width: 100%;
-      padding: 10px 12px;
+      padding: 12px 14px;
+      min-height: 44px;
       border: none;
       border-radius: 8px;
       background: #f0f0f0;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       color: #333;
       transition: all 0.2s;
@@ -1585,19 +1627,27 @@
       align-items: center;
       gap: 8px;
       margin-bottom: 8px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .toggle-btn:last-child {
       margin-bottom: 0;
     }
 
-    .toggle-btn:hover {
+    .toggle-btn:hover,
+    .toggle-btn:active {
       background: #e0e0e0;
     }
 
     .toggle-btn.active {
       background: #667eea;
       color: white;
+    }
+
+    .toggle-btn.active:hover,
+    .toggle-btn.active:active {
+      background: #5568d3;
     }
 
     /* Floating Toggle Buttons */
@@ -1608,16 +1658,23 @@
       justify-content: center;
       width: 72px;
       height: 72px;
+      min-width: 44px;
+      min-height: 44px;
       background: white;
       border: 2px solid #ddd;
       border-radius: 50%;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
       pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
-    .floating-toggle:hover {
+    .floating-toggle:hover,
+    .floating-toggle:active {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
       border-color: #667eea;
@@ -1629,8 +1686,16 @@
       border-color: #667eea;
     }
 
-    .floating-toggle.active:hover {
+    .floating-toggle.active:hover,
+    .floating-toggle.active:active {
       background: #5568d3;
+    }
+
+    /* Better touch feedback */
+    @media (hover: none) {
+      .floating-toggle:active {
+        transform: scale(0.95);
+      }
     }
 
     /* Exhibitor Card */
@@ -1684,9 +1749,25 @@
     .close-btn {
       background: none;
       border: none;
-      font-size: 24px;
+      font-size: 28px;
       cursor: pointer;
       color: #999;
+      padding: 8px;
+      min-width: 44px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .close-btn:hover,
+    .close-btn:active {
+      background: #f0f0f0;
+      color: #333;
     }
 
     .card-description {
@@ -1710,6 +1791,7 @@
     .action-btn {
       flex: 1;
       padding: 12px 16px;
+      min-height: 44px;
       border: none;
       border-radius: 10px;
       font-size: 14px;
@@ -1719,9 +1801,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
-    .action-btn:hover {
+    .action-btn:hover,
+    .action-btn:active {
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
@@ -1749,6 +1834,7 @@
     .action-btn-wide {
       width: 100%;
       padding: 14px 20px;
+      min-height: 48px;
       border-radius: 10px;
       font-size: 15px;
       font-weight: 600;
@@ -1757,6 +1843,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .action-btn-wide.outline {
@@ -1765,15 +1855,19 @@
       color: #667eea;
     }
 
-    .action-btn-wide.outline:hover {
+    .action-btn-wide.outline:hover,
+    .action-btn-wide.outline:active {
       background: #667eea;
       color: white;
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     }
 
-    .action-btn-wide.outline:active {
-      transform: translateY(0);
+    /* Mobile-specific touch feedback */
+    @media (hover: none) {
+      .action-btn-wide.outline:active {
+        transform: scale(0.98);
+      }
     }
 
     /* Hide Mappedin Watermark (WARNING: May violate terms of service) */

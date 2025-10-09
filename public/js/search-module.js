@@ -236,10 +236,24 @@ class SearchUIManager {
       lucide.createIcons();
     }
 
-    // Add click handlers
+    // Add click/touch handlers for better mobile support
     this.suggestionsElement.querySelectorAll('.search-suggestion').forEach((item, index) => {
-      item.addEventListener('click', () => {
+      // Use both click and touchend for mobile compatibility
+      const handler = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         this.selectSuggestion(index);
+      };
+
+      item.addEventListener('click', handler);
+      item.addEventListener('touchend', handler);
+
+      // Add visual feedback on touch
+      item.addEventListener('touchstart', () => {
+        item.style.backgroundColor = '#f0f0f0';
+      });
+      item.addEventListener('touchcancel', () => {
+        item.style.backgroundColor = '';
       });
     });
   }
