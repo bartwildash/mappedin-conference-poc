@@ -1,0 +1,131 @@
+.navigation-panel {
+  margin-bottom: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.nav-field {
+  margin-bottom: 10px;
+}
+
+.nav-field label {
+  display: block;
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.nav-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 13px;
+  outline: none;
+}
+
+.nav-input.readonly {
+  background: #e9ecef;
+  color: #333;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon .nav-input {
+  padding-right: 40px;
+}
+
+.input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #667eea;
+}
+
+.pin-icon {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.pin-icon:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.accessible-toggle {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.accessible-toggle label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #333;
+}
+
+.accessible-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.toggle-status {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #28a745;
+}
+
+.get-directions-btn,
+.clear-path-btn {
+  width: 100%;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.get-directions-btn {
+  border: 2px solid #667eea;
+  background: transparent;
+  color: #667eea;
+}
+
+.get-directions-btn:hover {
+  background: #667eea;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.clear-path-btn {
+  border: 1px solid #dc3545;
+  background: white;
+  color: #dc3545;
+}
+
+.clear-path-btn:hover {
+  background: #dc3545;
+  color: white;
+}

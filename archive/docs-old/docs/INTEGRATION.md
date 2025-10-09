@@ -59,6 +59,8 @@
 ```
 
 ### Mapping to Mappedin
+
+**Method 1: Filter all spaces (less efficient)**
 ```javascript
 // In WebView: Match stallNo to space.externalId
 const exhibitorSpaces = mapData.getByType('space')
@@ -68,6 +70,110 @@ const exhibitorSpaces = mapData.getByType('space')
       e.stallNo?.toUpperCase() === space.externalId?.toUpperCase()
     );
   });
+```
+
+**Method 2: Use `getByExternalId()` (recommended) ✅**
+
+Official Mappedin SDK method for finding elements by external ID:
+
+```javascript
+// Direct lookup by external ID (more efficient)
+const exhibitorSpace = mapData.getByExternalId('space', stallNo);
+
+if (exhibitorSpace.length > 0) {
+  // Found the booth for this exhibitor
+  const space = exhibitorSpace[0];
+  console.log(`Found booth ${stallNo}:`, space.name);
+
+  // Focus camera on this booth
+  mapView.Camera.focusOn(space);
+
+  // Show exhibitor card
+  showExhibitorCard(space, stallNo);
+}
+```
+
+**Official API Reference:** https://docs.mappedin.com/web/v6/latest/classes/MapData.html#getByExternalId
+
+**Type Signature:**
+```typescript
+getByExternalId<T extends ElementType>(
+  type: T,
+  externalId: string
+): TMapDataObjectTypes[T][]
+```
+
+**Supported Types:**
+- `'space'` - Floor areas (exhibitor booths)
+- `'object'` - 3D objects (booth displays, furniture)
+- `'floor'` - Floor levels
+- `'door'` - Doors and entrances
+- `'area'` - Designated areas
+- `'point-of-interest'` - POIs
+- `'enterprise-location'` - Enterprise locations
+- `'connection'` - Connections between spaces
+
+**Example: Find exhibitor by stallNo**
+```javascript
+// User clicks exhibitor in app → Send stallNo to WebView
+const stallNo = '2G19';
+
+// WebView finds the space
+const spaces = mapData.getByExternalId('space', stallNo);
+
+if (spaces.length > 0) {
+  const booth = spaces[0];
+
+  // Navigate to booth
+  mapView.Camera.focusOn(booth, {
+    duration: 1000,
+    zoom: 300
+  });
+
+  // Highlight the booth
+  mapView.updateState(booth, {
+    color: '#667eea',
+    interactive: true
+  });
+
+  // Send confirmation back to app
+  window.ReactNativeWebView?.postMessage(JSON.stringify({
+    type: 'boothFound',
+    stallNo: stallNo,
+    spaceId: booth.id,
+    spaceName: booth.name
+  }));
+} else {
+  // No booth found with this stallNo
+  console.warn(`No booth found with stallNo: ${stallNo}`);
+
+  window.ReactNativeWebView?.postMessage(JSON.stringify({
+    type: 'boothNotFound',
+    stallNo: stallNo
+  }));
+}
+```
+
+**Example: Multiple exhibitors in same booth (co-exhibitors)**
+```javascript
+// Some booths may have multiple companies
+const stallNo = '3J84';
+const spaces = mapData.getByExternalId('space', stallNo);
+
+if (spaces.length > 0) {
+  // Typically returns 1 space, but externalId could theoretically match multiple
+  const booth = spaces[0];
+
+  // Look up all exhibitors for this stallNo
+  const coExhibitors = exhibitorData.filter(e =>
+    e.stallNo === stallNo
+  );
+
+  console.log(`Booth ${stallNo} has ${coExhibitors.length} exhibitor(s)`);
+
+  // Show all co-exhibitors in bottom sheet
+  showExhibitorCard(booth, coExhibitors);
+}
 ```
 
 ---
