@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Venue Map</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mappedin/mappedin-js@6/lib/index.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+    #mappedin-map { width: 100%; height: 100%; }
+
+    /* Search Bar */
+    .search-container {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 500px;
+      z-index: 100;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 28px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      font-size: 16px;
+      background: white;
+    }
+
+    .search-results {
+      background: white;
+      margin-top: 8px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .search-results.show { display: block; }
+
+    .search-item {
+      padding: 14px 20px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search-item:hover { background: #f7f7f7; }
+    .search-item:last-child { border-bottom: none; }
+
+    .search-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #667eea;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .search-info {
+      flex: 1;
+    }
+
+    .search-name {
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .search-meta {
+      font-size: 13px;
+      color: #666;
+    }
+
+    /* Exhibitor Card */
+    .exhibitor-card {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      padding: 20px;
+      z-index: 100;
+      display: none;
+    }
+
+    .exhibitor-card.show { display: block; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .company-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid #f0f0f0;
+    }
+
+    .placeholder-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      background: #667eea;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .card-info h3 {
+      margin: 0 0 4px 0;
+      font-size: 18px;
+    }
+
+    .card-booth {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .card-categories {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin: 12px 0;
+    }
+
+    .category-tag {
+      padding: 4px 10px;
+      background: #f0f4ff;
+      color: #667eea;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .card-description {
+      margin: 12px 0;
+      color: #333;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .card-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .card-link {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .card-link:hover {
+      background: #f7f7f7;
+    }
+
+    .close-card {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: #f0f0f0;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .close-card:hover {
+      background: #e0e0e0;
+    }
+
+    /* Co-exhibitors */
+    .co-exhibitors {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .co-exhibitors h4 {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .co-exhibitor {
+      padding: 8px;
+      background: #f7f7f7;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* Loading State */
+    .skeleton {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+    }
+
+    .skeleton-line {
+      height: 16px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .skeleton-line.short {
+      width: 60%;
+    }
+
+    /* Markers */
+    .booth-marker {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border: 3px solid #667eea;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .booth-marker:hover {
+      transform: scale(1.1);
+    }
+
+    .booth-marker img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .booth-marker-icon {
+      font-size: 20px;
+    }
+
+    .multi-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ff4444;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .search-container {
+        width: calc(100% - 40px);
+      }
+
+      .exhibitor-card {
+        width: calc(100% - 40px);
+        bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="mappedin-map"></div>
+
+  <!-- Search -->
+  <div class="search-container">
+    <input
+      type="text"
+      id="searchInput"
+      class="search-bar"
+      placeholder="Search exhibitors or booths..."
+    >
+    <div class="search-results" id="searchResults"></div>
+  </div>
+
+  <!-- Exhibitor Card -->
+  <div class="exhibitor-card" id="exhibitorCard">
+    <button class="close-card" onclick="closeCard()">×</button>
+    <div id="cardContent"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mappedin/mappedin-js@6/lib/index.js"></script>
+
+  <script>
+    // Configuration
+    const MAPPEDIN_CONFIG = {
+      mapId: '688ea50e362b1d000ba0822b',
+      key: 'mik_iND9Ra87M1Ca4DD444be4063d',
+      secret: 'mis_esa0RDim6GGkbO2f7m6jNca0ADvFcZc8IzigafkC2dq85341024'
+    };
+
+    const API_URL = 'https://your-api.com/api/exhibitor-directory';
+
+    let mapView, mapData;
+    let allSpaces = [];
+    let exhibitorData = [];
+    let markers = new Map();
+
+    // Initialize
+    async function init() {
+      try {
+        // Load Mappedin
+        mapView = await Mappedin.show3dMap(
+          document.getElementById('mappedin-map'),
+          MAPPEDIN_CONFIG
+        );
+
+        mapData = mapView.mapData;
+        allSpaces = mapData.getByType('space').filter(s => s.name);
+
+        console.log(`Loaded ${allSpaces.length} spaces`);
+
+        // Load exhibitor data (POC: preload all)
+        await loadExhibitors();
+
+        // Create markers
+        createMarkers();
+
+        // Setup search
+        setupSearch();
+
+      } catch (error) {
+        console.error('Map initialization failed:', error);
+        alert('Failed to load map. Please refresh the page.');
+      }
+    }
+
+    // Load exhibitors
+    async function loadExhibitors() {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        exhibitorData = await response.json();
+        console.log(`Loaded ${exhibitorData.length} exhibitors`);
+
+        // Cache for 24 hours
+        localStorage.setItem('exhibitors', JSON.stringify(exhibitorData));
+        localStorage.setItem('exhibitors_time', Date.now().toString());
+
+      } catch (error) {
+        console.error('Failed to load exhibitors:', error);
+
+        // Try cache
+        const cached = localStorage.getItem('exhibitors');
+        if (cached) {
+          exhibitorData = JSON.parse(cached);
+          console.log('Using cached exhibitor data');
+        }
+      }
+    }
+
+    // Create markers
+    function createMarkers() {
+      allSpaces.forEach(space => {
+        if (!space.externalId) return;
+
+        // Find exhibitors at this booth
+        const exhibitors = exhibitorData.filter(e =>
+          e.stallNo?.toLowerCase() === space.externalId?.toLowerCase()
+        );
+
+        if (exhibitors.length === 0) return;
+
+        const primary = exhibitors[0];
+        const icon = getCategoryIcon(primary.categories?.[0]);
+
+        // Create marker
+        const markerEl = document.createElement('div');
+        markerEl.className = 'booth-marker';
+
+        if (primary.logoUrl) {
+          markerEl.innerHTML = `<img src="${primary.logoUrl}" alt="${primary.companyName}">`;
+        } else {
+          markerEl.innerHTML = `<span class="booth-marker-icon">${icon}</span>`;
+        }
+
+        // Multi-exhibitor badge
+        if (exhibitors.length > 1) {
+          const badge = document.createElement('div');
+          badge.className = 'multi-badge';
+          badge.textContent = exhibitors.length;
+          markerEl.appendChild(badge);
+        }
+
+        const marker = mapView.Markers.add(space, markerEl, {
+          anchor: 'bottom',
+          rank: 4
+        });
+
+        marker.addEventListener('click', () => showExhibitorCard(space.externalId, exhibitors));
+
+        markers.set(space.externalId, marker);
+      });
+    }
+
+    // Show exhibitor card
+    function showExhibitorCard(stallNo, exhibitors) {
+      const card = document.getElementById('exhibitorCard');
+      const content = document.getElementById('cardContent');
+
+      const primary = exhibitors[0];
+      const coExhibitors = exhibitors.slice(1);
+
+      content.innerHTML = `
+        <div class="card-header">
+          ${primary.logoUrl
+            ? `<img src="${primary.logoUrl}" alt="${primary.companyName}" class="company-logo">`
+            : `<div class="placeholder-logo">${primary.companyName[0]}</div>`
+          }
+          <div class="card-info">
+            <h3>${primary.companyName}</h3>
+            <div class="card-booth">Booth ${stallNo}</div>
+          </div>
+        </div>
+
+        ${primary.categories?.length > 0 ? `
+          <div class="card-categories">
+            ${primary.categories.map(cat => `
+              <span class="category-tag">${cat}</span>
+            `).join('')}
+          </div>
+        ` : ''}
+
+        ${primary.profileDesc ? `
+          <div class="card-description">${primary.profileDesc}</div>
+        ` : ''}
+
+        <div class="card-links">
+          ${primary.website ? `
+            <a href="${primary.website}" target="_blank" class="card-link">🌐 Website</a>
+          ` : ''}
+          ${primary.emailId ? `
+            <a href="mailto:${primary.emailId}" class="card-link">📧 Email</a>
+          ` : ''}
+        </div>
+
+        ${coExhibitors.length > 0 ? `
+          <div class="co-exhibitors">
+            <h4>Also at this booth (${coExhibitors.length})</h4>
+            ${coExhibitors.map(ex => `
+              <div class="co-exhibitor">${ex.companyName}</div>
+            `).join('')}
+          </div>
+        ` : ''}
+      `;
+
+      card.classList.add('show');
+
+      // Focus camera on booth
+      const space = allSpaces.find(s => s.externalId?.toLowerCase() === stallNo.toLowerCase());
+      if (space) {
+        mapView.Camera.focusOn(space, { animationDuration: 800 });
+      }
+    }
+
+    // Close card
+    window.closeCard = function() {
+      document.getElementById('exhibitorCard').classList.remove('show');
+    };
+
+    // Search
+    function setupSearch() {
+      const input = document.getElementById('searchInput');
+      const results = document.getElementById('searchResults');
+
+      let timeout;
+      input.addEventListener('input', (e) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          const query = e.target.value.toLowerCase();
+
+          if (query.length < 2) {
+            results.classList.remove('show');
+            return;
+          }
+
+          const matches = exhibitorData.filter(ex =>
+            ex.companyName?.toLowerCase().includes(query) ||
+            ex.stallNo?.toLowerCase().includes(query) ||
+            ex.categories?.some(cat => cat.toLowerCase().includes(query))
+          ).slice(0, 8);
+
+          if (matches.length === 0) {
+            results.innerHTML = '<div class="search-item">No results found</div>';
+          } else {
+            results.innerHTML = matches.map(ex => `
+              <div class="search-item" onclick="selectExhibitor('${ex.stallNo}')">
+                <div class="search-icon">${getCategoryIcon(ex.categories?.[0])}</div>
+                <div class="search-info">
+                  <div class="search-name">${ex.companyName}</div>
+                  <div class="search-meta">Booth ${ex.stallNo}</div>
+                </div>
+              </div>
+            `).join('');
+          }
+
+          results.classList.add('show');
+        }, 300);
+      });
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+          results.classList.remove('show');
+        }
+      });
+    }
+
+    // Select exhibitor from search
+    window.selectExhibitor = function(stallNo) {
+      const exhibitors = exhibitorData.filter(e =>
+        e.stallNo?.toLowerCase() === stallNo.toLowerCase()
+      );
+
+      if (exhibitors.length > 0) {
+        showExhibitorCard(stallNo, exhibitors);
+        document.getElementById('searchResults').classList.remove('show');
+        document.getElementById('searchInput').value = '';
+      }
+    };
+
+    // Get category icon
+    function getCategoryIcon(category) {
+      if (!category) return '🏢';
+      const cat = category.toLowerCase();
+      if (cat.includes('aerospace')) return '✈️';
+      if (cat.includes('defence')) return '🛡️';
+      if (cat.includes('aviation')) return '🚁';
+      return '🏢';
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

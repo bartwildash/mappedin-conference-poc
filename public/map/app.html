@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conference Map - App Version</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mappedin/mappedin-js@6/lib/index.css">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+    #mappedin-map { width: 100%; height: 100%; }
+
+    /* Simplified UI for app - most controls in native app */
+    .search-bar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+      font-size: 16px;
+      background: white;
+      z-index: 100;
+    }
+
+    /* Markers */
+    .booth-marker {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border: 3px solid #667eea;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .booth-marker:hover {
+      transform: scale(1.1);
+    }
+
+    .booth-marker img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .booth-marker-icon {
+      font-size: 20px;
+    }
+
+    .multi-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ff4444;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="mappedin-map"></div>
+
+  <input
+    type="text"
+    id="searchInput"
+    class="search-bar"
+    placeholder="Search exhibitors..."
+  >
+
+  <script src="https://cdn.jsdelivr.net/npm/@mappedin/mappedin-js@6/lib/index.js"></script>
+
+  <script>
+    // Configuration
+    const MAPPEDIN_CONFIG = {
+      mapId: '688ea50e362b1d000ba0822b',
+      key: 'mik_iND9Ra87M1Ca4DD444be4063d',
+      secret: 'mis_esa0RDim6GGkbO2f7m6jNca0ADvFcZc8IzigafkC2dq85341024'
+    };
+
+    let mapView, mapData;
+    let allSpaces = [];
+    let exhibitorData = null; // Will be injected by React Native
+
+    // Send message to React Native
+    function sendToApp(type, payload) {
+      const message = { type, payload, timestamp: Date.now() };
+
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(JSON.stringify(message));
+      } else {
+        console.log('[WebView Message]', message);
+      }
+    }
+
+    // Initialize
+    async function init() {
+      try {
+        mapView = await Mappedin.show3dMap(
+          document.getElementById('mappedin-map'),
+          MAPPEDIN_CONFIG
+        );
+
+        mapData = mapView.mapData;
+        allSpaces = mapData.getByType('space').filter(s => s.name);
+
+        console.log(`Loaded ${allSpaces.length} spaces`);
+
+        // Notify app
+        sendToApp('mapReady', {
+          totalSpaces: allSpaces.length,
+          floors: mapData.getByType('floor').map(f => ({ id: f.id, name: f.name }))
+        });
+
+        // Wait for exhibitor data from app
+        // App will call: window.initializeMarkers(exhibitorData)
+
+        // Handle URL params (deep-links)
+        handleDeepLink();
+
+      } catch (error) {
+        console.error('Map initialization failed:', error);
+        sendToApp('mapError', { error: error.message });
+      }
+    }
+
+    // Initialize markers (called by React Native after data loaded)
+    window.initializeMarkers = function(data) {
+      exhibitorData = data;
+      console.log(`Creating markers for ${Object.keys(exhibitorData).length} exhibitors`);
+
+      allSpaces.forEach(space => {
+        if (!space.externalId || !exhibitorData[space.externalId]) return;
+
+        const exhibitors = exhibitorData[space.externalId];
+        const primary = Array.isArray(exhibitors) ? exhibitors[0] : exhibitors;
+
+        const markerEl = document.createElement('div');
+        markerEl.className = 'booth-marker';
+
+        const icon = getCategoryIcon(primary.categories?.[0]);
+
+        if (primary.logoUrl) {
+          markerEl.innerHTML = `<img src="${primary.logoUrl}" alt="${primary.companyName}">`;
+        } else {
+          markerEl.innerHTML = `<span class="booth-marker-icon">${icon}</span>`;
+        }
+
+        // Multi-exhibitor badge
+        if (Array.isArray(exhibitors) && exhibitors.length > 1) {
+          const badge = document.createElement('div');
+          badge.className = 'multi-badge';
+          badge.textContent = exhibitors.length;
+          markerEl.appendChild(badge);
+        }
+
+        const marker = mapView.Markers.add(space, markerEl, {
+          anchor: 'bottom',
+          rank: 4
+        });
+
+        marker.addEventListener('click', () => {
+          sendToApp('exhibitorClick', {
+            externalId: space.externalId,
+            name: space.name,
+            category: primary.categories?.[0],
+            floor: space.floor?.name
+          });
+
+          // Focus camera
+          mapView.Camera.focusOn(space, { animationDuration: 800 });
+        });
+      });
+    };
+
+    // Deep-link handler
+    function handleDeepLink() {
+      const params = new URLSearchParams(window.location.search);
+      const stallNo = params.get('stallNo') || params.get('externalId');
+      const action = params.get('action') || 'focus';
+
+      if (stallNo) {
+        window.focusOnBooth(stallNo, action);
+      }
+    }
+
+    // Focus on booth (called by app or deep-link)
+    window.focusOnBooth = function(stallNo, action = 'focus') {
+      const space = allSpaces.find(s =>
+        s.externalId?.toLowerCase() === stallNo.toLowerCase()
+      );
+
+      if (!space) {
+        console.warn(`Space not found: ${stallNo}`);
+        return;
+      }
+
+      // Switch floor if needed
+      if (space.floor && mapView.currentFloor?.id !== space.floor.id) {
+        mapView.setFloor(space.floor.id);
+      }
+
+      // Focus camera
+      mapView.Camera.focusOn(space, { animationDuration: 1000 });
+
+      // Trigger exhibitor click
+      if (action === 'show') {
+        sendToApp('exhibitorClick', {
+          externalId: space.externalId,
+          name: space.name,
+          floor: space.floor?.name
+        });
+      }
+    };
+
+    // Search (simplified - results shown in app)
+    function setupSearch() {
+      const input = document.getElementById('searchInput');
+
+      let timeout;
+      input.addEventListener('input', (e) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          const query = e.target.value;
+
+          if (query.length < 2) return;
+
+          // Send search query to app
+          sendToApp('searchQuery', { query });
+        }, 300);
+      });
+    }
+
+    // Handle search results from app
+    window.handleSearchResults = function(results) {
+      console.log('Search results:', results);
+      // App will display results in native UI
+    };
+
+    // Get category icon
+    function getCategoryIcon(category) {
+      if (!category) return '🏢';
+      const cat = category.toLowerCase();
+      if (cat.includes('aerospace')) return '✈️';
+      if (cat.includes('defence')) return '🛡️';
+      if (cat.includes('aviation')) return '🚁';
+      return '🏢';
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      init();
+      setupSearch();
+    });
+  </script>
+</body>
+</html>
