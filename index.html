@@ -856,6 +856,33 @@
           navToInput.value = space.name || space.externalId || 'Selected Location';
           navToInput.dataset.spaceId = space.id;
 
+          // Enable tap-to-select mode for "From" location
+          const navFromInput = document.getElementById('navFromInput');
+          const status = document.getElementById('status');
+
+          status.textContent = '👆 Tap on the map to set your starting location';
+          status.style.background = '#667eea';
+          status.style.display = 'block';
+
+          const selectFromLocation = (event) => {
+            if (event.spaces?.length > 0) {
+              selectedFromLocation = event.spaces[0];
+              navFromInput.value = `📍 ${event.spaces[0].name || event.spaces[0].externalId || 'Location'}`;
+
+              // Auto-trigger directions once both locations are set
+              status.textContent = '🧭 Calculating route...';
+              status.style.background = '#667eea';
+
+              // Trigger directions automatically
+              setTimeout(() => {
+                document.getElementById('getDirectionsBtn')?.click();
+              }, 300);
+            }
+            mapView.off('click', selectFromLocation);
+          };
+
+          mapView.on('click', selectFromLocation);
+
           // Re-initialize icons for new elements
           if (window.lucide) lucide.createIcons();
         };
