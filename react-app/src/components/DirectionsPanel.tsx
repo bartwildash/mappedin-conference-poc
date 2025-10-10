@@ -141,7 +141,7 @@ export function DirectionsPanel({
     setIsGPSLoading(true);
 
     try {
-      const { gps, nearestSpace } = await gpsService.getLocationAndNearestEntrance();
+      const { nearestSpace } = await gpsService.getLocationAndNearestEntrance();
 
       if (nearestSpace) {
         setFromLocation({

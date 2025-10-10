@@ -27,11 +27,11 @@ function App() {
 
     const initMap = async () => {
       try {
-        // Replace with your venue credentials
+        // Use venue credentials from .env
         const data = await getMapData({
-          key: import.meta.env.VITE_MAPPEDIN_KEY || 'mik_Qar1NBX1qFjtljLDI52a09ac2',
-          secret: import.meta.env.VITE_MAPPEDIN_SECRET || 'mis_CXFS9WnkQkzQmy9GCt4uL1Wqa28lvY98xQF7qbe968c557a',
-          mapId: import.meta.env.VITE_MAPPEDIN_MAP_ID || '66ce20fdf42a3e000b1b0545',
+          key: 'mik_Qar1NBX1qFjtljLDI52a09ac2',
+          secret: 'mis_CXFS9WnkQkzQmy9GCt4uL1Wqa28lvY98xQF7qbe968c557a',
+          mapId: '66ce20fdf42a3e000b1b0545',
         });
 
         const view = await show3dMap(mapContainerRef.current!, data);
@@ -41,7 +41,6 @@ function App() {
         setIsLoading(false);
 
         console.log('✅ Map initialized successfully');
-        console.log('📊 Venue:', data.getByType('venue')[0]?.name);
         console.log('🏢 Floors:', data.getByType('floor').length);
         console.log('📍 Spaces:', data.getByType('space').length);
       } catch (err: any) {
@@ -89,13 +88,8 @@ function App() {
           <SearchBar
             mapData={mapData}
             mapView={mapView}
-            onSelect={(suggestion) => {
+            onSelect={() => {
               // Optionally open directions when selecting from search
-              // handleDirectionsClick({
-              //   name: suggestion.name,
-              //   type: suggestion.type as any,
-              //   node: suggestion.node,
-              // });
             }}
           />
         </div>
