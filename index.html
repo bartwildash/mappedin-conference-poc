@@ -6,6 +6,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Touch optimization for iframe embedding -->
+  <meta name="touch-action" content="pan-x pan-y">
+
   <title>Mappedin Conference POC - Production Ready</title>
 
   <!-- Lucide Icons - Modern outline icons -->
@@ -1649,6 +1653,28 @@
     /* Prevent pull-to-refresh on mobile */
     body {
       overscroll-behavior: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    /* Touch-friendly interactive elements */
+    button, a, input, select, .clickable {
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+      touch-action: manipulation;
+      min-height: 44px; /* iOS Human Interface Guidelines minimum */
+      min-width: 44px;
+    }
+
+    /* Prevent text selection on touch */
+    * {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* Allow text selection in inputs */
+    input, textarea {
+      -webkit-user-select: text;
+      user-select: text;
     }
 
     #mappedin-map {
