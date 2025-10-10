@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run build:copy && npm run build:react",
+    "build:copy": "mkdir -p dist && cp -r public dist/ && cp index.html dist/",
+    "build:react": "cd react-app && npm ci && npm run build && cd ..",
     "preview": "vite preview"
   },
   "dependencies": {
