@@ -1470,52 +1470,51 @@
         }
       });
 
-      // Build turn-by-turn instructions
+      // Build turn-by-turn instructions using DirectionsCard component
       function buildTurnByTurnInstructions(directions) {
         const turnByTurnContent = document.getElementById('turnByTurnContent');
-        const accessModeIcon = accessibleMode ? '♿' : '🚶';
-        const accessModeText = accessibleMode ? 'Accessible Route' : 'Standard Route';
 
-        const connectionIcons = {
-          'elevator': '🛗',
-          'stairs': '🪜',
-          'ramp': '♿',
-          'door': '🚪',
-          'portal': '🚪',
-          'escalator': '🔼',
-          'shuttle': '🚐',
-          'slide': '🛝',
-          'security': '🔒'
-        };
-
-        let html = `
-          <div style="margin-bottom: 12px; padding: 8px; background: #e8f4f8; border-radius: 6px;">
-            <strong>${accessModeIcon} ${accessModeText}</strong><br>
-            <span style="font-size: 13px; color: #666;">Distance: ${directions.distance.toFixed(0)}m (${(directions.distance * 3.28084).toFixed(0)}ft)</span>
-          </div>
-        `;
-
-        directions.instructions.forEach((instruction, index) => {
-          const icon = connectionIcons[instruction.node?.connection?.connectionType] || '➡️';
-          const actionText = instruction.action || 'Continue';
-          const distanceM = instruction.distance?.toFixed(1) || '0';
-          const distanceFt = ((instruction.distance || 0) * 3.28084).toFixed(0);
-
-          html += `
-            <div style="margin-bottom: 10px; padding: 10px; border-left: 3px solid #667eea; background: #f8f9fa;">
-              <div style="display: flex; align-items: center; margin-bottom: 4px;">
-                <span style="font-size: 20px; margin-right: 8px;">${icon}</span>
-                <strong>${actionText}</strong>
-              </div>
-              <div style="font-size: 13px; color: #666; margin-left: 28px;">
-                ${distanceM}m (${distanceFt}ft)
-                ${instruction.node?.connection ? ` • ${instruction.node.connection.connectionType}` : ''}
-              </div>
-            </div>
-          `;
+        // Use the DirectionsCard component for improved UI
+        const directionsCard = new DirectionsCard({
+          accessibleMode: accessibleMode,
+          onStepClick: (instruction, index) => {
+            // Focus camera on the instruction location
+            if (instruction.coordinate) {
+              mapView.Camera.focusOn({
+                nodes: [instruction],
+                minZoom: 800,
+                maxZoom: 1500,
+                animationDuration: 600
+              });
+            }
+          }
         });
 
-        turnByTurnContent.innerHTML = html;
+        // Render just the instructions section (not the full card)
+        const instructionsHTML = directionsCard.buildRouteInfo(directions,
+          accessibleMode ? '♿' : '🚶',
+          accessibleMode ? 'Accessible Route' : 'Standard Route'
+        ) + directionsCard.buildInstructions(directions.instructions);
+
+        turnByTurnContent.innerHTML = instructionsHTML;
+
+        // Attach click handlers to steps
+        const steps = turnByTurnContent.querySelectorAll('.step');
+        steps.forEach((step, index) => {
+          step.addEventListener('click', () => {
+            const instruction = directions.instructions[index];
+            if (instruction.coordinate) {
+              // Focus camera on this step's location
+              mapView.Camera.set({
+                center: { x: instruction.coordinate[0], y: instruction.coordinate[1] },
+                zoom: 1200,
+                tilt: 0,
+                rotation: 0,
+                animationDuration: 600
+              });
+            }
+          });
+        });
       }
 
       // Floating Filter Buttons
