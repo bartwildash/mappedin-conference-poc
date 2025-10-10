@@ -11,8 +11,13 @@
   <!-- Lucide Icons - Modern outline icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Modular Search System -->
+  <!-- Component Styles -->
+  <link rel="stylesheet" href="/css/floor-zoom-controls.css">
+  <link rel="stylesheet" href="/css/loading-states.css">
+
+  <!-- Modular Components -->
   <script src="/js/search-module.js"></script>
+  <script src="/js/floor-zoom-controls.js"></script>
 
   <script type="module">
     // This will use the local npm packages - CORRECT PATTERN
@@ -31,6 +36,24 @@
         restrooms: [],
         rooms: []
       };
+
+      // Label categories with zoom thresholds for progressive disclosure
+      let labelCategories = {
+        exhibitors: [],      // Always visible (rank: 'always-visible')
+        mainAreas: [],       // Visible at zoom >= 18 (rank: 'high')
+        amenities: [],       // Visible at zoom >= 20 (rank: 'medium')
+        booths: []          // Visible at zoom >= 22 (rank: 'low')
+      };
+
+      // Zoom thresholds for label visibility
+      const ZOOM_THRESHOLDS = {
+        EXHIBITORS: 0,     // Always visible
+        MAIN_AREAS: 18,    // Major halls, entrances
+        AMENITIES: 20,     // Restrooms, elevators
+        BOOTHS: 22         // Individual booth numbers
+      };
+
+      let currentZoom = 19; // Track current zoom level
 
       // Get location by booth number (externalId)
       function getLocationByBooth(boothNumber) {
@@ -161,13 +184,56 @@
         setupSpaceInteractivity();
         setupAccessibility();
         setupDropPin();
+
+        // Setup camera event listener for zoom-based label visibility
+        setupCameraZoomListener();
         setupSearch();
+
+        // Setup floor and zoom controls
+        setupFloorZoomControls();
 
       } catch (error) {
         status.textContent = `❌ Error: ${error.message}`;
         status.style.background = '#dc3545';
         status.style.color = 'white';
         console.error(error);
+      }
+
+      // Update label visibility based on zoom level
+      function updateLabelVisibility(zoomLevel) {
+        currentZoom = zoomLevel;
+
+        // Main areas: visible at zoom >= 18
+        labelCategories.mainAreas.forEach(label => {
+          mapView.updateState(label, { enabled: zoomLevel >= ZOOM_THRESHOLDS.MAIN_AREAS });
+        });
+
+        // Amenities: visible at zoom >= 20
+        labelCategories.amenities.forEach(label => {
+          mapView.updateState(label, { enabled: zoomLevel >= ZOOM_THRESHOLDS.AMENITIES });
+        });
+
+        // Booths: visible at zoom >= 22
+        labelCategories.booths.forEach(label => {
+          mapView.updateState(label, { enabled: zoomLevel >= ZOOM_THRESHOLDS.BOOTHS });
+        });
+
+        // Exhibitors: always visible (no update needed)
+        console.log(`🔍 Zoom: ${zoomLevel.toFixed(1)} | Labels visible: Exhibitors (${labelCategories.exhibitors.length}), Main Areas (${zoomLevel >= ZOOM_THRESHOLDS.MAIN_AREAS ? labelCategories.mainAreas.length : 0}), Amenities (${zoomLevel >= ZOOM_THRESHOLDS.AMENITIES ? labelCategories.amenities.length : 0}), Booths (${zoomLevel >= ZOOM_THRESHOLDS.BOOTHS ? labelCategories.booths.length : 0})`);
+      }
+
+      // Setup camera zoom listener for dynamic label visibility
+      function setupCameraZoomListener() {
+        mapView.on('camera-change', (event) => {
+          const newZoom = event.transform.zoomLevel;
+
+          // Only update if zoom changed significantly (avoid excessive updates)
+          if (Math.abs(newZoom - currentZoom) > 0.5) {
+            updateLabelVisibility(newZoom);
+          }
+        });
+
+        console.log('✅ Camera zoom listener initialized for dynamic label visibility');
       }
 
       // Floor Selector (with buildings/areas if available)
@@ -240,15 +306,80 @@
         console.log(`✅ Floor selector initialized (${floors.length} floors, ${buildings.length} buildings)`);
       }
 
-      // Labels - Always Visible
+      // Smart Labels with Zoom-Based Visibility
       function setupLabels() {
         const spaces = mapData.getByType('space').filter(s => s.name);
-        allLabels = spaces.map(space => mapView.Labels.add(space, space.name, {
-          interactive: false,
-          appearance: { textSize: 12 }
-        }));
 
-        console.log(`✅ Labels initialized (${allLabels.length} space labels - always visible)`);
+        // Keywords for categorization
+        const mainAreaKeywords = ['hall', 'entrance', 'lobby', 'atrium', 'plaza', 'pavilion', 'gallery'];
+        const amenityKeywords = ['restroom', 'toilet', 'bathroom', 'elevator', 'escalator', 'stairs'];
+        const exhibitorKeywords = ['booth', 'exhibit', 'stand', 'kiosk'];
+
+        spaces.forEach(space => {
+          const nameLower = space.name.toLowerCase();
+          let category = 'booths'; // default
+          let rank = 'low';
+          let enabled = false; // Start disabled, controlled by zoom
+
+          // Categorize by name and assign rank
+          if (mainAreaKeywords.some(keyword => nameLower.includes(keyword))) {
+            category = 'mainAreas';
+            rank = 'high';
+          } else if (amenityKeywords.some(keyword => nameLower.includes(keyword))) {
+            category = 'amenities';
+            rank = 'medium';
+          } else if (space.externalId && space.externalId.match(/^\d+$/)) {
+            // Booth number pattern (numeric externalId)
+            category = 'booths';
+            rank = 'low';
+          }
+
+          // Create label with rank
+          const label = mapView.Labels.add(space, space.name, {
+            interactive: false,
+            rank: rank,
+            enabled: enabled, // Start disabled
+            appearance: {
+              textSize: category === 'mainAreas' ? 14 : 12,
+              color: category === 'mainAreas' ? '#000' : '#333'
+            }
+          });
+
+          // Store in appropriate category
+          labelCategories[category].push(label);
+          allLabels.push(label);
+        });
+
+        // Add exhibitor labels (always visible)
+        const exhibitors = getAllExhibitors();
+        exhibitors.forEach(exhibitor => {
+          if (exhibitor.details?.name) {
+            const label = mapView.Labels.add(
+              exhibitor,
+              `${exhibitor.details.externalId} - ${exhibitor.details.name}`,
+              {
+                interactive: false,
+                rank: 'always-visible',
+                enabled: true, // Always enabled
+                appearance: {
+                  textSize: 11,
+                  color: '#667eea'
+                }
+              }
+            );
+            labelCategories.exhibitors.push(label);
+            allLabels.push(label);
+          }
+        });
+
+        console.log(`✅ Smart labels initialized:
+  - ${labelCategories.exhibitors.length} exhibitor labels (always visible)
+  - ${labelCategories.mainAreas.length} main area labels (zoom >= ${ZOOM_THRESHOLDS.MAIN_AREAS})
+  - ${labelCategories.amenities.length} amenity labels (zoom >= ${ZOOM_THRESHOLDS.AMENITIES})
+  - ${labelCategories.booths.length} booth labels (zoom >= ${ZOOM_THRESHOLDS.BOOTHS})`);
+
+        // Set initial visibility based on current zoom
+        updateLabelVisibility(currentZoom);
       }
 
       // Amenities - Icons for restrooms, exits, etc.
@@ -1072,6 +1203,19 @@
         });
 
         console.log('✅ Modular search initialized (debounced 200ms, Enter key support, booth numbers enabled)');
+      }
+
+      // Setup floor and zoom controls
+      function setupFloorZoomControls() {
+        const floorZoomControls = new FloorZoomControls(mapData, mapView, {
+          position: 'top-right',
+          showFloorSelector: true,
+          showZoomControls: true
+        });
+
+        floorZoomControls.init();
+
+        console.log('✅ Floor and zoom controls initialized');
       }
 
       // NOTE: Search suggestion and selection logic now handled by search-module.js
@@ -2138,6 +2282,89 @@
       </button>
     </div>
   </div>
+
+  <!-- Version Switcher Pill Button -->
+  <a
+    href="./react-app/"
+    class="version-switcher"
+    title="Switch to React + TypeScript version"
+  >
+    <i data-lucide="code-2" style="width: 16px; height: 16px;"></i>
+    <span>React Version</span>
+  </a>
+
+  <style>
+    .version-switcher {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 10000;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #e5e6ea;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #667eea;
+      text-decoration: none;
+
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .version-switcher:hover {
+      background: rgba(102, 126, 234, 0.1);
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.2);
+    }
+
+    .version-switcher:active {
+      transform: translateY(0);
+    }
+
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      .version-switcher {
+        background: rgba(28, 28, 30, 0.95);
+        border-color: #38383a;
+        color: #5a8eef;
+      }
+
+      .version-switcher:hover {
+        background: rgba(90, 142, 239, 0.1);
+        border-color: #5a8eef;
+        box-shadow: 0 6px 16px rgba(90, 142, 239, 0.2);
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .version-switcher {
+        top: 12px;
+        right: 12px;
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+
+      .version-switcher span {
+        display: none;
+      }
+
+      .version-switcher i {
+        margin: 0;
+      }
+    }
+  </style>
 
   <!-- Initialize Lucide Icons -->
   <script>

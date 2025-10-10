@@ -29,9 +29,12 @@ Visit `http://YOUR_IP:5173/mappedin-conference-poc/` from any device on your net
 
 ### Core Features
 ✅ **Interactive 3D Map** - Mappedin SDK v6
-✅ **Smart Search** - Clickable autocomplete with booth number support
+✅ **Smart Search** - Standard Mappedin Search API with booth number support
+✅ **Zoom-Based Labels** - Progressive label disclosure (no clutter!)
 ✅ **Exhibitor Cards** - Click booths to see company details
 ✅ **Turn-by-Turn Navigation** - Animated paths with directions
+✅ **Interactive Directions** - Search OR click map to select destination 🆕
+✅ **Live Search Suggestions** - Real-time autocomplete in destination field 🆕
 ✅ **Accessible Mode** - Elevator/ramp preference toggle
 ✅ **Floor Selector** - Multi-floor venue support
 
@@ -64,11 +67,16 @@ mappedin-conference-poc/
 2. Select from autocomplete suggestions
 3. Camera focuses on booth and shows exhibitor card
 
-### Navigate
+### Navigate (Enhanced! 🆕)
 1. Click "Directions" on exhibitor card
-2. Choose start location (search or drop pin)
-3. Toggle accessible mode if needed
-4. View turn-by-turn instructions
+2. **Choose destination** (3 ways):
+   - 🔍 **Type to search** - Live autocomplete suggestions
+   - 📍 **Click map select button** - Then click anywhere on map
+   - 🎯 **Click space/booth** - Direct selection from map
+3. Choose start location (same 3 options)
+4. Toggle accessible mode if needed (♿)
+5. Click "Get Directions"
+6. View turn-by-turn instructions with distance & time
 
 ### Map Controls
 - **Search**: Find exhibitors
@@ -112,9 +120,19 @@ Deploy `dist/` folder to any static hosting (Netlify, Vercel, etc.)
 
 ## Documentation
 
+### Setup & Usage
 - **[PROJECT.md](./PROJECT.md)** - Complete project overview & technical details
 - **[SEARCH_MODULE_GUIDE.md](./SEARCH_MODULE_GUIDE.md)** - Search system documentation
+
+### Latest Updates (v1.1.0)
+- **[MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)** - Migration from v1.0.0 to v1.1.0
+- **[SEARCH_API_IMPROVEMENTS.md](./SEARCH_API_IMPROVEMENTS.md)** - Enhanced search implementation
+- **[LABEL_VISIBILITY_GUIDE.md](./LABEL_VISIBILITY_GUIDE.md)** - Zoom-based label system
+- **[ZOOM_LABEL_SUMMARY.md](./ZOOM_LABEL_SUMMARY.md)** - Quick label reference
+
+### External Resources
 - **[Mappedin Web SDK](https://developer.mappedin.com/web-sdk)** - Official Mappedin docs
+- **[Search API Docs](https://docs.mappedin.com/web/v6/latest/classes/Search.html)** - Mappedin Search API
 
 ## Troubleshooting
 
@@ -168,8 +186,29 @@ Configuration is already in `netlify.toml`
 
 ✅ **Production Ready** - Mobile-optimized, touch-ready, fully functional
 
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Last Updated**: October 10, 2025
+
+### What's New in v1.1.0
+
+✨ **Smart Search Improvements**
+- Now uses standard Mappedin `Search.query()` API
+- Proper map object resolution with `.node` property
+- Enhanced booth number search with exact match prioritization
+- Score-based ranking for better results
+
+✨ **Zoom-Based Label Visibility**
+- Progressive label disclosure (no more clutter!)
+- 4-tier system: Exhibitors → Main Areas → Amenities → Booths
+- Rank-based priority (always-visible, high, medium, low)
+- Camera event listener for dynamic updates
+
+🔧 **No Breaking Changes**
+- All existing functionality preserved
+- Backwards compatible
+- Zero migration required
+
+📚 See [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md) for details
 
 ## Tech Stack
 

@@ -1,5 +1,36 @@
 /**
- * Modular Search System for Mappedin
+ * Modular Search System for Mappedin Web SDK v6
+ *
+ * Uses standard Mappedin Search API (mapData.Search.query and mapData.Search.suggest)
+ * following best practices from https://docs.mappedin.com/web/v6/latest/
+ *
+ * Features:
+ * - Full-text search using mapData.Search.query() for complete results
+ * - Fast autocomplete using mapData.Search.suggest() for suggestions only
+ * - Booth number search by externalId
+ * - Score-based result ranking
+ * - Debounced search to reduce API calls
+ *
+ * Usage:
+ *
+ * // Initialize
+ * const search = new MappedInSearch(mapData, {
+ *   debounceDelay: 300,
+ *   maxSuggestions: 6,
+ *   searchBoothNumbers: true
+ * });
+ *
+ * // Get full search results (recommended - includes map objects)
+ * const results = await search.getSuggestions('Coffee');
+ * results.forEach(r => {
+ *   console.log(r.name, r.score, r.node);
+ * });
+ *
+ * // Get fast text-only suggestions (for autocomplete dropdown)
+ * const suggestions = await search.getFastSuggestions('Cof');
+ * // Later, resolve to actual object when user selects
+ * const node = await search.resolveSuggestion(suggestions[0].value);
+ *
  * Can be used in vanilla HTML or imported into React
  */
 
@@ -16,7 +47,8 @@ class MappedInSearch {
   }
 
   /**
-   * Get autocomplete suggestions using Mappedin suggest API
+   * Get autocomplete suggestions using Mappedin query API
+   * Uses query() instead of suggest() to get full objects with nodes
    */
   async getSuggestions(query) {
     if (!query || query.length < 2) {
@@ -24,40 +56,175 @@ class MappedInSearch {
     }
 
     try {
-      // Use Mappedin suggest API
-      let suggestions = await this.mapData.Search.suggest(query, {
-        enterpriseLocations: { enabled: true },
-        places: { enabled: true }
+      // Use query() to get full objects with nodes
+      const results = await this.mapData.Search.query(query, {
+        enterpriseLocations: {
+          fields: {
+            name: true,
+            tags: true,
+            description: true
+          },
+          limit: 3
+        },
+        places: {
+          fields: {
+            name: true,
+            description: true
+          },
+          limit: 3
+        }
       });
+
+      let suggestions = [];
+
+      // Process enterprise locations (exhibitors)
+      if (results.enterpriseLocations) {
+        const locationSuggestions = results.enterpriseLocations.map(result => ({
+          name: result.item.name,
+          value: result.item.name,
+          type: 'enterpriseLocation',
+          node: result.item,
+          score: result.score,
+          match: result.match
+        }));
+        suggestions = [...suggestions, ...locationSuggestions];
+      }
+
+      // Process places (spaces, POIs, etc.)
+      if (results.places) {
+        const placeSuggestions = results.places.map(result => ({
+          name: result.item.name,
+          value: result.item.name,
+          type: result.type,
+          node: result.item,
+          score: result.score,
+          match: result.match
+        }));
+        suggestions = [...suggestions, ...placeSuggestions];
+      }
 
       // Also search booth numbers if enabled
       if (this.options.searchBoothNumbers) {
         const boothResults = this.searchBoothNumbers(query);
-        suggestions = [...boothResults, ...(suggestions || [])];
+        suggestions = [...boothResults, ...suggestions];
       }
+
+      // Sort by score descending (higher scores first)
+      suggestions.sort((a, b) => (b.score || 0) - (a.score || 0));
 
       return suggestions.slice(0, this.options.maxSuggestions);
     } catch (error) {
-      console.error('❌ Search suggestions error:', error);
+      console.error('❌ Search error:', error);
       return [];
     }
   }
 
   /**
-   * Search booth numbers (externalId) manually using locations
+   * Get fast text-only suggestions using Mappedin suggest API
+   * Useful for autocomplete when you don't need the full object immediately
+   */
+  async getFastSuggestions(query) {
+    if (!query || query.length < 2) {
+      return [];
+    }
+
+    try {
+      // Use suggest() for fast text-based autocomplete
+      const suggestions = await this.mapData.Search.suggest(query, {
+        enterpriseLocations: { enabled: true },
+        places: { enabled: true }
+      });
+
+      return suggestions.slice(0, this.options.maxSuggestions).map(s => ({
+        name: s.suggestion,
+        value: s.suggestion,
+        type: 'suggestion',
+        score: s.score
+      }));
+    } catch (error) {
+      console.error('❌ Fast suggestions error:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Resolve a suggestion text to an actual map object
+   * Use this after user selects a suggestion from getFastSuggestions()
+   */
+  async resolveSuggestion(suggestionText) {
+    try {
+      const results = await this.mapData.Search.query(suggestionText, {
+        enterpriseLocations: {
+          fields: { name: true, tags: true },
+          limit: 1
+        },
+        places: {
+          fields: { name: true },
+          limit: 1
+        }
+      });
+
+      // Return first match
+      const location = results.enterpriseLocations?.[0]?.item;
+      const place = results.places?.[0]?.item;
+
+      return location || place || null;
+    } catch (error) {
+      console.error('❌ Error resolving suggestion:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Search booth numbers (externalId) manually using spaces
+   * Searches both 'space' and 'location' types for booth numbers
    */
   searchBoothNumbers(query) {
     const queryUpper = query.toUpperCase();
+    const results = [];
+
+    // Search spaces (preferred for conference booths)
+    const spaces = this.mapData.getByType('space').filter(space =>
+      space.externalId && space.externalId.toUpperCase().includes(queryUpper)
+    );
+
+    // Search locations (legacy support)
     const locations = this.mapData.getByType('location').filter(loc =>
       loc.details?.externalId && loc.details.externalId.toUpperCase().includes(queryUpper)
     );
 
-    return locations.slice(0, 3).map(location => ({
-      name: `${location.details.externalId} - ${location.details.name}`,
-      value: location.details.externalId,
-      type: 'booth',
-      node: location
-    }));
+    // Process spaces
+    spaces.forEach(space => {
+      const isExactMatch = space.externalId.toUpperCase() === queryUpper;
+      results.push({
+        name: `Booth ${space.externalId}${space.name ? ` - ${space.name}` : ''}`,
+        value: space.externalId,
+        type: 'booth',
+        node: space,
+        score: isExactMatch ? 1000 : 500, // High score for booth matches, higher for exact
+        externalId: space.externalId,
+        isExactMatch
+      });
+    });
+
+    // Process locations
+    locations.forEach(location => {
+      const isExactMatch = location.details.externalId.toUpperCase() === queryUpper;
+      results.push({
+        name: `Booth ${location.details.externalId} - ${location.details.name}`,
+        value: location.details.externalId,
+        type: 'booth',
+        node: location,
+        score: isExactMatch ? 950 : 450, // Slightly lower than spaces
+        externalId: location.details.externalId,
+        isExactMatch
+      });
+    });
+
+    // Sort by score (exact matches first, then partial)
+    results.sort((a, b) => b.score - a.score);
+
+    return results.slice(0, 3);
   }
 
   /**
@@ -135,6 +302,7 @@ class MappedInSearch {
 
   /**
    * Focus camera on suggestion
+   * Handles different node types from Mappedin Search API
    */
   focusOnSuggestion(suggestion, mapView, showCardCallback) {
     if (!suggestion.node) {
@@ -143,13 +311,32 @@ class MappedInSearch {
     }
 
     try {
-      mapView.Camera.focusOn(suggestion.node);
-      if (showCardCallback) {
-        showCardCallback(suggestion.node);
+      const node = suggestion.node;
+
+      // Handle different node types
+      // EnterpriseLocation, Space, POI, etc.
+      if (node.__type === 'enterprise-location') {
+        // Enterprise locations may have multiple polygons/spaces
+        // Focus on the first one
+        if (node.polygons && node.polygons.length > 0) {
+          mapView.Camera.focusOn(node.polygons[0]);
+        } else {
+          console.warn('⚠️ EnterpriseLocation has no polygons:', node);
+          return false;
+        }
+      } else {
+        // For spaces, POIs, and other types, focus directly
+        mapView.Camera.focusOn(node);
       }
+
+      // Trigger callback with the node
+      if (showCardCallback) {
+        showCardCallback(node);
+      }
+
       return true;
     } catch (error) {
-      console.error('❌ Error focusing on suggestion:', error);
+      console.error('❌ Error focusing on suggestion:', error, suggestion);
       return false;
     }
   }
@@ -166,10 +353,12 @@ class SearchUIManager {
       inputSelector: '#searchInput',
       suggestionsSelector: '#searchSuggestions',
       onSelect: null,
+      showLoadingState: true,
       ...options
     };
 
     this.suggestions = [];
+    this.isLoading = false;
     this.init();
   }
 
@@ -215,16 +404,71 @@ class SearchUIManager {
       return;
     }
 
+    // Show loading state immediately
+    if (this.options.showLoadingState) {
+      this.showLoadingState();
+    }
+
     this.search.debouncedSearch(query, (suggestions) => {
+      this.isLoading = false;
       this.displaySuggestions(suggestions);
     });
+  }
+
+  /**
+   * Show loading skeleton
+   */
+  showLoadingState() {
+    this.isLoading = true;
+    this.suggestionsElement.innerHTML = this.buildLoadingHTML();
+    this.suggestionsElement.style.display = 'block';
+  }
+
+  /**
+   * Build loading skeleton HTML
+   */
+  buildLoadingHTML() {
+    return `
+      <div class="search-loading">
+        <div class="loading-text">
+          <div class="loading-spinner loading-spinner--small"></div>
+          <span>Searching...</span>
+        </div>
+      </div>
+      ${this.buildSkeletonItems(3)}
+    `;
+  }
+
+  /**
+   * Build skeleton items
+   */
+  buildSkeletonItems(count) {
+    return Array.from({ length: count }, () => `
+      <div class="search-skeleton">
+        <div class="search-skeleton__row">
+          <div class="search-skeleton__icon skeleton"></div>
+          <div class="search-skeleton__content">
+            <div class="search-skeleton__title skeleton"></div>
+            <div class="search-skeleton__subtitle skeleton"></div>
+          </div>
+        </div>
+      </div>
+    `).join('');
   }
 
   displaySuggestions(suggestions) {
     this.suggestions = suggestions;
 
     if (suggestions.length === 0) {
-      this.hideSuggestions();
+      // Show empty state instead of hiding
+      this.suggestionsElement.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state__icon">🔍</div>
+          <div class="empty-state__title">No results found</div>
+          <div class="empty-state__description">Try a different search term</div>
+        </div>
+      `;
+      this.suggestionsElement.style.display = 'block';
       return;
     }
 

@@ -1,0 +1,333 @@
+/**
+ * Exhibitor Card Styles
+ *
+ * Clone-card minimalist design
+ * Based on provided .ex-card pattern
+ */
+
+.ex-card {
+  position: absolute;
+  right: 24px;
+  top: 24px;
+  width: 360px;
+  max-height: 80vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
+  font: 400 15px/1.4 Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  padding: 16px;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Header */
+.ex-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ex-left {
+  flex: 1;
+}
+
+.ex-logo {
+  width: 56px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #f6f6f8;
+}
+
+.ex-title {
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 4px;
+  color: #111;
+}
+
+.ex-sub {
+  color: #555;
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.open {
+  color: #2f9247;
+  font-weight: 600;
+}
+
+.closed {
+  color: #b35353;
+  font-weight: 600;
+}
+
+/* Actions */
+.ex-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 12px;
+  border: 0;
+  background: #f2f2f4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #111;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  background: #e5e5e8;
+  transform: scale(1.05);
+}
+
+.icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* CTA */
+.ex-cta {
+  margin: 14px 0 10px;
+}
+
+.dir-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
+  background: #2776d9;
+  color: #fff;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.dir-btn:hover {
+  background: #1f5fb8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(39, 118, 217, 0.3);
+}
+
+.dir-btn:active {
+  transform: translateY(0);
+}
+
+/* Sections */
+.ex-section-title {
+  margin: 12px 0 6px;
+  font-weight: 700;
+  color: #333;
+  font-size: 14px;
+}
+
+/* Chips */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e8eefb;
+  color: #1d4aa3;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.chip--light {
+  background: #f0f1f4;
+  color: #333;
+}
+
+/* Co-exhibitors */
+.co-list {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+}
+
+.co-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+
+.co-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #f6f6f6;
+  flex-shrink: 0;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .ex-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+  }
+
+  .ex-header {
+    position: sticky;
+    top: -20px;
+    background: white;
+    z-index: 10;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #f0f1f4;
+  }
+
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .dir-btn {
+    padding: 14px 16px;
+    font-size: 16px;
+  }
+
+  .chip {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .ex-card {
+    background: #1c1c1e;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+  }
+
+  .ex-logo {
+    background: #2c2c2e;
+  }
+
+  .ex-title {
+    color: #f5f5f7;
+  }
+
+  .ex-sub {
+    color: #acacae;
+  }
+
+  .open {
+    color: #34c759;
+  }
+
+  .closed {
+    color: #ff6961;
+  }
+
+  .icon-btn {
+    background: #2c2c2e;
+    color: #f5f5f7;
+  }
+
+  .icon-btn:hover {
+    background: #38383a;
+  }
+
+  .dir-btn {
+    background: #0a84ff;
+  }
+
+  .dir-btn:hover {
+    background: #0070e0;
+  }
+
+  .ex-section-title {
+    color: #f5f5f7;
+  }
+
+  .chip {
+    background: #1a2b3f;
+    color: #64a3ff;
+  }
+
+  .chip--light {
+    background: #2c2c2e;
+    color: #acacae;
+  }
+
+  .co-logo {
+    background: #2c2c2e;
+  }
+
+  .ex-header {
+    border-bottom-color: #38383a;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .ex-card,
+  .icon-btn,
+  .dir-btn {
+    transition: none;
+  }
+
+  .icon-btn:hover,
+  .icon-btn:active,
+  .dir-btn:hover,
+  .dir-btn:active {
+    transform: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .ex-card {
+    position: relative;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    page-break-inside: avoid;
+  }
+
+  .icon-btn,
+  .dir-btn {
+    display: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .ex-card {
+    border: 2px solid currentColor;
+  }
+
+  .icon-btn,
+  .dir-btn,
+  .chip {
+    border: 1px solid currentColor;
+  }
+}
