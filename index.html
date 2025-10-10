@@ -1192,12 +1192,21 @@
         searchUI = new SearchUIManager(searchInstance, mapView, {
           inputSelector: '#searchInput',
           suggestionsSelector: '#searchSuggestions',
-          onSelect: (node) => {
+          onSelect: (suggestion) => {
+            // Suggestion has a 'node' property with the actual map object
+            const node = suggestion.node;
+            if (!node) {
+              console.warn('No node found for suggestion:', suggestion);
+              return;
+            }
+
             // Check if it's a location (has details.name) or a space
             if (node.details && node.details.name) {
               showCardForLocation(node, true);
-            } else {
+            } else if (node.name || node.id) {
               showCardForSpace(node, true);
+            } else {
+              console.log('Selected:', node);
             }
           }
         });

@@ -106,7 +106,8 @@ class FloorZoomControls {
     zoomInBtn.setAttribute("aria-label", "Zoom in");
     zoomInBtn.textContent = "+";
     zoomInBtn.addEventListener("click", () => {
-      this.mapView.Camera.zoomIn?.();
+      const currentZoom = this.mapView.Camera.zoom || 2000;
+      this.mapView.Camera.set({ zoom: currentZoom * 1.2 });
     });
 
     // Zoom out button
@@ -115,7 +116,8 @@ class FloorZoomControls {
     zoomOutBtn.setAttribute("aria-label", "Zoom out");
     zoomOutBtn.textContent = "−";
     zoomOutBtn.addEventListener("click", () => {
-      this.mapView.Camera.zoomOut?.();
+      const currentZoom = this.mapView.Camera.zoom || 2000;
+      this.mapView.Camera.set({ zoom: currentZoom / 1.2 });
     });
 
     zoomWrapper.appendChild(zoomInBtn);
