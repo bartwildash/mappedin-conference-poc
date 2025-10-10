@@ -72,6 +72,13 @@ class MappedInSearch {
             description: true
           },
           limit: 3
+        },
+        objects: {
+          fields: {
+            name: true,
+            description: true
+          },
+          limit: 2
         }
       });
 
@@ -101,6 +108,19 @@ class MappedInSearch {
           match: result.match
         }));
         suggestions = [...suggestions, ...placeSuggestions];
+      }
+
+      // Process objects (furniture, fixtures, amenities with names)
+      if (results.objects) {
+        const objectSuggestions = results.objects.map(result => ({
+          name: result.item.name,
+          value: result.item.name,
+          type: 'object',
+          node: result.item,
+          score: result.score,
+          match: result.match
+        }));
+        suggestions = [...suggestions, ...objectSuggestions];
       }
 
       // Also search booth numbers if enabled
@@ -248,6 +268,7 @@ class MappedInSearch {
       'enterpriseLocation': 'store',
       'location': 'store',
       'place': 'building-2',
+      'object': 'box',
       'category': 'tag'
     };
     return iconMap[type] || 'map-pin';
@@ -262,6 +283,7 @@ class MappedInSearch {
       'enterpriseLocation': 'Exhibitor',
       'location': 'Exhibitor',
       'place': 'Place',
+      'object': 'Object',
       'category': 'Category'
     };
     return typeMap[type] || 'Location';
