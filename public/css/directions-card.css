@@ -219,6 +219,22 @@
   transform: translateX(0);
 }
 
+.step--active {
+  background: #667eea !important;
+  border-left-color: #4f5fd5;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.step--active .step-text,
+.step--active .step-meta {
+  color: white;
+}
+
+.step--active .step-icon {
+  filter: brightness(0) invert(1);
+}
+
 .step:last-child {
   margin-bottom: 0;
 }
