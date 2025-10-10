@@ -1221,7 +1221,7 @@
       // Setup floor and zoom controls
       function setupFloorZoomControls() {
         const floorZoomControls = new FloorZoomControls(mapData, mapView, {
-          position: 'top-right',
+          position: 'top-left',
           showFloorSelector: true,
           showZoomControls: true
         });
@@ -2316,7 +2316,7 @@
   <style>
     .version-switcher {
       position: fixed;
-      top: 24px;
+      bottom: 24px;
       right: 24px;
       z-index: 10000;
 
@@ -2370,7 +2370,7 @@
     /* Mobile */
     @media (max-width: 768px) {
       .version-switcher {
-        top: 12px;
+        bottom: 12px;
         right: 12px;
         font-size: 12px;
         padding: 8px 12px;
