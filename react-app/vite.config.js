@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
-  base: '/mappedin-conference-poc/',
+  plugins: [react()],
+  base: '/mappedin-conference-poc/react-app/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets'
