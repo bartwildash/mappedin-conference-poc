@@ -762,6 +762,7 @@
       // Show card for a space
       function showCardForSpace(space, showNavigate = false) {
         const cardTitle = document.getElementById('cardTitle');
+        const cardSubtitle = document.getElementById('cardSubtitle');
         const cardBooth = document.getElementById('cardBooth');
         const cardDescription = document.getElementById('cardDescription');
         const cardActions = document.getElementById('cardActions');
@@ -776,6 +777,15 @@
             // Single exhibitor
             const exhibitor = exhibitors[0];
             cardTitle.textContent = exhibitor.name;
+
+            // Show booth number as subtitle
+            if (space.externalId) {
+              cardSubtitle.textContent = `Booth ${space.externalId}`;
+              cardSubtitle.style.display = 'block';
+            } else {
+              cardSubtitle.style.display = 'none';
+            }
+
             cardBooth.textContent = `📍 Booth ${space.externalId}`;
             cardBooth.style.display = 'inline-block';
             cardDescription.innerHTML = `
@@ -789,6 +799,7 @@
           } else {
             // Multiple co-exhibitors
             cardTitle.textContent = `Booth ${space.externalId} - Co-Exhibitors`;
+            cardSubtitle.style.display = 'none'; // Hide subtitle for multi-exhibitor
             cardBooth.textContent = `📍 ${exhibitors.length} Companies`;
             cardBooth.style.display = 'inline-block';
             cardDescription.innerHTML = exhibitors.map(ex => `
@@ -803,6 +814,7 @@
         } else {
           // No exhibitor data - show space info
           cardTitle.textContent = space.name || 'Unnamed Space';
+          cardSubtitle.style.display = 'none'; // Hide subtitle when no exhibitor data
           if (space.externalId) {
             cardBooth.textContent = `Booth ${space.externalId}`;
             cardBooth.style.display = 'inline-block';
@@ -934,12 +946,22 @@
       // Show card for a location object (exhibitor)
       function showCardForLocation(location, showNavigate = false) {
         const cardTitle = document.getElementById('cardTitle');
+        const cardSubtitle = document.getElementById('cardSubtitle');
         const cardBooth = document.getElementById('cardBooth');
         const cardDescription = document.getElementById('cardDescription');
         const exhibitorCard = document.getElementById('exhibitorCard');
 
         // Display exhibitor info from location
         cardTitle.textContent = location.details.name;
+
+        // Show booth number as subtitle
+        if (location.details.externalId) {
+          cardSubtitle.textContent = `Booth ${location.details.externalId}`;
+          cardSubtitle.style.display = 'block';
+        } else {
+          cardSubtitle.style.display = 'none';
+        }
+
         cardBooth.textContent = `📍 Booth ${location.details.externalId}`;
         cardBooth.style.display = 'inline-block';
         cardDescription.innerHTML = `<p>Exhibitor at booth ${location.details.externalId}</p>`;
@@ -1688,7 +1710,7 @@
       left: 16px;
       z-index: 100;
       max-width: 360px;
-      width: calc(100% - 32px);
+      width: calc(100% - 190px); /* Leave space for floor controls on right */
     }
 
     #searchInput {
@@ -1760,7 +1782,7 @@
 
     #status {
       position: absolute;
-      top: 80px;
+      top: 130px; /* Move below search on mobile */
       left: 50%;
       transform: translateX(-50%);
       background: rgba(0,0,0,0.85);
@@ -1948,6 +1970,14 @@
       font-weight: 600;
       color: #1a1a1a;
       line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+      margin-bottom: 4px;
     }
 
     .card-booth {
@@ -2114,9 +2144,10 @@
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
       .search-container {
-        top: 12px;
+        top: 70px; /* Move below floor selector on mobile */
         left: 12px;
-        width: calc(100% - 24px);
+        right: 12px;
+        width: auto;
         max-width: none;
       }
 
@@ -2127,7 +2158,7 @@
       }
 
       #exhibitorCard {
-        bottom: 12px;
+        bottom: 80px; /* Move above bottom nav buttons */
         width: calc(100% - 24px);
         max-width: none;
         padding: 14px;
@@ -2175,9 +2206,10 @@
     /* iPhone and small mobile devices */
     @media (max-width: 390px) {
       .search-container {
-        top: 10px;
+        top: 68px; /* Move below floor selector */
         left: 10px;
-        width: calc(100% - 20px);
+        right: 10px;
+        width: auto;
       }
 
       #searchInput {
@@ -2185,7 +2217,7 @@
       }
 
       #exhibitorCard {
-        bottom: 10px;
+        bottom: 75px; /* Move above bottom nav */
         width: calc(100% - 20px);
         padding: 12px;
       }
@@ -2267,6 +2299,7 @@
     <div class="card-header">
       <div>
         <div class="card-title" id="cardTitle">Exhibitor</div>
+        <div class="card-subtitle" id="cardSubtitle" style="display: none;">Booth Number</div>
         <div class="card-booth" id="cardBooth">Booth</div>
       </div>
       <button class="close-btn" id="closeCard">×</button>
@@ -2366,12 +2399,15 @@
 
   <style>
     .version-switcher {
+      /* Hidden for client demo - React version not ready */
+      display: none !important;
+
       position: fixed;
       bottom: 24px;
       right: 24px;
       z-index: 10000;
 
-      display: flex;
+      /* display: flex; */
       align-items: center;
       gap: 8px;
 
