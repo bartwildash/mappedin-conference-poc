@@ -599,6 +599,33 @@
           navToInput.value = amenityName || amenityType || 'Amenity';
           navToInput.dataset.spaceId = amenity.id;
 
+          // Enable tap-to-select mode for "From" location
+          const navFromInput = document.getElementById('navFromInput');
+          const status = document.getElementById('status');
+
+          status.textContent = '👆 Tap on the map to set your starting location';
+          status.style.background = '#14b8a6';
+          status.style.display = 'block';
+
+          const selectFromLocation = (event) => {
+            if (event.spaces?.length > 0) {
+              selectedFromLocation = event.spaces[0];
+              navFromInput.value = `📍 ${event.spaces[0].name || event.spaces[0].externalId || 'Location'}`;
+
+              // Auto-trigger directions once both locations are set
+              status.textContent = '🧭 Calculating route...';
+              status.style.background = '#14b8a6';
+
+              // Trigger directions automatically
+              setTimeout(() => {
+                document.getElementById('getDirectionsBtn')?.click();
+              }, 300);
+            }
+            mapView.off('click', selectFromLocation);
+          };
+
+          mapView.on('click', selectFromLocation);
+
           if (window.lucide) lucide.createIcons();
         };
 
@@ -1417,6 +1444,33 @@
               navToInput.value = mapObject.name || mapObject.type || 'Selected Object';
               navToInput.dataset.spaceId = mapObject.id;
 
+              // Enable tap-to-select mode for "From" location
+              const navFromInput = document.getElementById('navFromInput');
+              const status = document.getElementById('status');
+
+              status.textContent = '👆 Tap on the map to set your starting location';
+              status.style.background = '#14b8a6';
+              status.style.display = 'block';
+
+              const selectFromLocation = (event) => {
+                if (event.spaces?.length > 0) {
+                  selectedFromLocation = event.spaces[0];
+                  navFromInput.value = `📍 ${event.spaces[0].name || event.spaces[0].externalId || 'Location'}`;
+
+                  // Auto-trigger directions once both locations are set
+                  status.textContent = '🧭 Calculating route...';
+                  status.style.background = '#14b8a6';
+
+                  // Trigger directions automatically
+                  setTimeout(() => {
+                    document.getElementById('getDirectionsBtn')?.click();
+                  }, 300);
+                }
+                mapView.off('click', selectFromLocation);
+              };
+
+              mapView.on('click', selectFromLocation);
+
               // Re-initialize icons
               if (window.lucide) lucide.createIcons();
             };
@@ -1655,48 +1709,73 @@
 
         // Build rich description with all available details
         let descriptionHTML = '';
+        const errors = [];
 
-        // Add image if available
-        if (location.logo || location.image || location.details?.logo || location.details?.image) {
-          const imageUrl = location.logo || location.image || location.details?.logo || location.details?.image;
-          descriptionHTML += `
-            <div style="margin-bottom: 12px;">
-              <img src="${imageUrl}" alt="${location.details.name}"
-                   style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-            </div>
-          `;
+        // Try to add image if available
+        try {
+          if (location.logo || location.image || location.details?.logo || location.details?.image) {
+            const imageUrl = location.logo || location.image || location.details?.logo || location.details?.image;
+            descriptionHTML += `
+              <div style="margin-bottom: 12px;">
+                <img src="${imageUrl}" alt="${location.details?.name || 'Exhibitor'}"
+                     onerror="this.parentElement.innerHTML='<div style=padding:8px;background:#fff3cd;border-radius:6px;font-size:11px;color:#856404>⚠️ Image unavailable</div>';"
+                     style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+              </div>
+            `;
+          }
+        } catch (e) {
+          errors.push('image');
+          descriptionHTML += `<div style="padding: 8px; background: #fff3cd; border-radius: 6px; font-size: 11px; color: #856404; margin-bottom: 8px;">⚠️ Image unavailable</div>`;
         }
 
-        // Add description if available
-        if (location.description || location.details?.description) {
-          const desc = location.description || location.details?.description;
-          descriptionHTML += `<p style="margin-bottom: 12px; line-height: 1.5;">${desc}</p>`;
-        } else {
-          descriptionHTML += `<p style="margin-bottom: 12px;">Exhibitor at booth ${location.details.externalId || location.externalId}</p>`;
+        // Try to add description if available
+        try {
+          if (location.description || location.details?.description) {
+            const desc = location.description || location.details?.description;
+            descriptionHTML += `<p style="margin-bottom: 12px; line-height: 1.5;">${desc}</p>`;
+          } else {
+            const boothNum = location.details?.externalId || location.externalId;
+            descriptionHTML += `<p style="margin-bottom: 12px; color: #666; font-style: italic;">Exhibitor${boothNum ? ` at booth ${boothNum}` : ''}</p>`;
+          }
+        } catch (e) {
+          errors.push('description');
         }
 
-        // Add website link if available
-        if (location.website || location.details?.website || location.url || location.details?.url) {
-          const websiteUrl = location.website || location.details?.website || location.url || location.details?.url;
-          descriptionHTML += `
-            <div style="margin-top: 12px;">
-              <a href="${websiteUrl}" target="_blank" rel="noopener noreferrer"
-                 style="display: inline-flex; align-items: center; gap: 6px; color: #667eea; text-decoration: none; font-weight: 600;">
-                <i data-lucide="external-link" style="width:16px;height:16px;"></i>
-                Visit Website
-              </a>
-            </div>
-          `;
+        // Try to add website link if available
+        try {
+          if (location.website || location.details?.website || location.url || location.details?.url) {
+            const websiteUrl = location.website || location.details?.website || location.url || location.details?.url;
+            descriptionHTML += `
+              <div style="margin-top: 12px;">
+                <a href="${websiteUrl}" target="_blank" rel="noopener noreferrer"
+                   style="display: inline-flex; align-items: center; gap: 6px; color: #667eea; text-decoration: none; font-weight: 600;">
+                  <i data-lucide="external-link" style="width:16px;height:16px;"></i>
+                  Visit Website
+                </a>
+              </div>
+            `;
+          }
+        } catch (e) {
+          errors.push('website');
         }
 
-        // Add external ID as metadata if available
-        if (location.details?.externalId || location.externalId) {
-          const extId = location.details?.externalId || location.externalId;
-          descriptionHTML += `
-            <div style="margin-top: 12px; padding: 8px; background: #f5f5f5; border-radius: 6px; font-size: 12px; color: #666;">
-              <strong>ID:</strong> ${extId}
-            </div>
-          `;
+        // Try to add external ID as metadata if available
+        try {
+          if (location.details?.externalId || location.externalId) {
+            const extId = location.details?.externalId || location.externalId;
+            descriptionHTML += `
+              <div style="margin-top: 12px; padding: 8px; background: #f5f5f5; border-radius: 6px; font-size: 12px; color: #666;">
+                <strong>ID:</strong> ${extId}
+              </div>
+            `;
+          }
+        } catch (e) {
+          errors.push('ID');
+        }
+
+        // Show error summary if any data couldn't be loaded
+        if (errors.length > 0) {
+          console.warn(`⚠️ Some exhibitor data unavailable: ${errors.join(', ')}`);
         }
 
         cardDescription.innerHTML = descriptionHTML;
@@ -1721,6 +1800,33 @@
           const navToInput = document.getElementById('navToInput');
           navToInput.value = location.details.name;
           navToInput.dataset.locationId = location.id;
+
+          // Enable tap-to-select mode for "From" location
+          const navFromInput = document.getElementById('navFromInput');
+          const status = document.getElementById('status');
+
+          status.textContent = '👆 Tap on the map to set your starting location';
+          status.style.background = '#14b8a6';
+          status.style.display = 'block';
+
+          const selectFromLocation = (event) => {
+            if (event.spaces?.length > 0) {
+              selectedFromLocation = event.spaces[0];
+              navFromInput.value = `📍 ${event.spaces[0].name || event.spaces[0].externalId || 'Location'}`;
+
+              // Auto-trigger directions once both locations are set
+              status.textContent = '🧭 Calculating route...';
+              status.style.background = '#14b8a6';
+
+              // Trigger directions automatically
+              setTimeout(() => {
+                document.getElementById('getDirectionsBtn')?.click();
+              }, 300);
+            }
+            mapView.off('click', selectFromLocation);
+          };
+
+          mapView.on('click', selectFromLocation);
 
           if (window.lucide) lucide.createIcons();
         };
@@ -2497,7 +2603,7 @@
       top: 16px;
       left: 16px;
       right: 16px;
-      z-index: 100;
+      z-index: 300;
       display: flex;
       gap: 8px;
       align-items: center;
@@ -2812,21 +2918,21 @@
     /* Exhibitor Card */
     #exhibitorCard {
       position: absolute;
-      bottom: 16px;
-      left: 50%;
-      transform: translateX(-50%) translateY(400px);
-      width: calc(100% - 32px);
-      max-width: 420px;
+      bottom: 24px;
+      right: 24px;
+      transform: translateX(500px);
+      width: 360px;
+      max-width: calc(100vw - 48px);
       background: white;
       border-radius: 12px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-      padding: 16px;
+      padding: 14px;
       z-index: 200;
       transition: transform 0.3s ease-out, padding 0.3s ease-out;
     }
 
     #exhibitorCard.show {
-      transform: translateX(-50%) translateY(0);
+      transform: translateX(0);
     }
 
     .card-header {
@@ -3060,9 +3166,12 @@
       }
 
       #exhibitorCard {
-        bottom: 100px; /* Lower on mobile */
+        bottom: 80px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(400px);
         width: calc(100% - 32px);
-        max-width: 380px; /* Scale down - more compact */
+        max-width: 380px;
         padding: 12px;
         border-radius: 10px;
       }
@@ -3113,7 +3222,10 @@
       }
 
       #exhibitorCard {
-        bottom: 90px; /* Lower on small mobile */
+        bottom: 70px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(400px);
         width: calc(100% - 24px);
         max-width: 350px;
         padding: 11px;
@@ -3301,18 +3413,15 @@
         </div>
       </div>
 
-      <!-- Accessible Mode Toggle -->
-      <div style="margin-bottom: 10px; padding: 8px 10px; background: white; border-radius: 6px; border: 1px solid #ddd;">
-        <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <i data-lucide="accessibility" style="width: 16px; height: 16px; color: #14b8a6;"></i>
-            <span style="font-size: 13px; color: #333;">Accessible Route</span>
-          </div>
-          <input type="checkbox" id="navAccessibleToggle" checked style="width: 16px; height: 16px; cursor: pointer;">
-        </label>
-        <div id="navAccessibleStatus" style="margin-top: 4px; font-size: 11px; color: #28a745;">
-          ♿ Prefers elevators and ramps
+      <!-- Accessible Mode Toggle - Compact -->
+      <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+        <div style="width: 32px; height: 32px; background: #e8f5e9; border: 2px solid #4caf50; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+          <i data-lucide="accessibility" style="width: 18px; height: 18px; color: #2e7d32; stroke-width: 2.5;"></i>
         </div>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; flex: 1;">
+          <input type="checkbox" id="navAccessibleToggle" checked style="width: 18px; height: 18px; cursor: pointer; accent-color: #4caf50;">
+          <span style="font-size: 12px; color: #333; font-weight: 500;">Accessible path</span>
+        </label>
       </div>
 
       <!-- Get Directions Button -->
