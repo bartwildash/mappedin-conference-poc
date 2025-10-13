@@ -2138,20 +2138,36 @@
       let searchUI;
 
       function setupSearch() {
-        // Create search instance
-        const searchInstance = new MappedInSearch(mapData, {
-          debounceDelay: 200,
-          maxSuggestions: 6,
-          searchBoothNumbers: true
-        });
+        try {
+          // Check if search classes are available
+          if (typeof window.MappedInSearch === 'undefined' || typeof window.SearchUIManager === 'undefined') {
+            console.error('❌ Search classes not loaded! MappedInSearch:', typeof window.MappedInSearch, 'SearchUIManager:', typeof window.SearchUIManager);
+            return;
+          }
 
-        // Create UI manager
-        searchUI = new SearchUIManager(searchInstance, mapView, {
-          inputSelector: '#searchInput',
-          suggestionsSelector: '#searchSuggestions',
-          onSelect: (suggestion) => {
-            // Suggestion has a 'node' property with the actual map object
-            const node = suggestion.node;
+          console.log('✅ Initializing search system...');
+
+          // Check if search input exists
+          const searchInput = document.getElementById('searchInput');
+          if (!searchInput) {
+            console.error('❌ Search input not found!');
+            return;
+          }
+
+          // Create search instance
+          const searchInstance = new MappedInSearch(mapData, {
+            debounceDelay: 200,
+            maxSuggestions: 6,
+            searchBoothNumbers: true
+          });
+
+          // Create UI manager
+          searchUI = new SearchUIManager(searchInstance, mapView, {
+            inputSelector: '#searchInput',
+            suggestionsSelector: '#searchSuggestions',
+            onSelect: (suggestion) => {
+              // Suggestion has a 'node' property with the actual map object
+              const node = suggestion.node;
             if (!node) {
               console.warn('No node found for suggestion:', suggestion);
               return;
@@ -2168,7 +2184,11 @@
           }
         });
 
-        console.log('✅ Modular search initialized (debounced 200ms, Enter key support, booth numbers enabled)');
+          console.log('✅ Modular search initialized (debounced 200ms, Enter key support, booth numbers enabled)');
+        } catch (error) {
+          console.error('❌ Error initializing search:', error);
+          console.error('Stack:', error.stack);
+        }
       }
 
       // Floor and zoom controls removed - using inline floor selector and compact modal zoom buttons instead
@@ -3419,7 +3439,7 @@
           <i data-lucide="accessibility" style="width: 18px; height: 18px; color: #2e7d32; stroke-width: 2.5;"></i>
         </div>
         <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; flex: 1;">
-          <input type="checkbox" id="navAccessibleToggle" checked style="width: 18px; height: 18px; cursor: pointer; accent-color: #4caf50;">
+          <input type="checkbox" id="navAccessibleToggle" checked style="width: 14px; height: 14px; cursor: pointer; accent-color: #4caf50;">
           <span style="font-size: 12px; color: #333; font-weight: 500;">Accessible path</span>
         </label>
       </div>
