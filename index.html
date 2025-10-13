@@ -16,13 +16,11 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- Component Styles -->
-  <link rel="stylesheet" href="/css/floor-zoom-controls.css">
   <link rel="stylesheet" href="/css/loading-states.css">
   <link rel="stylesheet" href="/css/directions-card.css">
 
   <!-- Modular Components -->
   <script src="/js/search-module.js"></script>
-  <script src="/js/floor-zoom-controls.js"></script>
   <script src="/js/directions-card.js"></script>
 
   <script type="module">
@@ -193,10 +191,137 @@
 
         // Setup camera event listener for zoom-based label visibility
         setupCameraZoomListener();
+
+        // Setup search (must be after card functions are defined)
         setupSearch();
 
-        // Setup floor and zoom controls
-        setupFloorZoomControls();
+        // Final comprehensive Lucide icon initialization after ALL setup complete
+        setTimeout(() => {
+          if (window.lucide) {
+            lucide.createIcons();
+            console.log('✅ All Lucide icons initialized (comprehensive final pass)');
+
+            // Check if icons actually rendered
+            const lucideIcons = document.querySelectorAll('[data-lucide]');
+            console.log(`🔍 Found ${lucideIcons.length} Lucide icon elements in DOM`);
+
+            // Log first few to debug
+            if (lucideIcons.length > 0) {
+              console.log('📍 Sample icon elements:', Array.from(lucideIcons).slice(0, 3).map(el => ({
+                name: el.getAttribute('data-lucide'),
+                parent: el.parentElement?.className || 'unknown'
+              })));
+            }
+          }
+        }, 500);
+
+        // ============================================
+        // DEVELOPER DEBUG PANEL - Real-time Monitoring
+        // ============================================
+        const devPanel = document.getElementById('devDebugPanel');
+        const devToggle = document.getElementById('devDebugToggle');
+        const devPanelClose = document.getElementById('devPanelClose');
+        const devLogContent = document.getElementById('devLogContent');
+        let devLogs = [];
+
+        // Toggle panel visibility
+        devToggle.addEventListener('click', () => {
+          const isVisible = devPanel.style.display === 'block';
+          devPanel.style.display = isVisible ? 'none' : 'block';
+          devToggle.style.display = isVisible ? 'block' : 'none';
+
+          if (!isVisible) {
+            updateDevStats();
+            devLog('🛠️ Debug panel opened');
+          }
+        });
+
+        devPanelClose.addEventListener('click', () => {
+          devPanel.style.display = 'none';
+          devToggle.style.display = 'block';
+        });
+
+        // Log function for activity
+        function devLog(message) {
+          const timestamp = new Date().toLocaleTimeString();
+          devLogs.unshift(`[${timestamp}] ${message}`);
+          if (devLogs.length > 50) devLogs.pop(); // Keep last 50
+          devLogContent.innerHTML = devLogs.join('<br>');
+        }
+
+        // Update stats
+        function updateDevStats() {
+          // Zoom level
+          const zoom = mapView?.Camera?.zoom || 0;
+          document.querySelector('#devZoom span').textContent = zoom.toFixed(2);
+
+          // Marker counts
+          document.querySelector('#devExhibitors span').textContent = exhibitorMarkers.length;
+          document.querySelector('#devAmenities span').textContent = categoryMarkers.amenities.length;
+          document.querySelector('#devRestrooms span').textContent = categoryMarkers.restrooms.length;
+          document.querySelector('#devRooms span').textContent = categoryMarkers.rooms.length;
+
+          // Floor
+          const floor = mapView?.currentFloor?.name || 'Unknown';
+          document.querySelector('#devFloor span').textContent = floor;
+
+          // Environment
+          document.querySelector('#devViewport span').textContent = `${window.innerWidth}×${window.innerHeight}`;
+          document.querySelector('#devIframe span').textContent = window.self !== window.top ? 'YES' : 'NO';
+          document.querySelector('#devTouch span').textContent = 'ontouchstart' in window ? 'YES' : 'NO';
+          document.querySelector('#devLucide span').textContent = window.lucide ? 'YES' : 'NO';
+        }
+
+        // Listen to map clicks and update debug info
+        mapView.on('click', (event) => {
+          let clickInfo = 'Click detected: ';
+
+          if (event?.markers?.length > 0) {
+            const marker = event.markers[0];
+            if (marker._amenityData) {
+              clickInfo += `Amenity (${marker._amenityData.amenityName})`;
+              devLog(`🖱️ Clicked amenity: ${marker._amenityData.amenityName}`);
+            } else if (marker._exhibitorLocation) {
+              clickInfo += `Exhibitor (${marker._exhibitorLocation.details.name})`;
+              devLog(`🖱️ Clicked exhibitor: ${marker._exhibitorLocation.details.name}`);
+            } else {
+              clickInfo += 'Unknown marker';
+              devLog('🖱️ Clicked unknown marker');
+            }
+          } else if (event?.spaces?.length > 0) {
+            const space = event.spaces[0];
+            clickInfo += `Space (${space.name || space.externalId || 'Unnamed'})`;
+            devLog(`🖱️ Clicked space: ${space.name || space.externalId || 'ID:'+space.id}`);
+          } else if (event?.objects?.length > 0) {
+            const obj = event.objects[0];
+            clickInfo += `Object (${obj.name || obj.type || 'Unknown'})`;
+            devLog(`🖱️ Clicked object: ${obj.name || obj.type || obj.id}`);
+          } else {
+            clickInfo += 'Empty map area';
+          }
+
+          document.getElementById('devClickInfo').textContent = clickInfo;
+          updateDevStats();
+        });
+
+        // Listen to zoom changes
+        mapView.on('camera-change', () => {
+          if (devPanel.style.display === 'block') {
+            updateDevStats();
+          }
+        });
+
+        // Listen to floor changes
+        mapView.on('floor-change', (event) => {
+          devLog(`🏢 Floor changed to: ${event.floor.name || 'Floor ' + event.floor.elevation}`);
+          updateDevStats();
+        });
+
+        // Initial environment setup log
+        devLog('✅ Map loaded successfully');
+        devLog(`📊 ${exhibitorMarkers.length} exhibitors, ${categoryMarkers.restrooms.length} restrooms`);
+        devLog(`📍 ${allLabels.length} labels created`);
+        updateDevStats();
 
       } catch (error) {
         status.textContent = `❌ Error: ${error.message}`;
@@ -231,10 +356,11 @@
       // Setup camera zoom listener for dynamic label visibility
       function setupCameraZoomListener() {
         mapView.on('camera-change', (event) => {
-          const newZoom = event.transform.zoomLevel;
+          // Get current zoom from camera directly (event structure varies)
+          const newZoom = mapView.Camera.zoom;
 
           // Only update if zoom changed significantly (avoid excessive updates)
-          if (Math.abs(newZoom - currentZoom) > 0.5) {
+          if (newZoom && Math.abs(newZoom - currentZoom) > 0.5) {
             updateLabelVisibility(newZoom);
           }
         });
@@ -306,8 +432,14 @@
           });
         }
 
-        floorSelect.addEventListener('change', (e) => mapView.setFloor(e.target.value));
-        mapView.on('floor-change', (event) => floorSelect.value = event.floor.id);
+        // Setup floor selector dropdown
+        floorSelect.addEventListener('change', (e) => {
+          mapView.setFloor(e.target.value);
+        });
+
+        mapView.on('floor-change', (event) => {
+          floorSelect.value = event.floor.id;
+        });
 
         console.log(`✅ Floor selector initialized (${floors.length} floors, ${buildings.length} buildings)`);
       }
@@ -346,8 +478,10 @@
             rank: rank,
             enabled: enabled, // Start disabled
             appearance: {
-              textSize: category === 'mainAreas' ? 14 : 12,
-              color: category === 'mainAreas' ? '#000' : '#333'
+              textSize: category === 'mainAreas' ? 17 : 14,
+              color: category === 'mainAreas' ? '#000' : '#333',
+              textStrokeColor: 'rgba(255, 255, 255, 0.6)',
+              textStrokeWidth: 1.5
             }
           });
 
@@ -368,8 +502,10 @@
                 rank: 'always-visible',
                 enabled: true, // Always enabled
                 appearance: {
-                  textSize: 11,
-                  color: '#667eea'
+                  textSize: 14,
+                  color: '#14b8a6',
+                  textStrokeColor: 'rgba(255, 255, 255, 0.6)',
+                  textStrokeWidth: 1.5
                 }
               }
             );
@@ -388,56 +524,296 @@
         updateLabelVisibility(currentZoom);
       }
 
+      // Helper function to show amenity details when clicked (defined at outer scope)
+      function showAmenityDetails(amenity, amenityType, amenityName) {
+        const cardTitle = document.getElementById('cardTitle');
+        const cardSubtitle = document.getElementById('cardSubtitle');
+        const cardBooth = document.getElementById('cardBooth');
+        const cardDescription = document.getElementById('cardDescription');
+        const cardPrimaryActions = document.getElementById('cardPrimaryActions');
+        const exhibitorCard = document.getElementById('exhibitorCard');
+
+        cardTitle.textContent = amenityName || amenityType || 'Amenity';
+        cardSubtitle.style.display = 'none';
+        cardBooth.style.display = 'none';
+
+        // Build detailed description based on amenity data
+        let description = `<div style="padding: 8px 0;">`;
+
+        // Add amenity type with icon
+        description += `<p><strong>Type:</strong> ${amenityName || amenityType}</p>`;
+
+        // Add location details if available
+        if (amenity.details?.name) {
+          description += `<p><strong>Name:</strong> ${amenity.details.name}</p>`;
+        }
+
+        // Add floor information
+        if (amenity.floor) {
+          description += `<p><strong>Floor:</strong> ${amenity.floor.name || amenity.floor.elevation}</p>`;
+        }
+
+        // Add accessibility information for restrooms
+        if (amenityType.includes('restroom')) {
+          const isAccessible = amenityType.includes('accessible');
+          description += `<div style="margin-top: 12px; padding: 12px; background: ${isAccessible ? '#e8f5e9' : '#f5f5f5'}; border-radius: 8px; border-left: 4px solid ${isAccessible ? '#28a745' : '#14b8a6'};">`;
+          if (isAccessible) {
+            description += `<strong style="color: #28a745;">♿ Accessible Restroom</strong><br>`;
+            description += `<span style="font-size: 13px; color: #666;">This restroom is wheelchair accessible and meets ADA standards.</span>`;
+          } else {
+            description += `<strong>Standard Restroom</strong><br>`;
+            description += `<span style="font-size: 13px; color: #666;">For accessible facilities, look for the wheelchair icon <i data-lucide="accessibility" style="width:14px;height:14px;display:inline;"></i></span>`;
+          }
+          description += `</div>`;
+        }
+
+        // Add elevator/stairs information
+        if (amenityType.includes('elevator') || amenityType.includes('lift')) {
+          description += `<div style="margin-top: 12px; padding: 12px; background: #e8f5e9; border-radius: 8px; border-left: 4px solid #28a745;">`;
+          description += `<strong style="color: #28a745;">♿ Accessible Route</strong><br>`;
+          description += `<span style="font-size: 13px; color: #666;">Elevator provides accessible connection between floors.</span>`;
+          description += `</div>`;
+        } else if (amenityType.includes('stairs')) {
+          description += `<div style="margin-top: 12px; padding: 12px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">`;
+          description += `<strong style="color: #856404;">⚠️ Stairs Only</strong><br>`;
+          description += `<span style="font-size: 13px; color: #666;">For accessible routes, please use elevators marked with <i data-lucide="move-vertical" style="width:14px;height:14px;display:inline;"></i></span>`;
+          description += `</div>`;
+        }
+
+        description += `</div>`;
+
+        cardDescription.innerHTML = description;
+
+        // Show action buttons
+        cardPrimaryActions.style.display = 'flex';
+        const shareBtn = document.getElementById('shareBtn');
+        shareBtn.style.display = 'none'; // Hide share for amenities
+
+        // Setup Directions button
+        const directionsBtn = document.getElementById('directionsBtn');
+        directionsBtn.onclick = () => {
+          const navigationPanel = document.getElementById('navigationPanel');
+          navigationPanel.style.display = 'block';
+
+          const navToInput = document.getElementById('navToInput');
+          navToInput.value = amenityName || amenityType || 'Amenity';
+          navToInput.dataset.spaceId = amenity.id;
+
+          if (window.lucide) lucide.createIcons();
+        };
+
+        exhibitorCard.classList.add('show');
+        mapView.Camera.focusOn(amenity);
+
+        // Re-initialize Lucide icons in the description
+        if (window.lucide) lucide.createIcons();
+
+        console.log('📋 Showing amenity details:', amenityName || amenityType);
+      }
+
       // Amenities - Icons for restrooms, exits, etc.
+      // Marker Priority System (Mappedin rank - HIGHER = MORE IMPORTANT for camera focus):
+      // - Rank 10: Exhibitors (always prioritized)
+      // - Rank 9: High Priority POIs (restrooms, toilets, cafes, food/beverage)
+      // - Rank 8: Medium Priority POIs (elevators, stairs, info desks)
+      // - Rank 5: Drop Pin (user-placed)
+      // - Rank 1: Low Priority (rooms, meeting spaces)
       function setupAmenities() {
         const amenities = mapData.getByType('amenity') || [];
         const locations = mapData.getByType('location') || [];
+        const connections = mapData.getByType('connection') || [];
 
+        console.log(`\n🔗 Checking Mappedin Connections (stairs, elevators, etc.):`);
+        console.log(`   - Total connections found: ${connections.length}`);
+
+        // Lucide icon mapping for amenities - SF Symbols web equivalent
         const amenityIcons = {
-          'restroom': '🚻',
-          'toilet': '🚻',
-          'bathroom': '🚻',
-          'wc': '🚻',
-          'washroom': '🚻',
-          'elevator': '🛗',
-          'lift': '🛗',
-          'escalator': '🔼',
-          'stairs': '🪜',
-          'staircase': '🪜',
-          'exit': '🚪',
-          'emergency-exit': '🚨',
-          'parking': '🅿️',
-          'atm': '🏧',
-          'information': 'ℹ️',
-          'info': 'ℹ️',
-          'help': 'ℹ️',
-          'default': '📍'
+          // Restrooms - different icons for different types
+          'restroom': 'bath',
+          'restroom-accessible': 'accessibility',
+          'restroom-mens': 'user',
+          'restroom-womens': 'users',
+          'restroom-gender-neutral': 'bath',
+          'toilet': 'bath',
+          'bathroom': 'bath',
+          'wc': 'bath',
+          'washroom': 'bath',
+          // Navigation amenities
+          'elevator': 'move-vertical',
+          'lift': 'move-vertical',
+          'escalator': 'chevrons-up',
+          'stairs': 'arrow-up',
+          'staircase': 'arrow-up',
+          // Exits and entrances
+          'exit': 'door-open',
+          'emergency-exit': 'alert-triangle',
+          'entrance': 'door-open',
+          'door': 'door-closed',
+          // Services
+          'parking': 'car',
+          'atm': 'credit-card',
+          'information': 'info',
+          'info': 'info',
+          'help': 'help-circle',
+          'phone': 'phone',
+          'wifi': 'wifi',
+          // Food & Beverage
+          'cafe': 'coffee',
+          'coffee': 'coffee',
+          'restaurant': 'utensils',
+          'food': 'utensils',
+          'dining': 'utensils',
+          'bar': 'wine',
+          // Default
+          'default': 'map-pin'
+        };
+
+        // Human-readable amenity names for details display
+        const amenityNames = {
+          'restroom': 'Restroom',
+          'restroom-accessible': 'Accessible Restroom',
+          'restroom-mens': "Men's Restroom",
+          'restroom-womens': "Women's Restroom",
+          'restroom-gender-neutral': 'Gender Neutral Restroom',
+          'toilet': 'Restroom',
+          'bathroom': 'Restroom',
+          'wc': 'Restroom',
+          'washroom': 'Restroom',
+          'elevator': 'Elevator',
+          'lift': 'Elevator',
+          'escalator': 'Escalator',
+          'stairs': 'Stairs',
+          'staircase': 'Stairs',
+          'exit': 'Exit',
+          'emergency-exit': 'Emergency Exit',
+          'entrance': 'Entrance',
+          'parking': 'Parking',
+          'atm': 'ATM',
+          'information': 'Information',
+          'phone': 'Phone',
+          'wifi': 'WiFi',
+          'cafe': 'Cafe',
+          'coffee': 'Coffee Shop',
+          'restaurant': 'Restaurant',
+          'food': 'Food Court',
+          'dining': 'Dining Area',
+          'bar': 'Bar'
         };
 
         const restroomKeywords = ['restroom', 'toilet', 'bathroom', 'wc', 'washroom'];
+        const cafeKeywords = ['cafe', 'coffee', 'restaurant', 'food', 'dining', 'bar', 'bistro', 'cafeteria'];
+        const accessibleKeywords = ['accessible', 'wheelchair', 'handicap', 'ada'];
+        const mensKeywords = ['men', 'male', 'mens', "men's", 'gents'];
+        const womensKeywords = ['women', 'female', 'womens', "women's", 'ladies'];
         const amenityKeywords = ['elevator', 'lift', 'escalator', 'stairs', 'staircase', 'exit'];
+        const poiKeywords = [...cafeKeywords, 'atm', 'information', 'help', 'desk'];
         const roomKeywords = ['room', 'hall', 'conference', 'meeting', 'auditorium', 'theater', 'theatre', 'lounge', 'suite', 'boardroom', 'office', 'balcony'];
 
-        // Restroom category IDs (from location-categories.json)
+        // Category IDs (from location-categories.json)
         const restroomCategoryIds = [
           'lcat_949158e6f42d5a22',  // All Gender Restroom
-          'lcat_9ca8623837d4867f'   // Men's Restroom
+          'lcat_9ca8623837d4867f',  // Men's Restroom
+          'lcat_accessible_restroom' // Accessible Restroom (example)
         ];
+
+        const cafeCategoryIds = [
+          'lcat_cafe',              // Cafe (will detect actual IDs from your venue)
+          'lcat_coffee',            // Coffee shop
+          'lcat_restaurant',        // Restaurant
+          'lcat_food',              // Food court
+          'lcat_dining'             // Dining area
+        ];
+
+        // Helper function to determine specific restroom type
+        function getRestroomType(name) {
+          const nameLower = (name || '').toLowerCase();
+          const isAccessible = accessibleKeywords.some(kw => nameLower.includes(kw));
+          const isMens = mensKeywords.some(kw => nameLower.includes(kw));
+          const isWomens = womensKeywords.some(kw => nameLower.includes(kw));
+
+          if (isAccessible) return 'restroom-accessible';
+          if (isMens) return 'restroom-mens';
+          if (isWomens) return 'restroom-womens';
+          return 'restroom';
+        }
+
+        // Helper function to create Lucide icon marker
+        function createAmenityMarker(iconName, amenityType, color = '#14b8a6') {
+          // Special styling for restrooms - solid light blue circle with white icon
+          const isRestroom = amenityType.includes('restroom') || amenityType.includes('toilet') || amenityType.includes('bathroom');
+
+          if (isRestroom) {
+            // Solid light blue circle for restrooms - smaller size, thicker stroke
+            return `
+              <div class="amenity-marker" style="
+                background: #42a5f5;
+                color: white;
+                padding: 6px;
+                border-radius: 50%;
+                box-shadow: 0 2px 8px rgba(66, 165, 245, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+              " onmouseover="this.style.transform='scale(1.15)';this.style.boxShadow='0 4px 16px rgba(66, 165, 245, 0.6)'"
+                 onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px rgba(66, 165, 245, 0.4)'">
+                <i data-lucide="bath" style="width:12px;height:12px;stroke-width:3;"></i>
+              </div>
+            `;
+          } else {
+            // Standard white circle for other amenities
+            return `
+              <div class="amenity-marker" style="
+                background: white;
+                color: ${color};
+                padding: 10px;
+                border-radius: 50%;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: transform 0.2s, box-shadow 0.2s;
+              " onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 4px 12px rgba(0,0,0,0.3)'"
+                 onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.2)'">
+                <i data-lucide="${iconName}" style="width:24px;height:24px;"></i>
+              </div>
+            `;
+          }
+        }
 
         let amenityCount = 0;
 
         // Method 1: Use Mappedin's amenity data if available
         if (amenities.length > 0) {
           amenities.forEach(amenity => {
-            const icon = amenityIcons[amenity.type?.toLowerCase()] || amenityIcons.default;
-            const markerHTML = `<div style="background:white;color:#333;padding:6px;border-radius:50%;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,0.2);">${icon}</div>`;
+            const type = amenity.type?.toLowerCase() || 'default';
+            const amenityType = restroomKeywords.some(kw => type.includes(kw)) ? getRestroomType(amenity.name) : type;
+            const iconName = amenityIcons[amenityType] || amenityIcons[type] || amenityIcons.default;
+            const amenityName = amenityNames[amenityType] || amenityNames[type] || type;
 
-            const type = amenity.type?.toLowerCase();
-            const isRestroom = restroomKeywords.includes(type);
+            // Color code: Accessible = green, Regular amenities = teal
+            const color = amenityType.includes('accessible') ? '#28a745' : '#14b8a6';
+            const markerHTML = createAmenityMarker(iconName, amenityType, color);
 
-            // Rank: Restrooms = 1 (lowest), Other amenities = 2
-            const rank = isRestroom ? 1 : 2;
-            const marker = mapView.Markers.add(amenity, markerHTML, { anchor: 'center', rank });
+            const isRestroom = restroomKeywords.some(kw => type.includes(kw));
+            const isCafe = cafeKeywords.some(kw => type.includes(kw));
+            // High priority for restrooms & cafes (9), medium for other amenities (8)
+            const rank = (isRestroom || isCafe) ? 9 : 8;
+
+            const marker = mapView.Markers.add(amenity, markerHTML, {
+              anchor: 'center',
+              rank,
+              interactive: true
+            });
+
+            // Store amenity info with marker for click handling
+            marker._amenityData = {
+              amenity,
+              amenityType,
+              amenityName
+            };
 
             // Categorize by type
             if (isRestroom) {
@@ -450,6 +826,14 @@
           });
 
           console.log(`✅ Added ${amenityCount} amenity icons from Mappedin amenity data`);
+
+          // Initialize Lucide icons for these markers (need slight delay for DOM update)
+          setTimeout(() => {
+            if (window.lucide) {
+              lucide.createIcons();
+              console.log('🎨 Lucide icons initialized for Method 1 amenities');
+            }
+          }, 100);
         }
 
         // Method 2: Check locations with categories (for restrooms, etc.)
@@ -461,13 +845,26 @@
             );
 
             if (hasRestroomCategory) {
-              const markerHTML = `<div style="background:white;color:#667eea;padding:8px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;"><i data-lucide="bath" style="width:20px;height:20px;"></i></div>`;
+              // Determine specific restroom type from location name
+              const restroomType = getRestroomType(location.details?.name);
+              const iconName = amenityIcons[restroomType];
+              const amenityName = amenityNames[restroomType];
+              const color = restroomType.includes('accessible') ? '#28a745' : '#14b8a6';
+
+              const markerHTML = createAmenityMarker(iconName, restroomType, color);
 
               const marker = mapView.Markers.add(location, markerHTML, {
                 anchor: 'center',
-                rank: 1,  // Lowest priority - restrooms
+                rank: 9,  // High priority - restrooms/toilets/cafes
                 interactive: true
               });
+
+              // Store amenity info with marker for click handling
+              marker._amenityData = {
+                amenity: location,
+                amenityType: restroomType,
+                amenityName
+              };
 
               categoryMarkers.restrooms.push(marker);
               categoryRestroomCount++;
@@ -477,6 +874,100 @@
 
         if (categoryRestroomCount > 0) {
           console.log(`✅ Added ${categoryRestroomCount} restrooms from location categories`);
+
+          // Initialize Lucide icons for these markers
+          setTimeout(() => {
+            if (window.lucide) {
+              lucide.createIcons();
+              console.log('🎨 Lucide icons initialized for Method 2 restrooms');
+            }
+          }, 100);
+        } else {
+          console.log(`ℹ️ No restrooms found in location categories (checked ${locations.length} locations)`);
+          console.log(`ℹ️ Looking for category IDs: ${restroomCategoryIds.join(', ')}`);
+        }
+
+        // Method 2b: Check locations with categories (for cafes/food)
+        let categoryCafeCount = 0;
+        locations.forEach(location => {
+          if (location.categories && location.categories.length > 0) {
+            const hasCafeCategory = location.categories.some(catId =>
+              cafeCategoryIds.includes(catId)
+            );
+
+            // Also check if name contains cafe keywords
+            const nameLower = (location.details?.name || '').toLowerCase();
+            const hasCafeName = cafeKeywords.some(kw => nameLower.includes(kw));
+
+            if (hasCafeCategory || hasCafeName) {
+              // Determine specific cafe type from name
+              let cafeType = 'cafe';
+              let iconName = 'coffee';
+
+              if (nameLower.includes('restaurant') || nameLower.includes('dining')) {
+                cafeType = 'restaurant';
+                iconName = 'utensils';
+              } else if (nameLower.includes('bar')) {
+                cafeType = 'bar';
+                iconName = 'wine';
+              } else if (nameLower.includes('food')) {
+                cafeType = 'food';
+                iconName = 'utensils';
+              }
+
+              const amenityName = amenityNames[cafeType] || location.details?.name || 'Cafe';
+
+              // Orange/amber color for food/beverage
+              const markerHTML = `
+                <div class="amenity-marker" style="
+                  background: #fff3e0;
+                  color: #ef6c00;
+                  padding: 10px;
+                  border-radius: 50%;
+                  box-shadow: 0 2px 8px rgba(239, 108, 0, 0.3);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  transition: transform 0.2s, box-shadow 0.2s;
+                  border: 2px solid #ef6c00;
+                " onmouseover="this.style.transform='scale(1.15)';this.style.boxShadow='0 4px 16px rgba(239, 108, 0, 0.5)'"
+                   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 2px 8px rgba(239, 108, 0, 0.3)'">
+                  <i data-lucide="${iconName}" style="width:24px;height:24px;"></i>
+                </div>
+              `;
+
+              const marker = mapView.Markers.add(location, markerHTML, {
+                anchor: 'center',
+                rank: 9,  // High priority - cafes/food
+                interactive: true
+              });
+
+              // Store amenity info with marker for click handling
+              marker._amenityData = {
+                amenity: location,
+                amenityType: cafeType,
+                amenityName
+              };
+
+              categoryMarkers.amenities.push(marker);
+              categoryCafeCount++;
+            }
+          }
+        });
+
+        if (categoryCafeCount > 0) {
+          console.log(`✅ Added ${categoryCafeCount} cafes/restaurants from location categories/names`);
+
+          // Initialize Lucide icons for these markers
+          setTimeout(() => {
+            if (window.lucide) {
+              lucide.createIcons();
+              console.log('🎨 Lucide icons initialized for Method 2b cafes');
+            }
+          }, 100);
+        } else {
+          console.log(`ℹ️ No cafes found in location categories (checked ${locations.length} locations)`);
         }
 
         // Method 3: Detect rooms/meeting spaces from location names
@@ -488,13 +979,20 @@
           const matchedKeyword = roomKeywords.find(keyword => nameLower.includes(keyword));
 
           if (matchedKeyword && !location.categories?.length) {  // Don't duplicate restrooms
-            const markerHTML = `<div style="background:white;color:#667eea;padding:8px;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;"><i data-lucide="door-open" style="width:20px;height:20px;"></i></div>`;
+            const markerHTML = createAmenityMarker('door-open', 'room', '#14b8a6');
 
             const marker = mapView.Markers.add(location, markerHTML, {
               anchor: 'center',
-              rank: 2,  // Medium priority - rooms
+              rank: 1,  // Low priority - rooms (less important than POIs)
               interactive: true
             });
+
+            // Store amenity info with marker for click handling
+            marker._amenityData = {
+              amenity: location,
+              amenityType: 'room',
+              amenityName: location.details.name
+            };
 
             categoryMarkers.rooms.push(marker);
             roomCount++;
@@ -503,11 +1001,82 @@
 
         if (roomCount > 0) {
           console.log(`✅ Added ${roomCount} meeting rooms/spaces from location names`);
+
+          // Initialize Lucide icons for these markers
+          setTimeout(() => {
+            if (window.lucide) {
+              lucide.createIcons();
+              console.log('🎨 Lucide icons initialized for Method 3 rooms');
+            }
+          }, 100);
         }
 
-        // Method 4: Fallback - Detect amenities from space names (if no other data)
-        if (amenities.length === 0 && categoryRestroomCount === 0 && roomCount === 0) {
-          console.log('ℹ️ No Mappedin amenity/location data - detecting from space names...');
+        // Method 4: Check Mappedin connections (stairs, elevators, escalators, ramps)
+        let connectionCount = 0;
+        connections.forEach(connection => {
+          if (!connection) return;
+
+          const connectionType = (connection.type || '').toLowerCase();
+          const connectionName = connection.name || connectionType;
+
+          // Only process navigation connections (elevators, stairs, escalators, ramps)
+          if (!connectionType || !['elevator', 'stairs', 'escalator', 'ramp', 'lift', 'stairway', 'staircase'].includes(connectionType)) {
+            return;
+          }
+
+          // Map connection type to our amenity icon
+          let iconName = amenityIcons[connectionType] || 'arrow-up';
+          let amenityName = amenityNames[connectionType] || connectionName || 'Connection';
+          const color = '#14b8a6';
+
+          const markerHTML = createAmenityMarker(iconName, connectionType, color);
+
+          // Try to get a coordinate for the connection
+          // Connections might have entrance/exit spaces or coordinates
+          let coordinate = connection.coordinate || connection.entrance?.coordinate || connection.exit?.coordinate;
+
+          if (coordinate) {
+            const marker = mapView.Markers.add(coordinate, markerHTML, {
+              anchor: 'center',
+              rank: 8,  // High priority - navigation amenities
+              interactive: true
+            });
+
+            // Store connection info with marker for click handling
+            marker._amenityData = {
+              amenity: connection,
+              amenityType: connectionType,
+              amenityName
+            };
+
+            categoryMarkers.amenities.push(marker);
+            connectionCount++;
+          }
+        });
+
+        if (connectionCount > 0) {
+          console.log(`✅ Added ${connectionCount} connections (stairs/elevators) from Mappedin connection data`);
+
+          // Initialize Lucide icons for these markers
+          setTimeout(() => {
+            if (window.lucide) {
+              lucide.createIcons();
+              console.log('🎨 Lucide icons initialized for Method 4 connections');
+            }
+          }, 100);
+        } else {
+          console.log(`ℹ️ No usable connections found (checked ${connections.length} connections)`);
+
+          // Log connection types for debugging
+          if (connections.length > 0) {
+            const connectionTypes = connections.map(c => c?.type || 'unknown').filter((v, i, a) => a.indexOf(v) === i);
+            console.log(`   Connection types in data: ${connectionTypes.join(', ')}`);
+          }
+        }
+
+        // Method 5: Fallback - Detect amenities from space names (if no other data)
+        if (amenities.length === 0 && categoryRestroomCount === 0 && roomCount === 0 && connectionCount === 0) {
+          console.log('ℹ️ No Mappedin amenity/location/connection data - detecting from space names...');
 
           const allSpaces = mapData.getByType('space');
           const allKeywords = [...restroomKeywords, ...amenityKeywords, ...roomKeywords];
@@ -519,8 +1088,17 @@
             const matchedKeyword = allKeywords.find(keyword => nameLower.includes(keyword));
 
             if (matchedKeyword) {
-              const icon = amenityIcons[matchedKeyword] || amenityIcons.default;
-              const markerHTML = `<div style="background:white;color:#333;padding:6px;border-radius:50%;font-size:20px;box-shadow:0 2px 8px rgba(0,0,0,0.2);">${icon}</div>`;
+              // Determine specific type
+              let amenityType = matchedKeyword;
+              if (restroomKeywords.includes(matchedKeyword)) {
+                amenityType = getRestroomType(space.name);
+              }
+
+              const iconName = amenityIcons[amenityType] || amenityIcons[matchedKeyword] || amenityIcons.default;
+              const amenityName = amenityNames[amenityType] || amenityNames[matchedKeyword] || matchedKeyword;
+              const color = amenityType.includes('accessible') ? '#28a745' : '#14b8a6';
+
+              const markerHTML = createAmenityMarker(iconName, amenityType, color);
 
               // Determine category and rank
               let category;
@@ -528,20 +1106,30 @@
 
               if (restroomKeywords.includes(matchedKeyword)) {
                 category = 'restrooms';
-                rank = 1;  // Lowest priority - restrooms
+                rank = 9;  // High priority - restrooms/toilets
+              } else if (cafeKeywords.includes(matchedKeyword)) {
+                category = 'amenities';
+                rank = 9;  // High priority - cafes/food
               } else if (roomKeywords.includes(matchedKeyword)) {
                 category = 'rooms';
-                rank = 2;  // Medium priority - rooms
+                rank = 1;  // Low priority - rooms
               } else {
                 category = 'amenities';
-                rank = 3;  // Higher priority - elevators, stairs, etc.
+                rank = 8;  // High priority - elevators, stairs, POIs
               }
 
               const marker = mapView.Markers.add(space, markerHTML, {
                 anchor: 'center',
                 rank: rank,
-                interactive: false  // Don't interfere with space clicks
+                interactive: true
               });
+
+              // Store amenity info with marker for click handling
+              marker._amenityData = {
+                amenity: space,
+                amenityType,
+                amenityName
+              };
 
               // Add to appropriate category
               if (category && categoryMarkers[category]) {
@@ -551,10 +1139,15 @@
           });
         }
 
-        // Initialize Lucide icons for amenity markers
-        if (window.lucide) {
-          lucide.createIcons();
-        }
+        // Final icon initialization after all amenity markers added
+        setTimeout(() => {
+          if (window.lucide) {
+            lucide.createIcons();
+            console.log('🎨 Final Lucide icons pass for all amenity markers');
+          } else {
+            console.warn('⚠️ Lucide not available - icons may not render');
+          }
+        }, 200);
 
         // Summary of all categories detected
         const totalMarkers = categoryMarkers.amenities.length +
@@ -566,6 +1159,50 @@
         console.log(`   - Restrooms: ${categoryMarkers.restrooms.length}`);
         console.log(`   - Rooms: ${categoryMarkers.rooms.length}`);
         console.log(`   - Total: ${totalMarkers} markers`);
+
+        console.log(`\n🎯 Priority System (Camera Focus):`);
+        console.log(`   - Rank 10: Exhibitors (highest priority)`);
+        console.log(`   - Rank 9: Restrooms, Toilets, Cafes, Food/Beverage`);
+        console.log(`   - Rank 8: Elevators, Stairs, POIs`);
+        console.log(`   - Rank 5: Drop Pin`);
+        console.log(`   - Rank 1: Rooms (lowest priority)`);
+
+        // Enhanced Data Validation & Testing
+        console.log(`\n🧪 Mappedin Data Validation:`);
+        console.log(`   - Amenity objects from API: ${amenities.length}`);
+        console.log(`   - Location objects: ${locations.length}`);
+        console.log(`   - Locations with categories: ${locations.filter(l => l.categories?.length).length}`);
+
+        if (amenities.length > 0) {
+          console.log(`\n🔍 Sample Amenity Data (first 3):`);
+          amenities.slice(0, 3).forEach(amenity => {
+            console.log(`   - Type: ${amenity.type || 'unknown'}, Name: ${amenity.name || 'N/A'}, ID: ${amenity.id}`);
+          });
+        }
+
+        if (categoryRestroomCount > 0) {
+          console.log(`\n🚻 Restroom Categories Found:`);
+          const restroomLocations = locations.filter(l =>
+            l.categories?.some(catId => restroomCategoryIds.includes(catId))
+          );
+          restroomLocations.slice(0, 3).forEach(loc => {
+            const restroomType = getRestroomType(loc.details?.name);
+            console.log(`   - Name: ${loc.details?.name || 'N/A'}, Type: ${restroomType}, Categories: ${loc.categories?.join(', ')}`);
+          });
+        }
+
+        // Test icon rendering
+        console.log(`\n✅ Lucide Icons Initialized: ${window.lucide ? 'YES' : 'NO'}`);
+        console.log(`   - Icon mapping complete for ${Object.keys(amenityIcons).length} amenity types`);
+        console.log(`   - Click handlers enabled on all amenity markers`);
+        console.log(`   - Accessible restrooms (green icons): ${categoryMarkers.restrooms.length > 0 ? 'Detected' : 'None found'}`);
+
+        // WebView & iframe compatibility check
+        console.log(`\n📱 Environment Check:`);
+        console.log(`   - User Agent: ${navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'}`);
+        console.log(`   - In iframe: ${window.self !== window.top}`);
+        console.log(`   - Touch events: ${('ontouchstart' in window) ? 'Supported' : 'Not supported'}`);
+        console.log(`   - Viewport width: ${window.innerWidth}px`);
       }
 
       // Exhibitor Markers with Nice Labels (using real location data)
@@ -585,10 +1222,10 @@
         exhibitors.forEach(location => {
           const labelText = `${location.details.externalId} - ${location.details.name}`;
 
-          // Add marker with enhanced styling
+          // Add marker with enhanced styling using Lucide icon
           const markerHTML = `
             <div style="
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
               color: white;
               padding: 10px 16px;
               border-radius: 20px;
@@ -599,8 +1236,11 @@
               white-space: nowrap;
               border: 2px solid rgba(255,255,255,0.3);
               transition: transform 0.2s;
+              display: flex;
+              align-items: center;
+              gap: 6px;
             " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-              <span style="font-size: 16px; margin-right: 6px;">📍</span>
+              <i data-lucide="map-pin" style="width:18px;height:18px;"></i>
               <span>${labelText}</span>
             </div>
           `;
@@ -611,10 +1251,8 @@
             interactive: true
           });
 
-          marker.addEventListener('click', (e) => {
-            e.stopPropagation();
-            showCardForLocation(location, true);
-          });
+          // Store exhibitor location with marker for click handling
+          marker._exhibitorLocation = location;
 
           exhibitorMarkers.push({ marker, location });
         });
@@ -632,7 +1270,7 @@
         allSpaces.forEach(space => {
           mapView.updateState(space, {
             interactive: true,
-            hoverColor: '#667eea',  // Purple hover effect
+            hoverColor: '#14b8a6',  // Purple hover effect
             color: space.externalId ? '#e0e0e0' : undefined  // Light gray for booths, default for others
           });
         });
@@ -644,7 +1282,7 @@
         allObjects.forEach(obj => {
           mapView.updateState(obj, {
             interactive: true,
-            hoverColor: '#667eea'
+            hoverColor: '#14b8a6'
           });
 
           // Add labels to objects with names (exhibitor objects rank 10 - highest priority)
@@ -653,8 +1291,10 @@
               interactive: false,
               rank: 10,  // Rank 10 for exhibitor objects (highest priority)
               appearance: {
-                textSize: 11,
-                color: '#333'
+                textSize: 14,
+                color: '#333',
+                textStrokeColor: 'rgba(255, 255, 255, 0.6)',
+                textStrokeWidth: 1.5
               }
             });
           }
@@ -667,12 +1307,12 @@
           if (event?.objects?.length > 0) {
             const obj = event.objects[0];
             status.textContent = `🏢 Hovering: ${obj.name || obj.type || 'Object'}`;
-            status.style.background = '#667eea';
+            status.style.background = '#14b8a6';
           } else if (event?.spaces?.length > 0) {
             const space = event.spaces[0];
             const displayName = space.name || space.externalId || 'Space';
             status.textContent = `🎯 Hovering: ${displayName}`;
-            status.style.background = '#667eea';
+            status.style.background = '#14b8a6';
           } else {
             status.textContent = '👆 Click any booth or object to see details';
             status.style.background = '#333';
@@ -681,9 +1321,24 @@
 
         // Handle click events with proper priority
         mapView.on('click', (event) => {
-          // Priority 1: Markers (custom UI - they have their own handlers)
+          // Priority 1: Markers (custom UI - amenities and exhibitors)
           if (event?.markers?.length > 0) {
-            return; // Let marker handle it
+            const marker = event.markers[0];
+
+            // Check if it's an amenity marker
+            if (marker._amenityData) {
+              const { amenity, amenityType, amenityName } = marker._amenityData;
+              showAmenityDetails(amenity, amenityType, amenityName);
+              return;
+            }
+
+            // Check if it's an exhibitor marker
+            if (marker._exhibitorLocation) {
+              showCardForLocation(marker._exhibitorLocation, true);
+              return;
+            }
+
+            return; // Unknown marker type
           }
 
           // Priority 2: Labels (specific annotations)
@@ -710,9 +1365,9 @@
             cardBooth.textContent = `Type: ${mapObject.type || 'Unknown'}`;
             cardBooth.style.display = 'inline-block';
             cardDescription.innerHTML = `
-              <p><strong>Object Type:</strong> ${mapObject.type || 'Unknown'}</p>
+              <p><strong>Type:</strong> ${mapObject.type || 'Unknown'}</p>
               <p><strong>ID:</strong> ${mapObject.id}</p>
-              <p>This is a 3D object in the venue. In a conference setting, this could be an exhibitor booth display, furniture, or equipment.</p>
+              ${mapObject.externalId ? `<p><strong>External ID:</strong> ${mapObject.externalId}</p>` : ''}
             `;
 
             // Show Directions button for objects
@@ -793,7 +1448,7 @@
                 <strong>🌍 ${exhibitor.country}</strong>
               </div>
               <p>${exhibitor.description}</p>
-              ${exhibitor.website ? `<p><a href="${exhibitor.website}" target="_blank" style="color: #667eea;">🌐 Visit Website</a></p>` : ''}
+              ${exhibitor.website ? `<p><a href="${exhibitor.website}" target="_blank" style="color: #14b8a6;">🌐 Visit Website</a></p>` : ''}
               ${exhibitor.documents ? `<p>📄 Documents: ${exhibitor.documents.join(', ')}</p>` : ''}
             `;
           } else {
@@ -803,11 +1458,11 @@
             cardBooth.textContent = `📍 ${exhibitors.length} Companies`;
             cardBooth.style.display = 'inline-block';
             cardDescription.innerHTML = exhibitors.map(ex => `
-              <div style="margin: 16px 0; padding: 12px; border-left: 3px solid #667eea; background: rgba(102, 126, 234, 0.05);">
+              <div style="margin: 16px 0; padding: 12px; border-left: 3px solid #14b8a6; background: rgba(20, 184, 166, 0.05);">
                 <strong style="font-size: 16px;">${ex.name}</strong>
                 <div style="margin: 4px 0; color: #666;">🌍 ${ex.country}</div>
                 <p style="margin: 8px 0;">${ex.description}</p>
-                ${ex.website ? `<a href="${ex.website}" target="_blank" style="color: #667eea;">🌐 Visit Website</a>` : ''}
+                ${ex.website ? `<a href="${ex.website}" target="_blank" style="color: #14b8a6;">🌐 Visit Website</a>` : ''}
               </div>
             `).join('');
           }
@@ -875,7 +1530,7 @@
           const status = document.getElementById('status');
 
           status.textContent = '👆 Tap on the map to set your starting location';
-          status.style.background = '#667eea';
+          status.style.background = '#14b8a6';
           status.style.display = 'block';
 
           const selectFromLocation = (event) => {
@@ -885,7 +1540,7 @@
 
               // Auto-trigger directions once both locations are set
               status.textContent = '🧭 Calculating route...';
-              status.style.background = '#667eea';
+              status.style.background = '#14b8a6';
 
               // Trigger directions automatically
               setTimeout(() => {
@@ -920,7 +1575,7 @@
             }).catch(err => {
               // Fallback - show URL
               status.textContent = `📋 Share: ${shareText}`;
-              status.style.background = '#667eea';
+              status.style.background = '#14b8a6';
               status.style.display = 'block';
               setTimeout(() => status.style.display = 'none', 5000);
             });
@@ -997,22 +1652,21 @@
         const accessModeIcon = accessibleMode ? '♿' : '🚶';
         const accessModeText = accessibleMode ? 'Accessible Route' : 'Standard Route';
 
-        // Connection type icons
+        // Connection type icons - using Lucide inline icons
         const connectionIcons = {
-          'elevator': '🛗',
-          'escalator': '🔼',
-          'stairs': '🪜',
-          'ramp': '↗️',
-          'door': '🚪',
-          'portal': '🌀',
-          'shuttle': '🚐',
-          'slide': '🛝',
-          'security': '🔒'
+          'elevator': '<i data-lucide="move-vertical" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'escalator': '<i data-lucide="chevrons-up" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'stairs': '<i data-lucide="arrow-up" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'ramp': '<i data-lucide="trending-up" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'door': '<i data-lucide="door-open" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'portal': '<i data-lucide="circle-dot" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'shuttle': '<i data-lucide="bus" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>',
+          'security': '<i data-lucide="shield" style="width:16px;height:16px;display:inline-block;vertical-align:middle;"></i>'
         };
 
         let instructionsHTML = `
-          <div style="border-top: 2px solid #667eea; padding-top: 12px; margin-top: 12px;">
-            <h4 style="margin: 0 0 12px 0; color: #667eea;">
+          <div style="border-top: 2px solid #14b8a6; padding-top: 12px; margin-top: 12px;">
+            <h4 style="margin: 0 0 12px 0; color: #14b8a6;">
               ${accessModeIcon} ${accessModeText}
             </h4>
             <div style="margin-bottom: 12px;">
@@ -1047,7 +1701,7 @@
               <li style="margin: 8px 0; line-height: 1.4;">
                 ${iconPrefix} <strong>${action}</strong>
                 ${distance > 0 ? `<br><span style="color: #666; font-size: 12px;">→ ${distance}m ahead</span>` : ''}
-                ${connection ? `<br><span style="color: #667eea; font-size: 12px;">→ Use ${connection.type}</span>` : ''}
+                ${connection ? `<br><span style="color: #14b8a6; font-size: 12px;">→ Use ${connection.type}</span>` : ''}
               </li>
             `;
           });
@@ -1074,7 +1728,7 @@
         try {
           const accessModeText = accessibleMode ? '♿ accessible' : 'standard';
           status.textContent = `🧭 Calculating ${accessModeText} route to ${destination.name || destination.externalId}...`;
-          status.style.background = '#667eea';
+          status.style.background = '#14b8a6';
           status.style.display = 'block';
 
           // For POC: Use first entrance of a random nearby space as starting point
@@ -1147,7 +1801,39 @@
       function setupDropPin() {
         let dropPinMode = false;
         let dropPinMarker = null;
+        const pinIndicator = document.getElementById('pinIndicator');
 
+        // Zoom controls
+        const zoomInBtn = document.getElementById('zoomInBtn');
+        const zoomOutBtn = document.getElementById('zoomOutBtn');
+
+        if (zoomInBtn) {
+          zoomInBtn.addEventListener('click', () => {
+            const currentZoom = mapView.Camera.zoom;
+            mapView.Camera.set({ zoom: currentZoom * 1.3, animationDuration: 300 });
+          });
+        }
+
+        if (zoomOutBtn) {
+          zoomOutBtn.addEventListener('click', () => {
+            const currentZoom = mapView.Camera.zoom;
+            mapView.Camera.set({ zoom: currentZoom * 0.77, animationDuration: 300 });
+          });
+        }
+
+        // Compact drop pin button handler (new compact modal)
+        const compactDropBtn = document.getElementById('dropPinBtnCompact');
+        if (compactDropBtn) {
+          compactDropBtn.addEventListener('click', () => {
+            dropPinMode = !dropPinMode;
+            compactDropBtn.classList.toggle('active', dropPinMode);
+            status.textContent = dropPinMode ? '🪂 Click map to drop pin!' : 'Drop pin disabled';
+            status.style.display = 'block';
+            if (!dropPinMode) setTimeout(() => status.style.display = 'none', 2000);
+          });
+        }
+
+        // Original drop pin button handler
         document.getElementById('dropPinBtn').addEventListener('click', () => {
           dropPinMode = !dropPinMode;
           document.getElementById('dropPinBtn').classList.toggle('active', dropPinMode);
@@ -1165,6 +1851,13 @@
             dropPinMarker = mapView.Markers.add(event.coordinate, pinHTML, { anchor: 'bottom', rank: 5 });
             dropPinMode = false;
             document.getElementById('dropPinBtn').classList.remove('active');
+            if (compactDropBtn) compactDropBtn.classList.remove('active');
+
+            // Show pin indicator in compact modal
+            if (pinIndicator) {
+              pinIndicator.classList.add('active');
+            }
+
             status.textContent = '📍 Pin dropped!';
             setTimeout(() => status.style.display = 'none', 2000);
           }
@@ -1201,6 +1894,24 @@
           }
         }
 
+        // Compact toggle button handler (new compact modal)
+        const compactToggle = document.getElementById('accessibilityToggleCompact');
+        if (compactToggle) {
+          compactToggle.addEventListener('click', () => {
+            updateAccessibleState(!accessibleMode);
+            compactToggle.classList.toggle('active', accessibleMode);
+
+            if (accessibleMode) {
+              status.textContent = '♿ Accessible mode: ON (prefers elevators)';
+              console.log('♿ Accessible navigation enabled');
+            } else {
+              status.textContent = '🚶 Accessible mode: OFF (all routes)';
+            }
+            status.style.display = 'block';
+            setTimeout(() => status.style.display = 'none', 2000);
+          });
+        }
+
         // Main toggle button handler
         toggle.addEventListener('click', () => {
           updateAccessibleState(!accessibleMode);
@@ -1213,7 +1924,7 @@
             console.log('🚶 Standard navigation enabled');
           }
 
-          status.style.background = '#667eea';
+          status.style.background = '#14b8a6';
           status.style.display = 'block';
           setTimeout(() => status.style.display = 'none', 2000);
         });
@@ -1269,18 +1980,7 @@
         console.log('✅ Modular search initialized (debounced 200ms, Enter key support, booth numbers enabled)');
       }
 
-      // Setup floor and zoom controls
-      function setupFloorZoomControls() {
-        const floorZoomControls = new FloorZoomControls(mapData, mapView, {
-          position: 'top-left',
-          showFloorSelector: true,
-          showZoomControls: true
-        });
-
-        floorZoomControls.init();
-
-        console.log('✅ Floor and zoom controls initialized');
-      }
+      // Floor and zoom controls removed - using inline floor selector and compact modal zoom buttons instead
 
       // NOTE: Search suggestion and selection logic now handled by search-module.js
       // The MappedInSearch and SearchUIManager classes provide:
@@ -1301,7 +2001,7 @@
       document.getElementById('fromPinIcon')?.addEventListener('click', () => {
         const navFromInput = document.getElementById('navFromInput');
         status.textContent = '📍 Click on map to set starting location';
-        status.style.background = '#667eea';
+        status.style.background = '#14b8a6';
         status.style.display = 'block';
 
         // Enable one-time click to set from location
@@ -1415,10 +2115,10 @@
             pathOptions: {
               nearRadius: 1.5,
               farRadius: 0.8,
-              color: '#667eea'
+              color: '#14b8a6'
             },
             animatedPathOptions: {
-              color: '#667eea',
+              color: '#14b8a6',
               animationDuration: 2000
             }
           });
@@ -1428,7 +2128,7 @@
           const cardDescription = document.getElementById('cardDescription');
           const cardPrimaryActions = document.getElementById('cardPrimaryActions');
 
-          exhibitorCard.classList.add('compact');
+          // Just hide content, let responsive CSS handle sizing
           cardDescription.style.display = 'none';
           cardPrimaryActions.style.display = 'none';
 
@@ -1477,10 +2177,6 @@
         mapView.Navigation.clear();
         document.getElementById('clearPathBtn').style.display = 'none';
         document.getElementById('turnByTurnSection').style.display = 'none';
-
-        // Restore card to full size
-        const exhibitorCard = document.getElementById('exhibitorCard');
-        exhibitorCard.classList.remove('compact');
 
         // Restore Directions button and description visibility
         document.getElementById('directionsBtn').style.display = 'flex';
@@ -1629,25 +2325,32 @@
 
       // Close card
       document.getElementById('closeCard')?.addEventListener('click', () => {
-        document.getElementById('exhibitorCard').classList.remove('show');
+        const exhibitorCard = document.getElementById('exhibitorCard');
+        exhibitorCard.classList.remove('show');
         document.getElementById('navigationPanel').style.display = 'none';
 
         // Restore Directions button and description visibility
-        document.getElementById('directionsBtn').style.display = 'flex';
+        const directionsBtn = document.getElementById('directionsBtn');
+        if (directionsBtn) directionsBtn.style.display = 'flex';
+
         const cardDescription = document.getElementById('cardDescription');
         const cardTitle = document.getElementById('cardTitle');
 
-        cardDescription.style.display = 'block';
+        if (cardDescription) cardDescription.style.display = 'block';
 
         // Restore original title and description if they were modified
-        if (cardTitle.dataset.originalContent) {
+        if (cardTitle && cardTitle.dataset.originalContent) {
           cardTitle.textContent = cardTitle.dataset.originalContent;
           delete cardTitle.dataset.originalContent;
         }
-        if (cardDescription.dataset.originalContent) {
+        if (cardDescription && cardDescription.dataset.originalContent) {
           cardDescription.innerHTML = cardDescription.dataset.originalContent;
           delete cardDescription.dataset.originalContent;
         }
+
+        // Clear search input
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) searchInput.value = '';
       });
     });
   </script>
@@ -1708,16 +2411,23 @@
       position: absolute;
       top: 16px;
       left: 16px;
+      right: 16px;
       z-index: 100;
-      max-width: 360px;
-      width: calc(100% - 190px); /* Leave space for floor controls on right */
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .search-input-wrapper {
+      flex: 1;
+      position: relative;
     }
 
     #searchInput {
       width: 100%;
       padding: 12px 16px;
       border: none;
-      border-radius: 24px;
+      border-radius: 12px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.2);
       font-size: 14px;
       outline: none;
@@ -1788,82 +2498,161 @@
       background: rgba(0,0,0,0.85);
       color: white;
       padding: 12px 24px;
-      border-radius: 24px;
+      border-radius: 12px;
       z-index: 100;
       font-size: 14px;
     }
 
-    /* Right Controls */
+    /* Right Controls - Hidden on new layout */
     .controls {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      z-index: 100;
-    }
-
-    /* Floor Selector */
-    .floor-selector {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-      padding: 12px;
-      min-width: 150px;
       display: none;
     }
 
+    /* Floor Selector - Inline with search */
+    .floor-selector {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2); /* Match search bar shadow */
+      padding: 12px 12px; /* Match search bar padding height */
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      height: 44px; /* Match search input height */
+      box-sizing: border-box;
+    }
+
     .floor-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: #666;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      display: none; /* Hide floor label */
     }
 
     .floor-selector select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #e0e0e0;
-      border-radius: 6px;
-      font-size: 13px;
-      outline: none;
+      border: none;
+      background: transparent; /* Remove background for cleaner look */
+      border-radius: 0;
+      padding: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a1a;
       cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s ease;
+      outline: none;
+      min-width: 60px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    /* Control Group */
-    .control-group {
+    .floor-selector select:hover {
+      color: #14b8a6;
+    }
+
+    .floor-selector select:focus {
+      color: #14b8a6;
+    }
+
+    .floor-icon {
+      font-size: 18px;
+      line-height: 1;
+      opacity: 0.8;
+      flex-shrink: 0;
+    }
+
+    /* New Compact Modal - Lower on screen */
+    .compact-modal {
+      position: fixed;
+      bottom: 150px;
+      right: 12px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-      padding: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+      padding: 8px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 48px;
+    }
+
+    .compact-btn {
+      width: 44px;
+      height: 44px;
+      border: none;
+      background: #f3f3f5;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      color: #666;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      position: relative;
+    }
+
+    .compact-btn:hover {
+      background: #e9e9ee;
+    }
+
+    .compact-btn.active {
+      background: #14b8a6;
+      color: white;
+    }
+
+    .compact-btn.active:hover {
+      background: #0d9488;
+    }
+
+    .pin-indicator {
+      width: 44px;
+      height: 44px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: #14b8a6;
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.2;
+      padding: 4px;
+    }
+
+    .pin-indicator.active {
+      display: flex;
+    }
+
+    /* Control Group - Hidden */
+    .control-group {
+      display: none;
     }
 
     .control-title {
-      font-size: 11px;
-      font-weight: 600;
-      color: #666;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      display: none;
     }
 
     .toggle-btn {
       width: 100%;
-      padding: 12px 14px;
-      min-height: 44px;
+      padding: 8px 10px;
+      min-height: 40px;
       border: none;
       border-radius: 8px;
       background: #f0f0f0;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: #333;
       transition: all 0.2s;
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 6px;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
     }
@@ -1878,13 +2667,13 @@
     }
 
     .toggle-btn.active {
-      background: #667eea;
+      background: #14b8a6;
       color: white;
     }
 
     .toggle-btn.active:hover,
     .toggle-btn.active:active {
-      background: #5568d3;
+      background: #0d9488;
     }
 
     /* Floating Toggle Buttons */
@@ -1914,18 +2703,18 @@
     .floating-toggle:active {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-      border-color: #667eea;
+      border-color: #14b8a6;
     }
 
     .floating-toggle.active {
-      background: #667eea;
+      background: #14b8a6;
       color: white;
-      border-color: #667eea;
+      border-color: #14b8a6;
     }
 
     .floating-toggle.active:hover,
     .floating-toggle.active:active {
-      background: #5568d3;
+      background: #0d9488;
     }
 
     /* Better touch feedback */
@@ -1949,10 +2738,6 @@
       padding: 16px;
       z-index: 200;
       transition: transform 0.3s ease-out, padding 0.3s ease-out;
-    }
-
-    #exhibitorCard.compact {
-      padding: 12px;
     }
 
     #exhibitorCard.show {
@@ -1982,7 +2767,7 @@
 
     .card-booth {
       display: inline-block;
-      background: #667eea;
+      background: #14b8a6;
       color: white;
       padding: 4px 12px;
       border-radius: 12px;
@@ -2057,7 +2842,7 @@
     }
 
     .action-btn.primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
       color: white;
     }
 
@@ -2096,13 +2881,13 @@
 
     .action-btn-wide.outline {
       background: transparent;
-      border: 2px solid #667eea;
-      color: #667eea;
+      border: 2px solid #14b8a6;
+      color: #14b8a6;
     }
 
     .action-btn-wide.outline:hover,
     .action-btn-wide.outline:active {
-      background: #667eea;
+      background: #14b8a6;
       color: white;
       transform: translateY(-2px);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
@@ -2144,11 +2929,14 @@
     /* Mobile Responsive Styles */
     @media (max-width: 768px) {
       .search-container {
-        top: 70px; /* Move below floor selector on mobile */
+        top: 12px;
         left: 12px;
         right: 12px;
-        width: auto;
-        max-width: none;
+        gap: 8px;
+      }
+
+      .search-input-wrapper {
+        flex: 1;
       }
 
       #searchInput {
@@ -2157,25 +2945,62 @@
         font-size: 14px;
       }
 
+      .floor-selector {
+        padding: 10px;
+        height: 44px;
+      }
+
+      .floor-icon {
+        display: none; /* Hide icon on mobile */
+      }
+
+      .floor-selector select {
+        min-width: 80px;
+      }
+
+      .compact-modal {
+        bottom: 140px;
+        right: 12px;
+      }
+
+      .compact-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .pin-indicator {
+        width: 40px;
+        height: 40px;
+        font-size: 10px;
+      }
+
       #exhibitorCard {
-        bottom: 80px; /* Move above bottom nav buttons */
-        width: calc(100% - 24px);
-        max-width: none;
-        padding: 14px;
+        bottom: 100px; /* Lower on mobile */
+        width: calc(100% - 32px);
+        max-width: 380px; /* Scale down - more compact */
+        padding: 12px;
         border-radius: 10px;
       }
 
-      #exhibitorCard.compact {
-        padding: 10px;
+      #exhibitorCard.show {
+        transform: translateX(-50%) translateY(0);
       }
 
       .card-title {
-        font-size: 15px;
+        font-size: 14px;
+      }
+
+      .card-subtitle {
+        font-size: 12px;
       }
 
       .card-booth {
         font-size: 11px;
         padding: 3px 8px;
+      }
+
+      .card-description {
+        font-size: 13px;
       }
 
       #navigationPanel {
@@ -2186,46 +3011,74 @@
         padding: 10px 14px;
         font-size: 13px;
       }
-
-      .controls {
-        right: 12px;
-        top: 12px;
-      }
-
-      .floor-selector select {
-        font-size: 13px;
-        padding: 6px 10px;
-      }
-
-      .toggle-btn {
-        font-size: 13px;
-        padding: 8px 12px;
-      }
     }
 
     /* iPhone and small mobile devices */
     @media (max-width: 390px) {
       .search-container {
-        top: 68px; /* Move below floor selector */
+        top: 10px;
         left: 10px;
-        right: 10px;
-        width: auto;
+        right: 10px; /* Full width for flex layout */
+        gap: 6px;
       }
 
       #searchInput {
         font-size: 13px;
+        padding: 10px 10px 10px 42px;
       }
 
       #exhibitorCard {
-        bottom: 75px; /* Move above bottom nav */
-        width: calc(100% - 20px);
-        padding: 12px;
+        bottom: 90px; /* Lower on small mobile */
+        width: calc(100% - 24px);
+        max-width: 350px;
+        padding: 11px;
+      }
+
+      #exhibitorCard.show {
+        transform: translateX(-50%) translateY(0);
       }
 
       .card-title {
         font-size: 14px;
       }
 
+      /* Floor selector inline - compact on small screens */
+      .floor-selector {
+        padding: 5px 8px;
+        gap: 4px;
+      }
+
+      .floor-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+      }
+
+      .floor-current {
+        font-size: 11px;
+        padding: 3px 6px;
+        min-width: 40px;
+      }
+
+      /* Compact modal */
+      .compact-modal {
+        bottom: 130px;
+        right: 10px;
+        padding: 6px;
+        gap: 5px;
+      }
+
+      .compact-btn {
+        width: 42px;
+        height: 42px;
+      }
+
+      .pin-indicator {
+        width: 42px;
+        height: 42px;
+      }
+
+      /* Floating filter buttons */
       .floating-toggle {
         padding: 8px 12px;
       }
@@ -2244,14 +3097,23 @@
 <body>
   <div id="mappedin-map"></div>
 
-  <!-- Search Bar - Always Visible -->
+  <!-- Top Row: Search Bar + Floor Selector -->
   <div class="search-container">
-    <div style="position: relative;">
+    <!-- Search Input -->
+    <div class="search-input-wrapper">
       <i data-lucide="search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #999;"></i>
-      <input type="text" id="searchInput" placeholder="Search exhibitors or booth number..." style="padding-left: 44px;">
+      <input type="text" id="searchInput" placeholder="Search exhibitors..." style="padding-left: 44px;">
 
       <!-- Search Suggestions Dropdown -->
       <div id="searchSuggestions" class="search-suggestions"></div>
+    </div>
+
+    <!-- Floor Selector - Inline -->
+    <div class="floor-selector" id="floorSelectorContainer">
+      <i data-lucide="layers" class="floor-icon"></i>
+      <select id="floorSelect">
+        <option>Loading...</option>
+      </select>
     </div>
   </div>
 
@@ -2259,14 +3121,6 @@
 
   <!-- Right Side Controls -->
   <div class="controls">
-    <!-- Floor Selector -->
-    <div class="floor-selector" id="floorSelectorContainer">
-      <div class="floor-label">Floor</div>
-      <select id="floorSelect">
-        <option>Loading...</option>
-      </select>
-    </div>
-
     <!-- Controls Group -->
     <div class="control-group">
       <div class="control-title">Controls</div>
@@ -2292,6 +3146,34 @@
         <i data-lucide="store" style="width: 32px; height: 32px;"></i>
       </button>
     </div>
+  </div>
+
+  <!-- Compact Modal - Lower right -->
+  <div class="compact-modal">
+    <!-- Zoom In Button -->
+    <button class="compact-btn" id="zoomInBtn" title="Zoom in">
+      <i data-lucide="plus" style="width: 22px; height: 22px;"></i>
+    </button>
+
+    <!-- Zoom Out Button -->
+    <button class="compact-btn" id="zoomOutBtn" title="Zoom out">
+      <i data-lucide="minus" style="width: 22px; height: 22px;"></i>
+    </button>
+
+    <!-- Accessible Toggle -->
+    <button class="compact-btn active" id="accessibilityToggleCompact" title="Accessible mode (elevators/ramps)">
+      <i data-lucide="accessibility" style="width: 22px; height: 22px;"></i>
+    </button>
+
+    <!-- Pin Location Indicator -->
+    <div class="pin-indicator" id="pinIndicator">
+      <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
+    </div>
+
+    <!-- Drop Pin Button -->
+    <button class="compact-btn" id="dropPinBtnCompact" title="Drop pin on map">
+      <i data-lucide="map-pin" style="width: 22px; height: 22px;"></i>
+    </button>
   </div>
 
   <!-- Exhibitor Card -->
@@ -2330,7 +3212,7 @@
         <div style="position: relative;">
           <i data-lucide="search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #999;"></i>
           <input type="text" id="navFromInput" placeholder="Search location or drop pin..." style="width: 100%; padding: 10px 36px 10px 36px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px;">
-          <i data-lucide="map-pin" id="fromPinIcon" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #667eea; cursor: pointer;" title="Drop pin on map"></i>
+          <i data-lucide="map-pin" id="fromPinIcon" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #14b8a6; cursor: pointer;" title="Drop pin on map"></i>
         </div>
       </div>
 
@@ -2338,7 +3220,7 @@
       <div style="margin-bottom: 10px; padding: 8px 10px; background: white; border-radius: 6px; border: 1px solid #ddd;">
         <label style="display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;">
           <div style="display: flex; align-items: center; gap: 6px;">
-            <i data-lucide="accessibility" style="width: 16px; height: 16px; color: #667eea;"></i>
+            <i data-lucide="accessibility" style="width: 16px; height: 16px; color: #14b8a6;"></i>
             <span style="font-size: 13px; color: #333;">Accessible Route</span>
           </div>
           <input type="checkbox" id="navAccessibleToggle" checked style="width: 16px; height: 16px; cursor: pointer;">
@@ -2421,7 +3303,7 @@
       font-family: Inter, system-ui, -apple-system, sans-serif;
       font-size: 13px;
       font-weight: 600;
-      color: #667eea;
+      color: #14b8a6;
       text-decoration: none;
 
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2430,7 +3312,7 @@
 
     .version-switcher:hover {
       background: rgba(102, 126, 234, 0.1);
-      border-color: #667eea;
+      border-color: #14b8a6;
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(102, 126, 234, 0.2);
     }
@@ -2444,12 +3326,12 @@
       .version-switcher {
         background: rgba(28, 28, 30, 0.95);
         border-color: #38383a;
-        color: #5a8eef;
+        color: #2dd4bf;
       }
 
       .version-switcher:hover {
         background: rgba(90, 142, 239, 0.1);
-        border-color: #5a8eef;
+        border-color: #2dd4bf;
         box-shadow: 0 6px 16px rgba(90, 142, 239, 0.2);
       }
     }
@@ -2472,6 +3354,89 @@
       }
     }
   </style>
+
+  <!-- Developer Debug Panel -->
+  <div id="devDebugPanel" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    max-height: 600px;
+    background: rgba(0, 0, 0, 0.95);
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    border: 2px solid #00ff00;
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 10000;
+    display: none;
+    overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.3);
+  ">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #00ff00; padding-bottom: 8px;">
+      <h3 style="margin: 0; color: #00ff00; font-size: 14px;">🛠️ DEV TOOLS</h3>
+      <button id="devPanelClose" style="
+        background: none;
+        border: 1px solid #00ff00;
+        color: #00ff00;
+        cursor: pointer;
+        padding: 2px 8px;
+        border-radius: 4px;
+      ">✕</button>
+    </div>
+
+    <div id="devStats" style="margin-bottom: 12px;">
+      <div style="color: #ffff00; font-weight: bold; margin-bottom: 4px;">📊 REAL-TIME STATS</div>
+      <div id="devZoom">Zoom: <span style="color: #00ffff;">--</span></div>
+      <div id="devExhibitors">Exhibitors: <span style="color: #00ffff;">0</span></div>
+      <div id="devAmenities">Amenities: <span style="color: #00ffff;">0</span></div>
+      <div id="devRestrooms">Restrooms: <span style="color: #00ffff;">0</span></div>
+      <div id="devRooms">Rooms: <span style="color: #00ffff;">0</span></div>
+      <div id="devFloor">Floor: <span style="color: #00ffff;">--</span></div>
+    </div>
+
+    <div id="devLastClick" style="margin-bottom: 12px; padding: 8px; background: rgba(0, 255, 0, 0.1); border-radius: 4px;">
+      <div style="color: #ffff00; font-weight: bold; margin-bottom: 4px;">🖱️ LAST CLICK</div>
+      <div id="devClickInfo" style="color: #00ffff; word-wrap: break-word;">None</div>
+    </div>
+
+    <div id="devEnvironment" style="margin-bottom: 12px;">
+      <div style="color: #ffff00; font-weight: bold; margin-bottom: 4px;">🌍 ENVIRONMENT</div>
+      <div id="devViewport">Viewport: <span style="color: #00ffff;">--</span></div>
+      <div id="devIframe">In iframe: <span style="color: #00ffff;">--</span></div>
+      <div id="devTouch">Touch: <span style="color: #00ffff;">--</span></div>
+      <div id="devLucide">Lucide: <span style="color: #00ffff;">--</span></div>
+    </div>
+
+    <div id="devConsole" style="max-height: 200px; overflow-y: auto; padding: 8px; background: rgba(0, 0, 0, 0.5); border: 1px solid #00ff00; border-radius: 4px;">
+      <div style="color: #ffff00; font-weight: bold; margin-bottom: 4px;">📝 ACTIVITY LOG</div>
+      <div id="devLogContent" style="color: #00ffff; font-size: 10px;"></div>
+    </div>
+  </div>
+
+  <!-- Debug Panel Toggle Button -->
+  <button id="devDebugToggle" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #00ff00;
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 2px 10px rgba(0, 255, 0, 0.5);
+    transition: transform 0.2s, background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  " onmouseover="this.style.transform='scale(1.1)'; this.style.background='rgba(0, 255, 0, 0.2)';" onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(0, 0, 0, 0.8)';">
+    <i data-lucide="bug" style="width: 24px; height: 24px;"></i>
+  </button>
 
   <!-- Initialize Lucide Icons -->
   <script>

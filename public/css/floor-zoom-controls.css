@@ -118,7 +118,7 @@
 }
 
 .zoom-btn:hover {
-  background: #6a9cff;
+  background: #14b8a6;
   color: white;
   transform: scale(1.05);
 }
@@ -208,7 +208,7 @@
   }
 
   .zoom-btn:hover {
-    background: #5a8eef;
+    background: #2dd4bf;
     color: white;
   }
 }
