@@ -49,15 +49,22 @@ Visit `http://YOUR_IP:5173/mappedin-conference-poc/` from any device on your net
 
 ```
 mappedin-conference-poc/
-├── index.html                # Main application (production-ready)
+├── index.html                      # Main application (production-ready)
 ├── public/
-│   └── js/search-module.js   # Modular search system
-├── vite.config.js            # Vite configuration for GitHub Pages
-├── netlify.toml              # Netlify deployment config
-├── README.md                 # This file
-├── PROJECT.md                # Detailed project documentation
-├── SEARCH_MODULE_GUIDE.md    # Search system documentation
-└── archive/                  # Old docs & incomplete code (not deployed)
+│   ├── js/
+│   │   ├── search-module.js        # Modular search system
+│   │   ├── floor-zoom-controls.js  # Floor and zoom controls
+│   │   └── directions-card.js      # Directions card component
+│   └── css/                        # Component styles
+├── vite.config.ts                  # Vite configuration
+├── netlify.toml                    # Netlify deployment config
+├── README.md                       # This file
+├── PROJECT.md                      # Detailed project documentation
+├── SEARCH_MODULE_GUIDE.md          # Search system documentation
+├── DIRECTIONS_CARD_GUIDE.md        # Directions component guide
+├── FLOOR_ZOOM_CONTROLS_GUIDE.md    # Floor/zoom controls guide
+├── EXHIBITOR_SYSTEM_GUIDE.md       # Exhibitor system guide
+└── LABEL_VISIBILITY_GUIDE.md       # Label visibility system guide
 ```
 
 ## How to Use

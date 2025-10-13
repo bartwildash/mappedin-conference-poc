@@ -1297,8 +1297,40 @@
                 textStrokeWidth: 1.5
               }
             });
+
+            // Add small icon marker for exhibitor objects (replaces default black dot)
+            const iconMarkerHTML = `
+              <div style="
+                background: #667eea;
+                color: white;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 6px rgba(102, 126, 234, 0.4);
+                border: 2px solid white;
+              ">
+                <i data-lucide="store" style="width:10px;height:10px;stroke-width:3;"></i>
+              </div>
+            `;
+
+            const iconMarker = mapView.Markers.add(obj, iconMarkerHTML, {
+              anchor: 'center',
+              rank: 10,
+              interactive: false
+            });
           }
         });
+
+        // Initialize Lucide icons for object markers
+        setTimeout(() => {
+          if (window.lucide) {
+            lucide.createIcons();
+            console.log('🎨 Lucide icons initialized for exhibitor object markers');
+          }
+        }, 100);
 
         // Handle hover events for preview
         mapView.on('hover', (event) => {
@@ -1607,19 +1639,72 @@
         const exhibitorCard = document.getElementById('exhibitorCard');
 
         // Display exhibitor info from location
-        cardTitle.textContent = location.details.name;
+        cardTitle.textContent = location.details.name || location.name || 'Exhibitor';
 
         // Show booth number as subtitle
-        if (location.details.externalId) {
-          cardSubtitle.textContent = `Booth ${location.details.externalId}`;
+        if (location.details.externalId || location.externalId) {
+          const boothNum = location.details.externalId || location.externalId;
+          cardSubtitle.textContent = `Booth ${boothNum}`;
           cardSubtitle.style.display = 'block';
+          cardBooth.textContent = `📍 Booth ${boothNum}`;
+          cardBooth.style.display = 'inline-block';
         } else {
           cardSubtitle.style.display = 'none';
+          cardBooth.style.display = 'none';
         }
 
-        cardBooth.textContent = `📍 Booth ${location.details.externalId}`;
-        cardBooth.style.display = 'inline-block';
-        cardDescription.innerHTML = `<p>Exhibitor at booth ${location.details.externalId}</p>`;
+        // Build rich description with all available details
+        let descriptionHTML = '';
+
+        // Add image if available
+        if (location.logo || location.image || location.details?.logo || location.details?.image) {
+          const imageUrl = location.logo || location.image || location.details?.logo || location.details?.image;
+          descriptionHTML += `
+            <div style="margin-bottom: 12px;">
+              <img src="${imageUrl}" alt="${location.details.name}"
+                   style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+            </div>
+          `;
+        }
+
+        // Add description if available
+        if (location.description || location.details?.description) {
+          const desc = location.description || location.details?.description;
+          descriptionHTML += `<p style="margin-bottom: 12px; line-height: 1.5;">${desc}</p>`;
+        } else {
+          descriptionHTML += `<p style="margin-bottom: 12px;">Exhibitor at booth ${location.details.externalId || location.externalId}</p>`;
+        }
+
+        // Add website link if available
+        if (location.website || location.details?.website || location.url || location.details?.url) {
+          const websiteUrl = location.website || location.details?.website || location.url || location.details?.url;
+          descriptionHTML += `
+            <div style="margin-top: 12px;">
+              <a href="${websiteUrl}" target="_blank" rel="noopener noreferrer"
+                 style="display: inline-flex; align-items: center; gap: 6px; color: #667eea; text-decoration: none; font-weight: 600;">
+                <i data-lucide="external-link" style="width:16px;height:16px;"></i>
+                Visit Website
+              </a>
+            </div>
+          `;
+        }
+
+        // Add external ID as metadata if available
+        if (location.details?.externalId || location.externalId) {
+          const extId = location.details?.externalId || location.externalId;
+          descriptionHTML += `
+            <div style="margin-top: 12px; padding: 8px; background: #f5f5f5; border-radius: 6px; font-size: 12px; color: #666;">
+              <strong>ID:</strong> ${extId}
+            </div>
+          `;
+        }
+
+        cardDescription.innerHTML = descriptionHTML;
+
+        // Re-initialize Lucide icons for any new icons in description
+        setTimeout(() => {
+          if (window.lucide) lucide.createIcons();
+        }, 0);
 
         // Show action buttons
         const cardPrimaryActions = document.getElementById('cardPrimaryActions');
