@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mappedin Simple Search Test</title>
+
+  <script type="module">
+    import { getMapData, show3dMap } from '@mappedin/mappedin-js';
+    import '@mappedin/mappedin-js/lib/index.css';
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      console.log('🚀 Starting simple search test...');
+
+      let mapView, mapData;
+
+      try {
+        // Load map data
+        mapData = await getMapData({
+          mapId: '688ea50e362b1d000ba0822b',
+          key: 'mik_iND9Ra87M1Ca4DD444be4063d',
+          secret: 'mis_esa0RDim6GGkbO2f7m6jNca0ADvFcZc8IzigafkC2dq85341024',
+          search: { enabled: true }
+        });
+
+        console.log('✅ Map data loaded');
+        console.log('Search available:', mapData.Search ? 'YES' : 'NO');
+
+        // Initialize map view
+        mapView = await show3dMap(
+          document.getElementById('mappedin-map'),
+          mapData
+        );
+
+        console.log('✅ Map view initialized');
+
+        // Simple inline search implementation
+        const searchInput = document.getElementById('searchInput');
+        const suggestions = document.getElementById('suggestions');
+        let searchTimeout = null;
+
+        searchInput.addEventListener('input', async (e) => {
+          const query = e.target.value.trim();
+          console.log('🔍 Searching for:', query);
+
+          clearTimeout(searchTimeout);
+
+          if (query.length < 2) {
+            suggestions.style.display = 'none';
+            suggestions.innerHTML = '';
+            return;
+          }
+
+          // Debounce search
+          searchTimeout = setTimeout(async () => {
+            try {
+              console.log('📊 Calling mapData.Search.query()...');
+
+              // Use Mappedin Search API
+              const results = await mapData.Search.query(query, {
+                enterpriseLocations: { limit: 5 },
+                places: { limit: 5 }
+              });
+
+              console.log('✅ Search results:', results);
+
+              // Display results
+              let html = '';
+              let allResults = [];
+
+              // Combine results
+              if (results.enterpriseLocations) {
+                allResults = [...allResults, ...results.enterpriseLocations.map(r => ({
+                  name: r.item.name,
+                  type: 'Location',
+                  node: r.item
+                }))];
+              }
+
+              if (results.places) {
+                allResults = [...allResults, ...results.places.map(r => ({
+                  name: r.item.name,
+                  type: 'Place',
+                  node: r.item
+                }))];
+              }
+
+              // Build HTML
+              allResults.forEach(result => {
+                html += `
+                  <div class="suggestion-item" data-node='${JSON.stringify({id: result.node.id, type: result.type})}'>
+                    <strong>${result.name}</strong>
+                    <span style="color: #666; font-size: 12px; margin-left: 8px;">${result.type}</span>
+                  </div>
+                `;
+              });
+
+              suggestions.innerHTML = html || '<div style="padding: 10px; color: #999;">No results found</div>';
+              suggestions.style.display = 'block';
+
+              // Add click handlers
+              suggestions.querySelectorAll('.suggestion-item').forEach((item, index) => {
+                item.addEventListener('click', () => {
+                  const node = allResults[index].node;
+                  console.log('📍 Selected:', node);
+
+                  // Focus camera on selection
+                  if (node.coordinate) {
+                    mapView.Camera.focusOn({
+                      nodes: [node],
+                      duration: 1000
+                    });
+                  }
+
+                  // Hide suggestions
+                  suggestions.style.display = 'none';
+                  searchInput.value = allResults[index].name;
+                });
+              });
+
+            } catch (error) {
+              console.error('❌ Search error:', error);
+              suggestions.innerHTML = '<div style="padding: 10px; color: red;">Search error occurred</div>';
+              suggestions.style.display = 'block';
+            }
+          }, 300);
+        });
+
+        // Hide suggestions on click outside
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+            suggestions.style.display = 'none';
+          }
+        });
+
+      } catch (error) {
+        console.error('❌ Initialization error:', error);
+      }
+    });
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    }
+
+    #mappedin-map {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .search-container {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      width: 300px;
+    }
+
+    #searchInput {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    #suggestions {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .suggestion-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .suggestion-item:hover {
+      background: #f5f5f5;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="mappedin-map"></div>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search locations...">
+    <div id="suggestions"></div>
+  </div>
+</body>
+</html>

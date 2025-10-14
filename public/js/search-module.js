@@ -1,3 +1,5 @@
+console.log('🔍 SEARCH MODULE LOADING - search-module.js started');
+
 /**
  * Modular Search System for Mappedin Web SDK v6
  *
@@ -385,14 +387,19 @@ class SearchUIManager {
   }
 
   init() {
+    console.log('🔧 SearchUIManager.init() called');
     this.inputElement = document.querySelector(this.options.inputSelector);
     this.suggestionsElement = document.querySelector(this.options.suggestionsSelector);
+
+    console.log('   - Input element:', this.inputElement);
+    console.log('   - Suggestions element:', this.suggestionsElement);
 
     if (!this.inputElement || !this.suggestionsElement) {
       console.error('❌ Search elements not found');
       return;
     }
 
+    console.log('✅ Search elements found, setting up event listeners');
     this.setupEventListeners();
   }
 
@@ -421,17 +428,23 @@ class SearchUIManager {
   }
 
   handleInput(query) {
+    console.log('🔍 SearchUIManager.handleInput() called with query:', query);
+
     if (query.length < 2) {
+      console.log('   Query too short, hiding suggestions');
       this.hideSuggestions();
       return;
     }
 
     // Show loading state immediately
     if (this.options.showLoadingState) {
+      console.log('   Showing loading state');
       this.showLoadingState();
     }
 
+    console.log('   Starting debounced search...');
     this.search.debouncedSearch(query, (suggestions) => {
+      console.log('   Search completed, got suggestions:', suggestions.length);
       this.isLoading = false;
       this.displaySuggestions(suggestions);
     });
@@ -559,10 +572,18 @@ class SearchUIManager {
   }
 }
 
+console.log('✅ Search classes defined');
+console.log('   - MappedInSearch:', typeof MappedInSearch);
+console.log('   - SearchUIManager:', typeof SearchUIManager);
+
 // Export for use in modules or attach to window for vanilla JS
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { MappedInSearch, SearchUIManager };
+  console.log('📦 Exported as CommonJS module');
 } else {
   window.MappedInSearch = MappedInSearch;
   window.SearchUIManager = SearchUIManager;
+  console.log('🌐 Attached to window object');
+  console.log('   - window.MappedInSearch:', typeof window.MappedInSearch);
+  console.log('   - window.SearchUIManager:', typeof window.SearchUIManager);
 }

@@ -20,15 +20,28 @@
   <link rel="stylesheet" href="/css/directions-card.css">
 
   <!-- Modular Components -->
+  <script>
+    console.log('📄 HTML: About to load search-module.js');
+  </script>
   <script src="/js/search-module.js"></script>
+  <script>
+    console.log('📄 HTML: search-module.js loaded');
+    console.log('   - window.MappedInSearch:', typeof window.MappedInSearch);
+    console.log('   - window.SearchUIManager:', typeof window.SearchUIManager);
+  </script>
   <script src="/js/directions-card.js"></script>
 
   <script type="module">
+    console.log('🚀 SCRIPT STARTED - Main module loading...');
+
     // This will use the local npm packages - CORRECT PATTERN
     import { getMapData, show3dMap } from '@mappedin/mappedin-js';
     import '@mappedin/mappedin-js/lib/index.css';
 
+    console.log('✅ Mappedin imports loaded');
+
     window.addEventListener('DOMContentLoaded', async () => {
+      console.log('🎯 DOMContentLoaded fired - Starting initialization...');
       const status = document.getElementById('status');
       let mapView, mapData;
       let allLabels = [];
@@ -58,6 +71,66 @@
       };
 
       let currentZoom = 19; // Track current zoom level
+
+      // Two-location pathfinding system
+      let pathfindingLocations = [];
+      let currentPath = null;
+
+      // Add location to pathfinding
+      function addToPathfinding(location, name) {
+        console.log('🗺️ Adding to pathfinding:', name);
+
+        // Clear if we already have 2 locations
+        if (pathfindingLocations.length >= 2) {
+          pathfindingLocations = [];
+          if (currentPath) {
+            mapView.Paths.remove(currentPath);
+            currentPath = null;
+          }
+        }
+
+        // Add new location
+        pathfindingLocations.push({ location, name });
+
+        // Update status
+        const status = document.getElementById('status');
+        if (pathfindingLocations.length === 1) {
+          status.textContent = `📍 Selected: ${name}. Click another location to create path.`;
+          status.style.background = '#14b8a6';
+          status.style.display = 'block';
+        } else if (pathfindingLocations.length === 2) {
+          // Calculate path between two locations
+          status.textContent = '🧭 Calculating route...';
+          status.style.background = '#667eea';
+
+          const from = pathfindingLocations[0].location;
+          const to = pathfindingLocations[1].location;
+
+          const directions = mapView.Journey.draw(from, to, {
+            pathOptions: {
+              nearRadius: 1,
+              farRadius: 1,
+              drawDuration: 2000,
+              animateArrowsOnPath: true,
+              color: accessibleMode ? '#14b8a6' : '#667eea'
+            },
+            accessible: accessibleMode
+          });
+
+          if (directions) {
+            currentPath = directions.path;
+            const distance = Math.round(directions.distance);
+            status.textContent = `✅ Path: ${pathfindingLocations[0].name} → ${pathfindingLocations[1].name} (${distance}m)`;
+            status.style.background = '#48bb78';
+
+            // Focus on path
+            mapView.Camera.focusOn({
+              nodes: directions.instructions.map(i => i.node),
+              duration: 1000
+            });
+          }
+        }
+      }
 
       // Get location by booth number (externalId)
       function getLocationByBooth(boothNumber) {
@@ -1575,71 +1648,15 @@
         cardPrimaryActions.style.display = 'flex';
         cardActions.style.display = 'flex';
 
-        // Setup Directions button - shows To/From panel
+        // Setup Directions button - now adds to pathfinding
         const directionsBtn = document.getElementById('directionsBtn');
         directionsBtn.onclick = () => {
-          // Show navigation panel
-          navigationPanel.style.display = 'block';
+          // Add this space to pathfinding
+          const name = space.name || space.externalId || 'Location';
+          addToPathfinding(space, name);
 
-          // Hide Directions button (replaced by navigation panel)
-          directionsBtn.style.display = 'none';
-
-          // Minimize card content - hide description, show only title
-          const cardDescription = document.getElementById('cardDescription');
-          const cardTitle = document.getElementById('cardTitle');
-
-          // Store original description and title for restoration
-          cardDescription.dataset.originalContent = cardDescription.innerHTML;
-          cardTitle.dataset.originalContent = cardTitle.textContent;
-
-          // Hide description
-          cardDescription.style.display = 'none';
-
-          // For co-exhibitors, simplify title to show only main booth/parent
-          const exhibitors = getExhibitorsByBooth(space.externalId);
-          if (exhibitors && exhibitors.length > 1) {
-            // Multiple co-exhibitors: Show simplified title with main exhibitor
-            cardTitle.textContent = `${exhibitors[0].name} (+ ${exhibitors.length - 1} more)`;
-          }
-
-          // Update search input with location name
-          const searchInput = document.getElementById('searchInput');
-          searchInput.value = space.name || space.externalId || '';
-
-          // Pre-fill "To" field with destination
-          const navToInput = document.getElementById('navToInput');
-          navToInput.value = space.name || space.externalId || 'Selected Location';
-          navToInput.dataset.spaceId = space.id;
-
-          // Enable tap-to-select mode for "From" location
-          const navFromInput = document.getElementById('navFromInput');
-          const status = document.getElementById('status');
-
-          status.textContent = '👆 Tap on the map to set your starting location';
-          status.style.background = '#14b8a6';
-          status.style.display = 'block';
-
-          const selectFromLocation = (event) => {
-            if (event.spaces?.length > 0) {
-              selectedFromLocation = event.spaces[0];
-              navFromInput.value = `📍 ${event.spaces[0].name || event.spaces[0].externalId || 'Location'}`;
-
-              // Auto-trigger directions once both locations are set
-              status.textContent = '🧭 Calculating route...';
-              status.style.background = '#14b8a6';
-
-              // Trigger directions automatically
-              setTimeout(() => {
-                document.getElementById('getDirectionsBtn')?.click();
-              }, 300);
-            }
-            mapView.off('click', selectFromLocation);
-          };
-
-          mapView.on('click', selectFromLocation);
-
-          // Re-initialize icons for new elements
-          if (window.lucide) lucide.createIcons();
+          // Close the card
+          exhibitorCard.classList.remove('show');
         };
 
         // Setup share button (only show for spaces with booth numbers)
@@ -1790,45 +1807,14 @@
         const navigationPanel = document.getElementById('navigationPanel');
         cardPrimaryActions.style.display = 'flex';
 
-        // Setup Directions button
+        // Setup Directions button - now adds to pathfinding
         const directionsBtn = document.getElementById('directionsBtn');
         directionsBtn.onclick = () => {
-          navigationPanel.style.display = 'block';
-          directionsBtn.style.display = 'none';
-          cardDescription.style.display = 'none';
+          // Add this location to pathfinding
+          addToPathfinding(location, location.details.name || location.name || 'Location');
 
-          const navToInput = document.getElementById('navToInput');
-          navToInput.value = location.details.name;
-          navToInput.dataset.locationId = location.id;
-
-          // Enable tap-to-select mode for "From" location
-          const navFromInput = document.getElementById('navFromInput');
-          const status = document.getElementById('status');
-
-          status.textContent = '👆 Tap on the map to set your starting location';
-          status.style.background = '#14b8a6';
-          status.style.display = 'block';
-
-          const selectFromLocation = (event) => {
-            if (event.spaces?.length > 0) {
-              selectedFromLocation = event.spaces[0];
-              navFromInput.value = `📍 ${event.spaces[0].name || event.spaces[0].externalId || 'Location'}`;
-
-              // Auto-trigger directions once both locations are set
-              status.textContent = '🧭 Calculating route...';
-              status.style.background = '#14b8a6';
-
-              // Trigger directions automatically
-              setTimeout(() => {
-                document.getElementById('getDirectionsBtn')?.click();
-              }, 300);
-            }
-            mapView.off('click', selectFromLocation);
-          };
-
-          mapView.on('click', selectFromLocation);
-
-          if (window.lucide) lucide.createIcons();
+          // Close the card
+          exhibitorCard.classList.remove('show');
         };
 
         exhibitorCard.classList.add('show');
@@ -2133,62 +2119,129 @@
       }
 
 
-      // Search with Autocomplete
-      // Initialize modular search system
-      let searchUI;
-
+      // Simplified Search Implementation
       function setupSearch() {
-        try {
-          // Check if search classes are available
-          if (typeof window.MappedInSearch === 'undefined' || typeof window.SearchUIManager === 'undefined') {
-            console.error('❌ Search classes not loaded! MappedInSearch:', typeof window.MappedInSearch, 'SearchUIManager:', typeof window.SearchUIManager);
+        console.log('🔧 Setting up simplified search...');
+
+        const searchInput = document.getElementById('searchInput');
+        const searchSuggestions = document.getElementById('searchSuggestions');
+        let searchTimeout = null;
+
+        if (!searchInput || !searchSuggestions) {
+          console.error('❌ Search elements not found');
+          return;
+        }
+
+        // Handle search input
+        searchInput.addEventListener('input', async (e) => {
+          const query = e.target.value.trim();
+
+          clearTimeout(searchTimeout);
+
+          if (query.length < 2) {
+            searchSuggestions.style.display = 'none';
+            searchSuggestions.innerHTML = '';
             return;
           }
 
-          console.log('✅ Initializing search system...');
+          // Show loading state
+          searchSuggestions.innerHTML = '<div style="padding: 10px; color: #666;">Searching...</div>';
+          searchSuggestions.style.display = 'block';
 
-          // Check if search input exists
-          const searchInput = document.getElementById('searchInput');
-          if (!searchInput) {
-            console.error('❌ Search input not found!');
-            return;
-          }
+          // Debounced search
+          searchTimeout = setTimeout(async () => {
+            try {
+              // Simple search combining locations and spaces
+              const locations = mapData.getByType('location');
+              const spaces = mapData.getByType('space');
 
-          // Create search instance
-          const searchInstance = new MappedInSearch(mapData, {
-            debounceDelay: 200,
-            maxSuggestions: 6,
-            searchBoothNumbers: true
-          });
+              let results = [];
 
-          // Create UI manager
-          searchUI = new SearchUIManager(searchInstance, mapView, {
-            inputSelector: '#searchInput',
-            suggestionsSelector: '#searchSuggestions',
-            onSelect: (suggestion) => {
-              // Suggestion has a 'node' property with the actual map object
-              const node = suggestion.node;
-            if (!node) {
-              console.warn('No node found for suggestion:', suggestion);
-              return;
+              // Search locations by name and booth number
+              locations.forEach(loc => {
+                if (loc.details?.name?.toLowerCase().includes(query.toLowerCase()) ||
+                    loc.details?.externalId?.toLowerCase().includes(query.toLowerCase())) {
+                  results.push({
+                    name: loc.details.name || 'Unknown',
+                    booth: loc.details.externalId,
+                    type: 'exhibitor',
+                    node: loc
+                  });
+                }
+              });
+
+              // Search spaces by name
+              spaces.forEach(space => {
+                if (space.name?.toLowerCase().includes(query.toLowerCase())) {
+                  results.push({
+                    name: space.name,
+                    type: 'space',
+                    node: space
+                  });
+                }
+              });
+
+              // Limit results
+              results = results.slice(0, 8);
+
+              // Build suggestions HTML
+              let html = '';
+              results.forEach(result => {
+                html += `
+                  <div class="search-suggestion-item" style="padding: 10px; cursor: pointer; border-bottom: 1px solid #f0f0f0;">
+                    <div style="font-weight: 500;">${result.name}</div>
+                    ${result.booth ? `<div style="font-size: 12px; color: #666;">Booth ${result.booth}</div>` : ''}
+                    <div style="font-size: 11px; color: #999;">${result.type}</div>
+                  </div>
+                `;
+              });
+
+              searchSuggestions.innerHTML = html || '<div style="padding: 10px; color: #999;">No results found</div>';
+              searchSuggestions.style.display = 'block';
+
+              // Add click handlers
+              const items = searchSuggestions.querySelectorAll('.search-suggestion-item');
+              items.forEach((item, index) => {
+                item.addEventListener('click', () => {
+                  const selected = results[index];
+                  console.log('📍 Selected:', selected.name);
+
+                  // Hide suggestions
+                  searchSuggestions.style.display = 'none';
+                  searchInput.value = selected.name;
+
+                  // Show appropriate card
+                  if (selected.type === 'exhibitor') {
+                    showCardForLocation(selected.node, true);
+                  } else {
+                    showCardForSpace(selected.node, true);
+                  }
+                });
+
+                // Hover effect
+                item.addEventListener('mouseenter', () => {
+                  item.style.background = '#f5f5f5';
+                });
+                item.addEventListener('mouseleave', () => {
+                  item.style.background = 'white';
+                });
+              });
+
+            } catch (error) {
+              console.error('❌ Search error:', error);
+              searchSuggestions.innerHTML = '<div style="padding: 10px; color: red;">Search error</div>';
             }
+          }, 300);
+        });
 
-            // Check if it's a location (has details.name) or a space
-            if (node.details && node.details.name) {
-              showCardForLocation(node, true);
-            } else if (node.name || node.id) {
-              showCardForSpace(node, true);
-            } else {
-              console.log('Selected:', node);
-            }
+        // Hide suggestions on click outside
+        document.addEventListener('click', (e) => {
+          if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+            searchSuggestions.style.display = 'none';
           }
         });
 
-          console.log('✅ Modular search initialized (debounced 200ms, Enter key support, booth numbers enabled)');
-        } catch (error) {
-          console.error('❌ Error initializing search:', error);
-          console.error('Stack:', error.stack);
-        }
+        console.log('✅ Simplified search initialized');
       }
 
       // Floor and zoom controls removed - using inline floor selector and compact modal zoom buttons instead
