@@ -10,7 +10,7 @@
   <!-- Touch optimization for iframe embedding -->
   <meta name="touch-action" content="pan-x pan-y">
 
-  <title>Mappedin Conference POC - Production Ready</title>
+  <title>Mappedin - Dynamic Focus Demo</title>
 
   <!-- Lucide Icons - Modern outline icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -3314,18 +3314,8 @@
 <body>
   <div id="mappedin-map"></div>
 
-  <!-- Top Row: Search Bar + Floor Selector -->
-  <div class="search-container">
-    <!-- Search Input -->
-    <div class="search-input-wrapper">
-      <i data-lucide="search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #999;"></i>
-      <input type="text" id="searchInput" placeholder="Search exhibitors..." style="padding-left: 44px;">
-
-      <!-- Search Suggestions Dropdown -->
-      <div id="searchSuggestions" class="search-suggestions"></div>
-    </div>
-
-    <!-- Floor Selector - Inline -->
+  <!-- Floor Selector - Standalone for Dynamic Focus Demo -->
+  <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
     <div class="floor-selector" id="floorSelectorContainer">
       <i data-lucide="layers" class="floor-icon"></i>
       <select id="floorSelect">
@@ -3334,64 +3324,8 @@
     </div>
   </div>
 
-  <div id="status">Initializing...</div>
+  <div id="status" style="display: none;">Initializing...</div>
 
-  <!-- Right Side Controls -->
-  <div class="controls">
-    <!-- Controls Group -->
-    <div class="control-group">
-      <div class="control-title">Controls</div>
-      <button class="toggle-btn active" id="accessibilityToggle">
-        <i data-lucide="accessibility" style="width: 18px; height: 18px;"></i>
-        <span>Accessible</span>
-      </button>
-      <button class="toggle-btn" id="dropPinBtn">
-        <i data-lucide="map-pin" style="width: 18px; height: 18px;"></i>
-        <span>Drop Pin</span>
-      </button>
-    </div>
-
-    <!-- Floating Filter Buttons (Bottom Center) -->
-    <div style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 16px; z-index: 100; pointer-events: none;">
-      <!-- Amenities Toggle -->
-      <button id="amenitiesToggle" class="floating-toggle" title="Toggle Amenities">
-        <i data-lucide="building-2" style="width: 32px; height: 32px;"></i>
-      </button>
-
-      <!-- Exhibitors Toggle -->
-      <button id="exhibitorsToggle" class="floating-toggle active" title="Toggle Exhibitors">
-        <i data-lucide="store" style="width: 32px; height: 32px;"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Compact Modal - Lower right -->
-  <div class="compact-modal">
-    <!-- Zoom In Button -->
-    <button class="compact-btn" id="zoomInBtn" title="Zoom in">
-      <i data-lucide="plus" style="width: 22px; height: 22px;"></i>
-    </button>
-
-    <!-- Zoom Out Button -->
-    <button class="compact-btn" id="zoomOutBtn" title="Zoom out">
-      <i data-lucide="minus" style="width: 22px; height: 22px;"></i>
-    </button>
-
-    <!-- Accessible Toggle -->
-    <button class="compact-btn active" id="accessibilityToggleCompact" title="Accessible mode (elevators/ramps)">
-      <i data-lucide="accessibility" style="width: 22px; height: 22px;"></i>
-    </button>
-
-    <!-- Pin Location Indicator -->
-    <div class="pin-indicator" id="pinIndicator">
-      <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
-    </div>
-
-    <!-- Drop Pin Button -->
-    <button class="compact-btn" id="dropPinBtnCompact" title="Drop pin on map">
-      <i data-lucide="map-pin" style="width: 22px; height: 22px;"></i>
-    </button>
-  </div>
 
   <!-- Exhibitor Card -->
   <div id="exhibitorCard">

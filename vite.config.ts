@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig({
   base: '/mappedin-conference-poc/',  // GitHub Pages base path
@@ -8,7 +9,10 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
-      input: 'index.html',
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        demo: resolve(__dirname, 'dynamic-focus-demo.html'),
+      },
     },
   },
   server: {
