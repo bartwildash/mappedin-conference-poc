@@ -54,22 +54,18 @@
   // Debounced search for FROM field - searches both exhibitors and amenities
   function handleFromSearch() {
     clearTimeout(fromSearchTimeout);
-    console.log('[DirectionsModal] FROM search triggered, query:', fromSearch);
     fromSearchTimeout = setTimeout(() => {
-      console.log('[DirectionsModal] FROM search executing after debounce, query length:', fromSearch.length);
       if (fromSearch.length >= 2) {
         const results: SearchResult[] = [];
 
         // Search exhibitors
         const unsubExhibitors = searchExhibitors.subscribe(searcher => {
           const exhibitorResults = searcher(fromSearch);
-          console.log('[DirectionsModal] Found', exhibitorResults.length, 'exhibitors matching query');
           exhibitorResults.forEach(exhibitor => {
             const data = $mapData;
             if (data) {
               const locations = data.getByType('location');
-              const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
-              console.log('[DirectionsModal] Exhibitor:', exhibitor.name, 'has location?', !!location, 'has space?', !!location?.space);
+              const location = locations.find(loc => loc.id === exhibitor.externalId);
               if (location?.space) {
                 results.push({
                   type: 'exhibitor',
@@ -103,11 +99,9 @@
 
         fromResults = results;
         showFromResults = true;
-        console.log('[DirectionsModal] FROM search complete:', results.length, 'results, showFromResults:', showFromResults);
       } else {
         fromResults = [];
         showFromResults = false;
-        console.log('[DirectionsModal] FROM search query too short or empty');
       }
     }, 200);
   }
@@ -126,7 +120,7 @@
             const data = $mapData;
             if (data) {
               const locations = data.getByType('location');
-              const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
+              const location = locations.find(loc => loc.id === exhibitor.externalId);
               if (location?.space) {
                 results.push({
                   type: 'exhibitor',

@@ -111,7 +111,7 @@
 
       // Find location by externalId
       const locations = data.getByType('location');
-      const location = locations.find(loc => loc.profile?.externalId === result.exhibitor!.externalId);
+      const location = locations.find(loc => loc.id === result.exhibitor!.externalId);
 
       if (location && location.space) {
         view.Camera.focusOn({
