@@ -13,7 +13,8 @@
 {#if $statusMessage}
   <div
     transition:fade={{ duration: 200 }}
-    class="absolute top-20 left-1/2 -translate-x-1/2 z-50 max-w-md w-full px-4"
+    class="absolute left-1/2 -translate-x-1/2 z-50 max-w-md w-full px-4"
+    style="top: calc(5rem + env(safe-area-inset-top));"
   >
     <div class={`${typeClasses[$statusType]} text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3`}>
       {#if $statusType === 'success'}

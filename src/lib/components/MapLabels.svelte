@@ -9,7 +9,7 @@
   // Label rank/priority using Mappedin's tier system + size hierarchy:
   // - high rank, 14px black text, zoom 18+: Exhibitors (LARGEST, earliest)
   // - high rank, 14px grey text, zoom 19+: Special Areas (stages, lounges)
-  // - medium rank, 11px + 16px icon, zoom 19+: Food & Drink (earlier visibility)
+  // - high rank, 11px + 16px icon, zoom 19+: Food & Drink (earlier visibility)
   // - medium rank, 11px + 16px icon, zoom 20+: POIs, Elevators, Stairs
   // - low rank, 9px blue + 12px blue icon, zoom 22: Restrooms (SMALLEST, latest, blue - max zoom only)
 

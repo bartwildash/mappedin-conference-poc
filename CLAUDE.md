@@ -31,13 +31,11 @@ Enhanced multi-method detection for restrooms, cafes, elevators, and stairs:
 - **Thicker icon strokes** (stroke-width: 3) for better visibility
 - **Toilet icon** (bath) consistently used across all restroom types
 
-### Marker Priority System
-Refined camera focus priorities:
-- **Rank 10**: Exhibitors (highest priority)
-- **Rank 9**: Restrooms, Cafes, Food & Beverage
-- **Rank 8**: Elevators, Stairs, POIs
-- **Rank 5**: Drop Pin
-- **Rank 1**: Rooms (lowest priority)
+### Label Priority System
+Mappedin v6 uses named ranking tiers (not numeric):
+- **'high' rank**: Exhibitors (zoom 18+), Food & Drink (zoom 19+), Special Areas (zoom 19+)
+- **'medium' rank**: POIs, Elevators, Stairs, Prayer Rooms (zoom 20+)
+- **'low' rank**: Restrooms (zoom 22 - maximum zoom only)
 
 ### Connection Schema Integration
 - Successfully integrated Mappedin's connection objects
@@ -105,7 +103,7 @@ rank: 'high', textSize: 14px/11px, zoom: 19+
 rank: 'medium', textSize: 11px, zoom: 20+
 
 // Restrooms: LOWEST PRIORITY
-rank: 'low', textSize: 9px, zoom: 24+ (blue color)
+rank: 'low', textSize: 9px, zoom: 22 (blue color)
 ```
 
 ### Key Insights

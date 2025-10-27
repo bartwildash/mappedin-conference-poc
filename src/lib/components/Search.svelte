@@ -153,7 +153,7 @@
   }
 </script>
 
-<div class="absolute top-4 left-1/2 -translate-x-1/2 z-10 w-full max-w-md px-4 md:max-w-lg">
+<div class="absolute left-1/2 -translate-x-1/2 z-10 w-full max-w-md px-4 md:max-w-lg" style="top: calc(1rem + env(safe-area-inset-top)); padding-left: calc(1rem + env(safe-area-inset-left)); padding-right: calc(1rem + env(safe-area-inset-right));">
   <div class="relative">
     <!-- Search Icon -->
     <div class="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none z-10">

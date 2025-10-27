@@ -31,7 +31,7 @@
 </script>
 
 {#if floors.length > 1}
-  <div class="absolute bottom-20 right-4 z-20 md:bottom-24">
+  <div class="absolute top-4 right-4 z-20" style="padding-top: env(safe-area-inset-top); padding-right: env(safe-area-inset-right);">
     <!-- Mobile: Compact horizontal selector -->
     <div class="md:hidden">
       <Card class="backdrop-blur-sm bg-background/95 border-2 shadow-xl p-2">

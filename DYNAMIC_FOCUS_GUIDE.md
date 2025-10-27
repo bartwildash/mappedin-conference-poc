@@ -60,7 +60,7 @@ Food & Drink (early visibility for user needs)
 // Rank: medium, Size: 11px + 16px icon, Zoom: 20+
 POIs, Elevators, Stairs, Prayer Rooms
 
-// Rank: low, Size: 9px + 12px icon, Zoom: 24+
+// Rank: low, Size: 9px + 12px icon, Zoom: 22
 Restrooms (blue, SMALLEST, latest visibility)
 ```
 
@@ -103,8 +103,8 @@ view.Labels.add(space, amenityName, {
     color: '#3b82f6',  // Blue for distinction
     icon: iconSVG,
     iconSize: 12,  // Small icon
-    textVisibleAtZoomLevel: 24,  // Very close zoom only
-    iconVisibleAtZoomLevel: 24
+    textVisibleAtZoomLevel: 22,  // Maximum zoom only
+    iconVisibleAtZoomLevel: 22
   }
 });
 ```
@@ -153,7 +153,7 @@ appearance: {
   textSize: 9,   // 36% smaller than exhibitors
   iconSize: 12,  // Half size of other amenities
   color: '#3b82f6',  // Blue for distinction
-  textVisibleAtZoomLevel: 24  // Very close zoom only
+  textVisibleAtZoomLevel: 22  // Maximum zoom only
 }
 ```
 
@@ -187,7 +187,7 @@ rank: 'high' + textSize: 11 + zoom: 19
 rank: 'medium' + textSize: 11 + zoom: 20
 
 // Quaternary content (restrooms)
-rank: 'low' + textSize: 9 + zoom: 24
+rank: 'low' + textSize: 9 + zoom: 22
 ```
 
 ### 2. Consider User Needs
@@ -239,7 +239,7 @@ console.log(`✅ Added ${successCount} object labels:`);
 console.log(`   - ${exhibitorCount} exhibitors (high, zoom 18+)`);
 console.log(`   - ${foodCount} food & drink (high, zoom 19+)`);
 console.log(`   - ${amenityCount} amenities (medium, zoom 20+)`);
-console.log(`   - ${restroomCount} restrooms (low, zoom 24+)`);
+console.log(`   - ${restroomCount} restrooms (low, zoom 22)`);
 ```
 
 ### Visual Testing Checklist
@@ -247,7 +247,7 @@ console.log(`   - ${restroomCount} restrooms (low, zoom 24+)`);
 - [ ] Exhibitors appear first (zoom 18)
 - [ ] Food & drink appear with special areas (zoom 19)
 - [ ] General amenities appear at medium zoom (zoom 20)
-- [ ] Restrooms only appear when very close (zoom 24)
+- [ ] Restrooms only appear when very close (zoom 22 - maximum zoom)
 - [ ] No label overlap at exhibitor level
 - [ ] Blue restrooms are visually distinct
 - [ ] Text is readable over all backgrounds
@@ -283,7 +283,7 @@ Mappedin can handle thousands of labels, but consider:
 ## Changelog
 
 ### 2025-10-27
-- Increased restroom zoom threshold from 22 to 24 (very close zoom only)
+- Corrected restroom zoom threshold to 22 (maximum zoom in Mappedin v6)
 - Changed food & drink from medium rank (zoom 20) to high rank (zoom 19)
 - Updated label hierarchy comments
 - Created this guide

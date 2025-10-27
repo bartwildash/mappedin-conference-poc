@@ -1,5 +1,7 @@
 # Smart Label Visibility System
 
+> **⚠️ DEPRECATED**: This guide describes an obsolete approach using manual `updateState()` calls and camera event listeners. The current implementation uses Mappedin's built-in `textVisibleAtZoomLevel` and `iconVisibleAtZoomLevel` properties instead. See `DYNAMIC_FOCUS_GUIDE.md` for the current system.
+
 ## Overview
 
 Your map now implements **zoom-based progressive label disclosure** to prevent label clutter at low zoom levels. Labels appear progressively as users zoom in, showing the most important information first.
