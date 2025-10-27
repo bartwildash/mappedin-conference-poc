@@ -11,7 +11,7 @@
   // - high rank, 14px grey text, zoom 19+: Special Areas (stages, lounges)
   // - medium rank, 11px + 16px icon, zoom 19+: Food & Drink (earlier visibility)
   // - medium rank, 11px + 16px icon, zoom 20+: POIs, Elevators, Stairs
-  // - low rank, 9px blue + 12px blue icon, zoom 24+: Restrooms (SMALLEST, latest, blue)
+  // - low rank, 9px blue + 12px blue icon, zoom 26+: Restrooms (SMALLEST, latest, blue)
 
   onMount(() => {
     const unsubView = mapView.subscribe(view => {
@@ -371,9 +371,9 @@
           appearance.textVisibleAtZoomLevel = 20;
           appearance.iconVisibleAtZoomLevel = 20;
         } else if (rank === 'low') {
-          // Low priority (restrooms): Visible at zoom 24+ (very close zoom only)
-          appearance.textVisibleAtZoomLevel = 24;
-          appearance.iconVisibleAtZoomLevel = 24;
+          // Low priority (restrooms): Visible at zoom 26+ (MUCH closer zoom only)
+          appearance.textVisibleAtZoomLevel = 26;
+          appearance.iconVisibleAtZoomLevel = 26;
         }
 
         view.Labels.add(space, amenityName, {
