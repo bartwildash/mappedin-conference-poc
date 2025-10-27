@@ -3,8 +3,7 @@
   import MapView from '$lib/components/MapView.svelte';
   import MapLabels from '$lib/components/MapLabels.svelte';
   import Search from '$lib/components/Search.svelte';
-  import ExhibitorCard from '$lib/components/ExhibitorCard.svelte';
-  import LocationCard from '$lib/components/LocationCard.svelte';
+  import DetailCard from '$lib/components/DetailCard.svelte';
   import DirectionsModal from '$lib/components/DirectionsModal.svelte';
   import StatusBar from '$lib/components/StatusBar.svelte';
   import FloorSelector from '$lib/components/FloorSelector.svelte';
@@ -70,8 +69,7 @@
   <!-- UI Overlay Components -->
   <Search />
   <StatusBar />
-  <ExhibitorCard />
-  <LocationCard />
+  <DetailCard />
   <DirectionsModal />
   <FloorSelector />
   <AccessibilityToggle />
