@@ -63,11 +63,13 @@
         // Search exhibitors
         const unsubExhibitors = searchExhibitors.subscribe(searcher => {
           const exhibitorResults = searcher(fromSearch);
+          console.log('[DirectionsModal] Found', exhibitorResults.length, 'exhibitors matching query');
           exhibitorResults.forEach(exhibitor => {
             const data = $mapData;
             if (data) {
               const locations = data.getByType('location');
               const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
+              console.log('[DirectionsModal] Exhibitor:', exhibitor.name, 'has location?', !!location, 'has space?', !!location?.space);
               if (location?.space) {
                 results.push({
                   type: 'exhibitor',
