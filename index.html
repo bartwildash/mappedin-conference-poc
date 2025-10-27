@@ -2,15 +2,37 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- Responsive Viewport (iframe & WebView compatible) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+    <!-- Mobile Web App -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Touch & Interaction -->
     <meta name="touch-action" content="pan-x pan-y" />
+
+    <!-- Iframe Embedding Support -->
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://*.github.io https://*.cloudflare.com https://*.pages.dev" />
+
+    <!-- Performance & Rendering -->
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="theme-color" content="#5ac8c0" />
 
     <title>Mappedin Conference POC - Rebuilt with Svelte</title>
 
-    <meta name="description" content="Production-ready 3D conference map with exhibitor discovery and navigation. Built with Svelte, TypeScript, Tailwind CSS, and shadcn-svelte." />
+    <meta name="description" content="Production-ready 3D conference map with exhibitor discovery and navigation. Optimized for iframe embedding, React Native WebView, and responsive mobile layouts. Built with Svelte, TypeScript, Tailwind CSS, and shadcn-svelte." />
+
+    <!-- Prevent unwanted zoom on input focus (iOS Safari) -->
+    <style>
+      input, textarea, select {
+        font-size: 16px !important;
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>

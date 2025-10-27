@@ -6,16 +6,27 @@
   import Badge from '$lib/components/ui/badge.svelte';
   import Separator from '$lib/components/ui/separator.svelte';
   import { directionsOpen, selectingFromLocation, selectingToLocation } from '$lib/stores/ui';
-  import { mapView, mapData, accessibleMode, pathfindingFrom, pathfindingTo, currentPath } from '$lib/stores/map';
+  import { mapView, mapData, accessibleMode, pathfindingFrom, pathfindingTo, currentPath, searchAmenities } from '$lib/stores/map';
   import { selectedExhibitor, searchExhibitors } from '$lib/stores/exhibitors';
   import { showStatus } from '$lib/stores/ui';
   import type { ExhibitorData } from '$lib/types/mappedin';
+  import type { AmenityItem } from '$lib/stores/map';
+
+  interface SearchResult {
+    type: 'exhibitor' | 'amenity';
+    exhibitor?: ExhibitorData;
+    amenity?: AmenityItem;
+    name: string;
+    subtitle: string;
+    badge?: string;
+    space?: any;
+  }
 
   let fromSearch = $state('');
   let toSearch = $state('');
   let directions: any[] = $state([]);
-  let fromResults = $state<ExhibitorData[]>([]);
-  let toResults = $state<ExhibitorData[]>([]);
+  let fromResults = $state<SearchResult[]>([]);
+  let toResults = $state<SearchResult[]>([]);
   let showFromResults = $state(false);
   let showToResults = $state(false);
   let fromSearchTimeout: ReturnType<typeof setTimeout>;
@@ -40,15 +51,53 @@
     }
   });
 
-  // Debounced search for FROM field
+  // Debounced search for FROM field - searches both exhibitors and amenities
   function handleFromSearch() {
     clearTimeout(fromSearchTimeout);
     fromSearchTimeout = setTimeout(() => {
       if (fromSearch.length >= 2) {
-        const unsub = searchExhibitors.subscribe(searcher => {
-          fromResults = searcher(fromSearch);
+        const results: SearchResult[] = [];
+
+        // Search exhibitors
+        const unsubExhibitors = searchExhibitors.subscribe(searcher => {
+          const exhibitorResults = searcher(fromSearch);
+          exhibitorResults.forEach(exhibitor => {
+            const data = $mapData;
+            if (data) {
+              const locations = data.getByType('location');
+              const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
+              if (location?.space) {
+                results.push({
+                  type: 'exhibitor',
+                  exhibitor,
+                  name: exhibitor.name,
+                  subtitle: `Booth ${exhibitor.boothNumber}`,
+                  badge: exhibitor.category,
+                  space: location.space
+                });
+              }
+            }
+          });
         });
-        unsub();
+        unsubExhibitors();
+
+        // Search amenities
+        const unsubAmenities = searchAmenities.subscribe(searcher => {
+          const amenityResults = searcher(fromSearch);
+          amenityResults.forEach(amenity => {
+            results.push({
+              type: 'amenity',
+              amenity,
+              name: amenity.name,
+              subtitle: amenity.type.charAt(0).toUpperCase() + amenity.type.slice(1),
+              badge: 'Amenity',
+              space: amenity.space
+            });
+          });
+        });
+        unsubAmenities();
+
+        fromResults = results;
         showFromResults = true;
       } else {
         fromResults = [];
@@ -57,15 +106,53 @@
     }, 200);
   }
 
-  // Debounced search for TO field
+  // Debounced search for TO field - searches both exhibitors and amenities
   function handleToSearch() {
     clearTimeout(toSearchTimeout);
     toSearchTimeout = setTimeout(() => {
       if (toSearch.length >= 2) {
-        const unsub = searchExhibitors.subscribe(searcher => {
-          toResults = searcher(toSearch);
+        const results: SearchResult[] = [];
+
+        // Search exhibitors
+        const unsubExhibitors = searchExhibitors.subscribe(searcher => {
+          const exhibitorResults = searcher(toSearch);
+          exhibitorResults.forEach(exhibitor => {
+            const data = $mapData;
+            if (data) {
+              const locations = data.getByType('location');
+              const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
+              if (location?.space) {
+                results.push({
+                  type: 'exhibitor',
+                  exhibitor,
+                  name: exhibitor.name,
+                  subtitle: `Booth ${exhibitor.boothNumber}`,
+                  badge: exhibitor.category,
+                  space: location.space
+                });
+              }
+            }
+          });
         });
-        unsub();
+        unsubExhibitors();
+
+        // Search amenities
+        const unsubAmenities = searchAmenities.subscribe(searcher => {
+          const amenityResults = searcher(toSearch);
+          amenityResults.forEach(amenity => {
+            results.push({
+              type: 'amenity',
+              amenity,
+              name: amenity.name,
+              subtitle: amenity.type.charAt(0).toUpperCase() + amenity.type.slice(1),
+              badge: 'Amenity',
+              space: amenity.space
+            });
+          });
+        });
+        unsubAmenities();
+
+        toResults = results;
         showToResults = true;
       } else {
         toResults = [];
@@ -74,37 +161,23 @@
     }, 200);
   }
 
-  // Select FROM exhibitor
-  function selectFromExhibitor(exhibitor: ExhibitorData) {
-    fromSearch = exhibitor.name;
+  // Select FROM location (exhibitor or amenity)
+  function selectFromResult(result: SearchResult) {
+    fromSearch = result.name;
     showFromResults = false;
 
-    // Find and set the location
-    const data = $mapData;
-    if (!data) return;
-
-    const locations = data.getByType('location');
-    const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
-
-    if (location && location.space) {
-      pathfindingFrom.set(location.space);
+    if (result.space) {
+      pathfindingFrom.set(result.space);
     }
   }
 
-  // Select TO exhibitor
-  function selectToExhibitor(exhibitor: ExhibitorData) {
-    toSearch = exhibitor.name;
+  // Select TO location (exhibitor or amenity)
+  function selectToResult(result: SearchResult) {
+    toSearch = result.name;
     showToResults = false;
 
-    // Find and set the location
-    const data = $mapData;
-    if (!data) return;
-
-    const locations = data.getByType('location');
-    const location = locations.find(loc => loc.profile?.externalId === exhibitor.externalId);
-
-    if (location && location.space) {
-      pathfindingTo.set(location.space);
+    if (result.space) {
+      pathfindingTo.set(result.space);
     }
   }
 
@@ -191,23 +264,51 @@
         </div>
         <div class="flex gap-2">
           <div class="flex-1 relative">
-            <Input
-              id="from-input"
-              bind:value={fromSearch}
-              oninput={handleFromSearch}
-              onfocus={() => fromResults.length > 0 && (showFromResults = true)}
-              placeholder="Search exhibitor or tap map..."
-              class="h-11"
-            />
+            <div class="relative">
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </div>
+              <Input
+                id="from-input"
+                bind:value={fromSearch}
+                oninput={handleFromSearch}
+                onfocus={() => fromResults.length > 0 && (showFromResults = true)}
+                placeholder="Search exhibitor, amenity, or tap map..."
+                class="h-11 pl-10 pr-3 focus-visible:ring-primary"
+              />
+            </div>
             {#if showFromResults && fromResults.length > 0}
-              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-50 border-2">
+              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-50 border-2 backdrop-blur-sm bg-background/95">
+                <div class="px-3 py-2 bg-muted/50 border-b">
+                  <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    {fromResults.length} result{fromResults.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
                 {#each fromResults as result}
                   <button
-                    onclick={() => selectFromExhibitor(result)}
-                    class="w-full text-left px-4 py-3 hover:bg-accent transition-colors border-b last:border-b-0"
+                    onclick={() => selectFromResult(result)}
+                    class="w-full text-left px-4 py-3 hover:bg-accent/80 transition-all border-b last:border-b-0 group"
                   >
-                    <div class="font-semibold">{result.name}</div>
-                    <div class="text-sm text-muted-foreground">Booth {result.boothNumber}</div>
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="flex-1 min-w-0">
+                        <div class="font-semibold text-sm truncate group-hover:text-primary transition-colors">{result.name}</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">{result.subtitle}</div>
+                      </div>
+                      {#if result.badge}
+                        <Badge
+                          variant={result.type === 'exhibitor'
+                            ? (result.badge === 'Exhibitor' ? 'default' : 'secondary')
+                            : 'outline'
+                          }
+                          class="text-xs shrink-0"
+                        >
+                          {result.badge}
+                        </Badge>
+                      {/if}
+                    </div>
                   </button>
                 {/each}
               </Card>
@@ -266,23 +367,51 @@
         </div>
         <div class="flex gap-2">
           <div class="flex-1 relative">
-            <Input
-              id="to-input"
-              bind:value={toSearch}
-              oninput={handleToSearch}
-              onfocus={() => toResults.length > 0 && (showToResults = true)}
-              placeholder="Search exhibitor or tap map..."
-              class="h-11"
-            />
+            <div class="relative">
+              <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.35-4.35"></path>
+                </svg>
+              </div>
+              <Input
+                id="to-input"
+                bind:value={toSearch}
+                oninput={handleToSearch}
+                onfocus={() => toResults.length > 0 && (showToResults = true)}
+                placeholder="Search exhibitor, amenity, or tap map..."
+                class="h-11 pl-10 pr-3 focus-visible:ring-destructive"
+              />
+            </div>
             {#if showToResults && toResults.length > 0}
-              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-50 border-2">
+              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-50 border-2 backdrop-blur-sm bg-background/95">
+                <div class="px-3 py-2 bg-muted/50 border-b">
+                  <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                    {toResults.length} result{toResults.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
                 {#each toResults as result}
                   <button
-                    onclick={() => selectToExhibitor(result)}
-                    class="w-full text-left px-4 py-3 hover:bg-accent transition-colors border-b last:border-b-0"
+                    onclick={() => selectToResult(result)}
+                    class="w-full text-left px-4 py-3 hover:bg-accent/80 transition-all border-b last:border-b-0 group"
                   >
-                    <div class="font-semibold">{result.name}</div>
-                    <div class="text-sm text-muted-foreground">Booth {result.boothNumber}</div>
+                    <div class="flex items-start justify-between gap-3">
+                      <div class="flex-1 min-w-0">
+                        <div class="font-semibold text-sm truncate group-hover:text-destructive transition-colors">{result.name}</div>
+                        <div class="text-xs text-muted-foreground mt-0.5">{result.subtitle}</div>
+                      </div>
+                      {#if result.badge}
+                        <Badge
+                          variant={result.type === 'exhibitor'
+                            ? (result.badge === 'Exhibitor' ? 'default' : 'secondary')
+                            : 'outline'
+                          }
+                          class="text-xs shrink-0"
+                        >
+                          {result.badge}
+                        </Badge>
+                      {/if}
+                    </div>
                   </button>
                 {/each}
               </Card>

@@ -156,8 +156,8 @@
 <div class="absolute top-4 left-4 right-4 z-10 max-w-md mx-auto md:max-w-lg">
   <div class="relative">
     <!-- Search Icon -->
-    <div class="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none z-10">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.35-4.35"></path>
       </svg>
@@ -168,25 +168,25 @@
       oninput={handleSearch}
       onfocus={() => searchResults.length > 0 && (showResults = true)}
       onkeydown={handleKeyDown}
-      placeholder="Search exhibitors, booths..."
-      class="pl-10 pr-10 shadow-lg h-12 text-base"
+      placeholder="Search exhibitors, amenities, booths..."
+      class="pl-12 pr-12 shadow-xl border-2 h-14 text-base font-medium placeholder:text-muted-foreground/60 focus-visible:ring-2 focus-visible:ring-primary transition-all duration-200"
     />
 
     <!-- Loading or Clear Button -->
-    <div class="absolute right-3 top-1/2 -translate-y-1/2">
+    <div class="absolute right-4 top-1/2 -translate-y-1/2 z-10">
       {#if isSearching}
-        <div class="animate-spin text-muted-foreground">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="animate-spin text-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
           </svg>
         </div>
       {:else if searchQuery}
         <button
           onclick={clearSearch}
-          class="text-muted-foreground hover:text-foreground transition-colors"
+          class="text-muted-foreground hover:text-foreground transition-all duration-200 hover:scale-110 active:scale-95 p-1 rounded-md hover:bg-accent"
           aria-label="Clear search"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <path d="m15 9-6 6"></path>
             <path d="m9 9 6 6"></path>
@@ -197,19 +197,30 @@
 
     <!-- Search Results -->
     {#if showResults && searchResults.length > 0}
-      <Card class="absolute top-full mt-2 w-full max-h-96 overflow-y-auto shadow-2xl border-2">
-        <div class="text-xs font-medium text-muted-foreground px-4 py-2 bg-muted/50">
-          {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+      <Card class="absolute top-full mt-3 w-full max-h-96 overflow-y-auto shadow-2xl border-2 backdrop-blur-sm bg-background/95">
+        <div class="flex items-center justify-between px-4 py-3 bg-muted/50 border-b sticky top-0 z-10">
+          <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+            {searchResults.length} result{searchResults.length !== 1 ? 's' : ''}
+          </span>
+          <button
+            onclick={() => showResults = false}
+            class="text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-accent rounded"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
         </div>
         {#each searchResults as result, index}
           <button
             onclick={() => selectResult(result)}
-            class="w-full text-left px-4 py-3 hover:bg-accent transition-colors border-b last:border-b-0 {selectedIndex === index ? 'bg-accent' : ''}"
+            class="w-full text-left px-4 py-3.5 hover:bg-accent/80 transition-all duration-150 border-b last:border-b-0 {selectedIndex === index ? 'bg-accent' : ''} group"
           >
             <div class="flex items-start justify-between gap-3">
               <div class="flex-1 min-w-0">
-                <div class="font-semibold truncate">{result.name}</div>
-                <div class="text-sm text-muted-foreground mt-0.5">{result.subtitle}</div>
+                <div class="font-semibold text-base truncate group-hover:text-primary transition-colors">{result.name}</div>
+                <div class="text-sm text-muted-foreground mt-1">{result.subtitle}</div>
               </div>
               {#if result.badge}
                 <Badge
@@ -217,7 +228,7 @@
                     ? (result.badge === 'Exhibitor' ? 'default' : 'secondary')
                     : 'outline'
                   }
-                  class="text-xs shrink-0"
+                  class="text-xs shrink-0 font-medium"
                 >
                   {result.badge}
                 </Badge>
@@ -227,12 +238,13 @@
         {/each}
       </Card>
     {:else if showResults && searchQuery.length >= 2}
-      <Card class="absolute top-full mt-2 w-full shadow-xl border-2 p-4 text-center text-muted-foreground">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mx-auto mb-2 opacity-50">
+      <Card class="absolute top-full mt-3 w-full shadow-xl border-2 p-6 text-center text-muted-foreground backdrop-blur-sm bg-background/95">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-3 opacity-40">
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
-        <p class="text-sm">No exhibitors found</p>
+        <p class="text-sm font-medium">No results found</p>
+        <p class="text-xs text-muted-foreground/70 mt-1">Try searching for exhibitors or amenities</p>
       </Card>
     {/if}
   </div>

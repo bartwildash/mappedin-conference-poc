@@ -6,8 +6,12 @@
   import { selectedLocation, locationCardOpen, directionsOpen } from '$lib/stores/ui';
   import { pathfindingTo } from '$lib/stores/map';
   import { slide } from 'svelte/transition';
+  import { isReactNativeWebView, notifyExhibitorSelected } from '$lib/utils/webview-bridge';
+  import { isInIframe, notifyExhibitorClicked } from '$lib/utils/iframe-bridge';
 
   let coExhibitorsExpanded = $state(false);
+
+  const showOpenInAppButton = isReactNativeWebView() || isInIframe();
 
   function closeCard() {
     locationCardOpen.set(false);
@@ -25,6 +29,33 @@
 
   function toggleCoExhibitors() {
     coExhibitorsExpanded = !coExhibitorsExpanded;
+  }
+
+  function handleOpenInApp() {
+    // Get exhibitor data
+    const exhibitor = $selectedLocation?.exhibitors?.[0];
+    if (!exhibitor) return;
+
+    const data = {
+      externalId: exhibitor.externalId,
+      name: exhibitor.name,
+      boothNumber: exhibitor.boothNumber,
+      description: exhibitor.description,
+      website: exhibitor.website
+    };
+
+    // Notify parent app (React Native or iframe)
+    if (isReactNativeWebView()) {
+      notifyExhibitorSelected(data);
+    } else if (isInIframe()) {
+      notifyExhibitorClicked({
+        externalId: data.externalId,
+        name: data.name,
+        boothNumber: data.boothNumber
+      });
+    }
+
+    closeCard();
   }
 </script>
 
@@ -59,13 +90,26 @@
           </button>
         </div>
 
-        <!-- Directions Button -->
-        <Button onclick={openDirections} class="w-full">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
-            <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
-          </svg>
-          Get Directions
-        </Button>
+        <!-- Action Buttons -->
+        <div class="flex gap-2">
+          <Button onclick={openDirections} class="flex-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
+              <polygon points="3 11 22 2 13 21 11 13 3 11"></polygon>
+            </svg>
+            Get Directions
+          </Button>
+
+          {#if showOpenInAppButton && $selectedLocation.exhibitors && $selectedLocation.exhibitors.length > 0}
+            <Button onclick={handleOpenInApp} variant="outline" class="flex-1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" x2="21" y1="14" y2="3"></line>
+              </svg>
+              Open in App
+            </Button>
+          {/if}
+        </div>
 
         <!-- Exhibitor List -->
         {#if $selectedLocation.exhibitors && $selectedLocation.exhibitors.length > 0}
