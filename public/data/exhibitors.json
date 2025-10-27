@@ -1,0 +1,6075 @@
+{
+  "event": {
+    "id": 407,
+    "name": "Indo Pacific 2025",
+    "totalBooths": 304,
+    "totalExhibitors": 778,
+    "boothsWithChildren": 45,
+    "maxChildren": 69
+  },
+  "booths": [
+    {
+      "externalId": "3C74",
+      "primary": {
+        "id": "7910",
+        "name": "Adelaide University"
+      },
+      "children": [
+        {
+          "id": "7903",
+          "name": "UDT Australia"
+        },
+        {
+          "id": "7896",
+          "name": "Defence Innovation Partnership"
+        },
+        {
+          "id": "7841",
+          "name": "Flinders University"
+        },
+        {
+          "id": "7769",
+          "name": "Egress Space"
+        },
+        {
+          "id": "7746",
+          "name": "Coherics"
+        },
+        {
+          "id": "7732",
+          "name": "Swordfish Computing"
+        },
+        {
+          "id": "7712",
+          "name": "TAFE SA"
+        },
+        {
+          "id": "7711",
+          "name": "Secure State"
+        },
+        {
+          "id": "7710",
+          "name": "Pirtek Adelaide Pty Ltd."
+        },
+        {
+          "id": "7709",
+          "name": "CYLAD"
+        },
+        {
+          "id": "7555",
+          "name": "United Fasteners"
+        },
+        {
+          "id": "7554",
+          "name": "TQCS International Pty Ltd"
+        },
+        {
+          "id": "7553",
+          "name": "TESS Search Partners"
+        },
+        {
+          "id": "7552",
+          "name": "Techforce Personnel"
+        },
+        {
+          "id": "7551",
+          "name": "Stärke-AMG"
+        },
+        {
+          "id": "7550",
+          "name": "Sovereign Propulsion Systems"
+        },
+        {
+          "id": "7549",
+          "name": "Solinnov Pty Ltd"
+        },
+        {
+          "id": "7548",
+          "name": "SOIO - School of Information Operations"
+        },
+        {
+          "id": "7547",
+          "name": "Silentium Defence Trading Pty Ltd"
+        },
+        {
+          "id": "7546",
+          "name": "Sierra Nevada Corporation Australia SNC AUS"
+        },
+        {
+          "id": "7545",
+          "name": "Shoal Group"
+        },
+        {
+          "id": "7544",
+          "name": "RFTEQ"
+        },
+        {
+          "id": "7543",
+          "name": "Black Art Technologies"
+        },
+        {
+          "id": "7543",
+          "name": "RFShop Australia Pty Ltd"
+        },
+        {
+          "id": "7541",
+          "name": "Red Hat"
+        },
+        {
+          "id": "7540",
+          "name": "QMS NDT & NACE"
+        },
+        {
+          "id": "7539",
+          "name": "PRP Manufacturing"
+        },
+        {
+          "id": "7538",
+          "name": "Praetorian Aeronautics"
+        },
+        {
+          "id": "7537",
+          "name": "Powerhouse Logistics Pty Limited"
+        },
+        {
+          "id": "7536",
+          "name": "PMB Defence Pty Ltd"
+        },
+        {
+          "id": "7535",
+          "name": "PEER"
+        },
+        {
+          "id": "7534",
+          "name": "Operational Systems Pty Ltd"
+        },
+        {
+          "id": "7533",
+          "name": "Novafast"
+        },
+        {
+          "id": "7532",
+          "name": "Nova Systems"
+        },
+        {
+          "id": "7531",
+          "name": "Noske-Kaeser Marine Australia"
+        },
+        {
+          "id": "7530",
+          "name": "Norseld Photonics"
+        },
+        {
+          "id": "7529",
+          "name": "Mott MacDonald"
+        },
+        {
+          "id": "7528",
+          "name": "Morgan Advanced Materials (Thermal Ceramics)"
+        },
+        {
+          "id": "7527",
+          "name": "MG Engineering SA Pty Ltd"
+        },
+        {
+          "id": "7526",
+          "name": "McGrathNicol Advisory"
+        },
+        {
+          "id": "7525",
+          "name": "Logi-Tech Pty Ltd"
+        },
+        {
+          "id": "7524",
+          "name": "Levett Engineering Pty Ltd"
+        },
+        {
+          "id": "7523",
+          "name": "Insight Via Artificial Intelligence"
+        },
+        {
+          "id": "7522",
+          "name": "Truflo Marine Australia (IMI)"
+        },
+        {
+          "id": "7521",
+          "name": "Mitchell & Cheesman Pty Ltd"
+        },
+        {
+          "id": "7521",
+          "name": "Toolcraft Australia"
+        },
+        {
+          "id": "7521",
+          "name": "Hephaestus Global"
+        },
+        {
+          "id": "7520",
+          "name": "Hendon Semiconductors Pty Ltd"
+        },
+        {
+          "id": "7519",
+          "name": "Global Nuclear Security Partners"
+        },
+        {
+          "id": "7518",
+          "name": "DTC A Codan Company"
+        },
+        {
+          "id": "7517",
+          "name": "DEWC Services Pty Ltd"
+        },
+        {
+          "id": "7516",
+          "name": "Defence Teaming Centre Ltd"
+        },
+        {
+          "id": "7515",
+          "name": "Dedicated Systems Australia"
+        },
+        {
+          "id": "7514",
+          "name": "De Stefano & Co"
+        },
+        {
+          "id": "7513",
+          "name": "Daronmont Technologies"
+        },
+        {
+          "id": "7512",
+          "name": "Customs Agency Services (Freight Forwarder)"
+        },
+        {
+          "id": "7511",
+          "name": "Copper Alloys Ltd"
+        },
+        {
+          "id": "7510",
+          "name": "Century Engineering"
+        },
+        {
+          "id": "7509",
+          "name": "Axiom Precision Manufacturing"
+        },
+        {
+          "id": "7508",
+          "name": "Arrow Electronics Australia Pty Ltd"
+        },
+        {
+          "id": "7507",
+          "name": "APC Technology"
+        },
+        {
+          "id": "7506",
+          "name": "AML3D Limited"
+        },
+        {
+          "id": "7506",
+          "name": "AML3D Limited"
+        },
+        {
+          "id": "7505",
+          "name": "Airspeed"
+        },
+        {
+          "id": "7504",
+          "name": "AEROBOND GROUP PTY LTD"
+        },
+        {
+          "id": "7503",
+          "name": "Adelaide Relocations"
+        },
+        {
+          "id": "7502",
+          "name": "ADCG"
+        },
+        {
+          "id": "7501",
+          "name": "Acacia Systems Pty Ltd"
+        },
+        {
+          "id": "7439",
+          "name": "Defence SA"
+        }
+      ],
+      "totalExhibitors": 70,
+      "allNames": [
+        "Adelaide University",
+        "UDT Australia",
+        "Defence Innovation Partnership",
+        "Flinders University",
+        "Egress Space",
+        "Coherics",
+        "Swordfish Computing",
+        "TAFE SA",
+        "Secure State",
+        "Pirtek Adelaide Pty Ltd.",
+        "CYLAD",
+        "United Fasteners",
+        "TQCS International Pty Ltd",
+        "TESS Search Partners",
+        "Techforce Personnel",
+        "Stärke-AMG",
+        "Sovereign Propulsion Systems",
+        "Solinnov Pty Ltd",
+        "SOIO - School of Information Operations",
+        "Silentium Defence Trading Pty Ltd",
+        "Sierra Nevada Corporation Australia SNC AUS",
+        "Shoal Group",
+        "RFTEQ",
+        "Black Art Technologies",
+        "RFShop Australia Pty Ltd",
+        "Red Hat",
+        "QMS NDT & NACE",
+        "PRP Manufacturing",
+        "Praetorian Aeronautics",
+        "Powerhouse Logistics Pty Limited",
+        "PMB Defence Pty Ltd",
+        "PEER",
+        "Operational Systems Pty Ltd",
+        "Novafast",
+        "Nova Systems",
+        "Noske-Kaeser Marine Australia",
+        "Norseld Photonics",
+        "Mott MacDonald",
+        "Morgan Advanced Materials (Thermal Ceramics)",
+        "MG Engineering SA Pty Ltd",
+        "McGrathNicol Advisory",
+        "Logi-Tech Pty Ltd",
+        "Levett Engineering Pty Ltd",
+        "Insight Via Artificial Intelligence",
+        "Truflo Marine Australia (IMI)",
+        "Mitchell & Cheesman Pty Ltd",
+        "Toolcraft Australia",
+        "Hephaestus Global",
+        "Hendon Semiconductors Pty Ltd",
+        "Global Nuclear Security Partners",
+        "DTC A Codan Company",
+        "DEWC Services Pty Ltd",
+        "Defence Teaming Centre Ltd",
+        "Dedicated Systems Australia",
+        "De Stefano & Co",
+        "Daronmont Technologies",
+        "Customs Agency Services (Freight Forwarder)",
+        "Copper Alloys Ltd",
+        "Century Engineering",
+        "Axiom Precision Manufacturing",
+        "Arrow Electronics Australia Pty Ltd",
+        "APC Technology",
+        "AML3D Limited",
+        "AML3D Limited",
+        "Airspeed",
+        "AEROBOND GROUP PTY LTD",
+        "Adelaide Relocations",
+        "ADCG",
+        "Acacia Systems Pty Ltd",
+        "Defence SA"
+      ]
+    },
+    {
+      "externalId": "2N31",
+      "primary": {
+        "id": "7909",
+        "name": "Willow"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Willow"
+      ]
+    },
+    {
+      "externalId": "2N37",
+      "primary": {
+        "id": "7908",
+        "name": "C-Tech Composites"
+      },
+      "children": [
+        {
+          "id": "7787",
+          "name": "McKay"
+        },
+        {
+          "id": "7744",
+          "name": "New Zealand Defence Force"
+        },
+        {
+          "id": "7743",
+          "name": "Syos Aerospace Limited"
+        },
+        {
+          "id": "7742",
+          "name": "C W F Hamilton & Co Limited"
+        },
+        {
+          "id": "7741",
+          "name": "Alloy Bearings"
+        },
+        {
+          "id": "7740",
+          "name": "Staples Productions Limited"
+        },
+        {
+          "id": "7739",
+          "name": "Starboard Maritime Intelligence"
+        },
+        {
+          "id": "7738",
+          "name": "Supreme Precision Castings Limited"
+        },
+        {
+          "id": "7737",
+          "name": "New Zealand Defence Industry Association Incorporated"
+        },
+        {
+          "id": "7736",
+          "name": "Bowmaster Ltd"
+        },
+        {
+          "id": "7735",
+          "name": "Company-X Limited"
+        },
+        {
+          "id": "7734",
+          "name": "The Sysdoc Group Limited"
+        },
+        {
+          "id": "7733",
+          "name": "Argus CableTech Limited"
+        },
+        {
+          "id": "7607",
+          "name": "New Zealand "
+        }
+      ],
+      "totalExhibitors": 15,
+      "allNames": [
+        "C-Tech Composites",
+        "McKay",
+        "New Zealand Defence Force",
+        "Syos Aerospace Limited",
+        "C W F Hamilton & Co Limited",
+        "Alloy Bearings",
+        "Staples Productions Limited",
+        "Starboard Maritime Intelligence",
+        "Supreme Precision Castings Limited",
+        "New Zealand Defence Industry Association Incorporated",
+        "Bowmaster Ltd",
+        "Company-X Limited",
+        "The Sysdoc Group Limited",
+        "Argus CableTech Limited",
+        "New Zealand "
+      ]
+    },
+    {
+      "externalId": "2A52",
+      "primary": {
+        "id": "7907",
+        "name": "Negentropic"
+      },
+      "children": [
+        {
+          "id": "7906",
+          "name": "Breaker"
+        },
+        {
+          "id": "7856",
+          "name": "Callington"
+        },
+        {
+          "id": "7854",
+          "name": "Romar"
+        },
+        {
+          "id": "7853",
+          "name": "AMCO"
+        },
+        {
+          "id": "7840",
+          "name": "Arican Advisory & Capital"
+        },
+        {
+          "id": "7834",
+          "name": "ISO-COAT®"
+        },
+        {
+          "id": "7833",
+          "name": "Varley Group"
+        },
+        {
+          "id": "7832",
+          "name": "TBH"
+        },
+        {
+          "id": "7831",
+          "name": "Thomas Global Systems"
+        },
+        {
+          "id": "7830",
+          "name": "The Whiskey Project Group"
+        },
+        {
+          "id": "7829",
+          "name": "Stella"
+        },
+        {
+          "id": "7828",
+          "name": "Ron Allum Deepsea Services Pty Ltd"
+        },
+        {
+          "id": "7827",
+          "name": "Reach Robotics"
+        },
+        {
+          "id": "7826",
+          "name": "Q-CTRL"
+        },
+        {
+          "id": "7825",
+          "name": "Ocius Technology"
+        },
+        {
+          "id": "7824",
+          "name": "MILDEF CRETE AUSTRALASIA"
+        },
+        {
+          "id": "7823",
+          "name": "Mercury ISS"
+        },
+        {
+          "id": "7822",
+          "name": "Mellori Solutions"
+        },
+        {
+          "id": "7821",
+          "name": "Mcconaghy Australia"
+        },
+        {
+          "id": "7820",
+          "name": "Lawforce Alpha"
+        },
+        {
+          "id": "7819",
+          "name": "InQuik Pty Ltd"
+        },
+        {
+          "id": "7818",
+          "name": "Illawarra Shoalhaven Regional Defence Network"
+        },
+        {
+          "id": "7817",
+          "name": "Hydraulic Controls P/L"
+        },
+        {
+          "id": "7816",
+          "name": "Hunter Defence"
+        },
+        {
+          "id": "7815",
+          "name": "Halliday Engineering Pty Ltd"
+        },
+        {
+          "id": "7814",
+          "name": "GuardWare Australia"
+        },
+        {
+          "id": "7813",
+          "name": "GPC Electronics Pty Ltd"
+        },
+        {
+          "id": "7812",
+          "name": "GME"
+        },
+        {
+          "id": "7811",
+          "name": "Forcys Australia Pty., Ltd."
+        },
+        {
+          "id": "7810",
+          "name": "Engineering Business Pty Ltd"
+        },
+        {
+          "id": "7809",
+          "name": "Eartheye Space"
+        },
+        {
+          "id": "7808",
+          "name": "Defence Seals & Spares"
+        },
+        {
+          "id": "7807",
+          "name": "Defence Innovation Network"
+        },
+        {
+          "id": "7806",
+          "name": "CST Composites"
+        },
+        {
+          "id": "7805",
+          "name": "CruxML Pty Ltd"
+        },
+        {
+          "id": "7804",
+          "name": "Chess Engineering Pty Ltd"
+        },
+        {
+          "id": "7803",
+          "name": "BPS Defence"
+        },
+        {
+          "id": "7802",
+          "name": "BlueCats"
+        },
+        {
+          "id": "7801",
+          "name": "Bisalloy"
+        },
+        {
+          "id": "7800",
+          "name": "Benelec"
+        },
+        {
+          "id": "7799",
+          "name": "Bellinger Systems Pty Ltd"
+        },
+        {
+          "id": "7798",
+          "name": "Beca Pty Ltd"
+        },
+        {
+          "id": "7797",
+          "name": "Banlaw"
+        },
+        {
+          "id": "7796",
+          "name": "Baker & Provan"
+        },
+        {
+          "id": "7795",
+          "name": "Ausbright Electrical"
+        },
+        {
+          "id": "7794",
+          "name": "Astra Aerolab & Newcastle Airport"
+        },
+        {
+          "id": "7793",
+          "name": "Aquila Space Technologies"
+        },
+        {
+          "id": "7792",
+          "name": "Advanced Navigation"
+        },
+        {
+          "id": "7791",
+          "name": "ADROITA"
+        },
+        {
+          "id": "7790",
+          "name": "3ME Technology"
+        },
+        {
+          "id": "7624",
+          "name": "Investment NSW"
+        }
+      ],
+      "totalExhibitors": 52,
+      "allNames": [
+        "Negentropic",
+        "Breaker",
+        "Callington",
+        "Romar",
+        "AMCO",
+        "Arican Advisory & Capital",
+        "ISO-COAT®",
+        "Varley Group",
+        "TBH",
+        "Thomas Global Systems",
+        "The Whiskey Project Group",
+        "Stella",
+        "Ron Allum Deepsea Services Pty Ltd",
+        "Reach Robotics",
+        "Q-CTRL",
+        "Ocius Technology",
+        "MILDEF CRETE AUSTRALASIA",
+        "Mercury ISS",
+        "Mellori Solutions",
+        "Mcconaghy Australia",
+        "Lawforce Alpha",
+        "InQuik Pty Ltd",
+        "Illawarra Shoalhaven Regional Defence Network",
+        "Hydraulic Controls P/L",
+        "Hunter Defence",
+        "Halliday Engineering Pty Ltd",
+        "GuardWare Australia",
+        "GPC Electronics Pty Ltd",
+        "GME",
+        "Forcys Australia Pty., Ltd.",
+        "Engineering Business Pty Ltd",
+        "Eartheye Space",
+        "Defence Seals & Spares",
+        "Defence Innovation Network",
+        "CST Composites",
+        "CruxML Pty Ltd",
+        "Chess Engineering Pty Ltd",
+        "BPS Defence",
+        "BlueCats",
+        "Bisalloy",
+        "Benelec",
+        "Bellinger Systems Pty Ltd",
+        "Beca Pty Ltd",
+        "Banlaw",
+        "Baker & Provan",
+        "Ausbright Electrical",
+        "Astra Aerolab & Newcastle Airport",
+        "Aquila Space Technologies",
+        "Advanced Navigation",
+        "ADROITA",
+        "3ME Technology",
+        "Investment NSW"
+      ]
+    },
+    {
+      "externalId": "4A126",
+      "primary": {
+        "id": "7902",
+        "name": "SOTER International Ltd"
+      },
+      "children": [
+        {
+          "id": "7901",
+          "name": "Microsoft Worldwide Defense & Intelligence"
+        },
+        {
+          "id": "7901",
+          "name": "Microsoft Worldwide Defense & Intelligence"
+        },
+        {
+          "id": "7900",
+          "name": "ArmaTech Industries"
+        },
+        {
+          "id": "7899",
+          "name": "Australian Pump Industries"
+        },
+        {
+          "id": "7898",
+          "name": "JCS-WB Technologies"
+        },
+        {
+          "id": "7897",
+          "name": "Saltwater Veterans"
+        },
+        {
+          "id": "7897",
+          "name": "HTR Group Pty Ltd"
+        },
+        {
+          "id": "7481",
+          "name": "Australian Industry & Defence Network Ltd (AIDN)"
+        }
+      ],
+      "totalExhibitors": 9,
+      "allNames": [
+        "SOTER International Ltd",
+        "Microsoft Worldwide Defense & Intelligence",
+        "Microsoft Worldwide Defense & Intelligence",
+        "ArmaTech Industries",
+        "Australian Pump Industries",
+        "JCS-WB Technologies",
+        "Saltwater Veterans",
+        "HTR Group Pty Ltd",
+        "Australian Industry & Defence Network Ltd (AIDN)"
+      ]
+    },
+    {
+      "externalId": "POD 20",
+      "primary": {
+        "id": "7895",
+        "name": "Austability Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Austability Australia"
+      ]
+    },
+    {
+      "externalId": "POD 11",
+      "primary": {
+        "id": "7894",
+        "name": "Defense Conseil International - DCI"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Defense Conseil International - DCI"
+      ]
+    },
+    {
+      "externalId": "3J84",
+      "primary": {
+        "id": "7893",
+        "name": "AERIUS Marine Australia Pty Ltd"
+      },
+      "children": [
+        {
+          "id": "7891",
+          "name": "McGuire Marine"
+        },
+        {
+          "id": "7890",
+          "name": "Biofouling Solutions"
+        },
+        {
+          "id": "7889",
+          "name": "Offshore Unlimited"
+        },
+        {
+          "id": "7888",
+          "name": "INCAT"
+        },
+        {
+          "id": "7887",
+          "name": "TDS"
+        },
+        {
+          "id": "7855",
+          "name": "Jayben Group"
+        },
+        {
+          "id": "7253",
+          "name": "Mirador Capability Solutions"
+        },
+        {
+          "id": "7251",
+          "name": "Lightning Protection International"
+        },
+        {
+          "id": "7250",
+          "name": "Muir Anchoring Systems"
+        },
+        {
+          "id": "7249",
+          "name": "Fluid Power Services"
+        },
+        {
+          "id": "7248",
+          "name": "Harbro Engineering Pty Ltd"
+        },
+        {
+          "id": "7247",
+          "name": "Taylor Bros Marine"
+        },
+        {
+          "id": "7246",
+          "name": "SubSea Craft"
+        },
+        {
+          "id": "7245",
+          "name": "Southern Ocean Subsea"
+        },
+        {
+          "id": "7244",
+          "name": "Sentinel Boats"
+        },
+        {
+          "id": "7243",
+          "name": "PT Motorsport"
+        },
+        {
+          "id": "7242",
+          "name": "Pivot Maritime International"
+        },
+        {
+          "id": "7241",
+          "name": "Penguin Composites"
+        },
+        {
+          "id": "7240",
+          "name": "Ocean Infinity (Australia) Pty Ltd"
+        },
+        {
+          "id": "7239",
+          "name": "Novaris"
+        },
+        {
+          "id": "7238",
+          "name": "HENSOLDT Australia Pty Ltd"
+        },
+        {
+          "id": "7237",
+          "name": "CBG Systems"
+        },
+        {
+          "id": "7236",
+          "name": "Australian Maritime College (AMC)"
+        },
+        {
+          "id": "7156",
+          "name": "Defence Tasmania"
+        }
+      ],
+      "totalExhibitors": 25,
+      "allNames": [
+        "AERIUS Marine Australia Pty Ltd",
+        "McGuire Marine",
+        "Biofouling Solutions",
+        "Offshore Unlimited",
+        "INCAT",
+        "TDS",
+        "Jayben Group",
+        "Mirador Capability Solutions",
+        "Lightning Protection International",
+        "Muir Anchoring Systems",
+        "Fluid Power Services",
+        "Harbro Engineering Pty Ltd",
+        "Taylor Bros Marine",
+        "SubSea Craft",
+        "Southern Ocean Subsea",
+        "Sentinel Boats",
+        "PT Motorsport",
+        "Pivot Maritime International",
+        "Penguin Composites",
+        "Ocean Infinity (Australia) Pty Ltd",
+        "Novaris",
+        "HENSOLDT Australia Pty Ltd",
+        "CBG Systems",
+        "Australian Maritime College (AMC)",
+        "Defence Tasmania"
+      ]
+    },
+    {
+      "externalId": "3F92",
+      "primary": {
+        "id": "7886",
+        "name": "Additive Manufacturing CRC Limited"
+      },
+      "children": [
+        {
+          "id": "7698",
+          "name": "The Design Technology Company"
+        },
+        {
+          "id": "7697",
+          "name": "Objective 3D"
+        },
+        {
+          "id": "7452",
+          "name": "Li-S Energy"
+        },
+        {
+          "id": "7400",
+          "name": "Phasor Quantum Pty Ltd"
+        },
+        {
+          "id": "7399",
+          "name": "Luminact"
+        },
+        {
+          "id": "7398",
+          "name": "VTR Verbindungs-Techniken Rüther GmbH"
+        },
+        {
+          "id": "7398",
+          "name": "Jergens"
+        },
+        {
+          "id": "7398",
+          "name": "ERG "
+        },
+        {
+          "id": "7398",
+          "name": "Click Bond"
+        },
+        {
+          "id": "7398",
+          "name": "Applied Fasteners and Tooling"
+        },
+        {
+          "id": "7373",
+          "name": "ZenithGroup - Defence"
+        },
+        {
+          "id": "7372",
+          "name": "ZCG Scalar"
+        },
+        {
+          "id": "7371",
+          "name": "XM2 Earth"
+        },
+        {
+          "id": "7370",
+          "name": "Way Out Evacuation Systems Pty Ltd"
+        },
+        {
+          "id": "7369",
+          "name": "Vipac Engineers & Scientists Ltd"
+        },
+        {
+          "id": "7368",
+          "name": "U-Neek Bending Co."
+        },
+        {
+          "id": "7367",
+          "name": "Tufwrap Australia Pty Ltd"
+        },
+        {
+          "id": "7366",
+          "name": "Total Precision Pty Ltd"
+        },
+        {
+          "id": "7365",
+          "name": "Thycon Industrial Pty Ltd"
+        },
+        {
+          "id": "7364",
+          "name": "Textron Systems Australia Pty Ltd"
+        },
+        {
+          "id": "7363",
+          "name": "Systematiq Pty Ltd"
+        },
+        {
+          "id": "7362",
+          "name": "SYPAQ Systems"
+        },
+        {
+          "id": "7361",
+          "name": "Solstas Pty Ltd"
+        },
+        {
+          "id": "7360",
+          "name": "Open Welding"
+        },
+        {
+          "id": "7359",
+          "name": "Secure Hard Drive Destruction Pty Ltd (SHDD)"
+        },
+        {
+          "id": "7358",
+          "name": "Rubicon Associates Pty Ltd"
+        },
+        {
+          "id": "7357",
+          "name": "Ronson Gears"
+        },
+        {
+          "id": "7356",
+          "name": "Ribcraft Australia (Ribcraft Marine Pty Ltd)"
+        },
+        {
+          "id": "7355",
+          "name": "Redline Engineering"
+        },
+        {
+          "id": "7354",
+          "name": "R & I Instrument & Gear Co (Aust) Pty Ltd"
+        },
+        {
+          "id": "7353",
+          "name": "Plasan Australia"
+        },
+        {
+          "id": "7352",
+          "name": "Parish Engineering Company Pty Ltd "
+        },
+        {
+          "id": "7351",
+          "name": "Ocean Software"
+        },
+        {
+          "id": "7350",
+          "name": "DHDS PTY LTD"
+        },
+        {
+          "id": "7349",
+          "name": "Mackay Australia"
+        },
+        {
+          "id": "7348",
+          "name": "Mack Valves Pty Ltd"
+        },
+        {
+          "id": "7347",
+          "name": "MACH Engineering (a division of Foodmach)"
+        },
+        {
+          "id": "7346",
+          "name": "Lindo Technology Group Pty Ltd"
+        },
+        {
+          "id": "7345",
+          "name": "Latrobe City Defence Alliance"
+        },
+        {
+          "id": "7344",
+          "name": "Jack Thompson Engineering Pty Ltd (JTE)"
+        },
+        {
+          "id": "7343",
+          "name": "Integra Systems"
+        },
+        {
+          "id": "7342",
+          "name": "Infleqtion Australia"
+        },
+        {
+          "id": "7341",
+          "name": "Hydrix Services Pty Ltd"
+        },
+        {
+          "id": "7340",
+          "name": "Houston Engineering Pty Ltd"
+        },
+        {
+          "id": "7339",
+          "name": "Hosico Engineering Group Pty Ltd  /  Australian Precision Technologies"
+        },
+        {
+          "id": "7338",
+          "name": "Horsell"
+        },
+        {
+          "id": "7337",
+          "name": "FLAIM Systems Pty Ltd"
+        },
+        {
+          "id": "7336",
+          "name": "FALCON UAV"
+        },
+        {
+          "id": "7335",
+          "name": "Extel Technologies Pty Ltd"
+        },
+        {
+          "id": "7334",
+          "name": "EntroMat"
+        },
+        {
+          "id": "7333",
+          "name": "Electric Motor Power Pty Ltd"
+        },
+        {
+          "id": "7332",
+          "name": "Defence Science Institute (DSI)"
+        },
+        {
+          "id": "7331",
+          "name": "COMBITEL"
+        },
+        {
+          "id": "7330",
+          "name": "Campagno Engineering Pty Ltd"
+        },
+        {
+          "id": "7329",
+          "name": "Cablex Pty Ltd"
+        },
+        {
+          "id": "7328",
+          "name": "BlueRoom Simulations"
+        },
+        {
+          "id": "7327",
+          "name": "Bartlett Manufacturing"
+        },
+        {
+          "id": "7326",
+          "name": "AW Bell"
+        },
+        {
+          "id": "7325",
+          "name": "AVT Australia"
+        },
+        {
+          "id": "7324",
+          "name": "ARKEUS"
+        },
+        {
+          "id": "7323",
+          "name": "AOS (Agent Oriented Software)"
+        },
+        {
+          "id": "7322",
+          "name": "AMOG"
+        },
+        {
+          "id": "7321",
+          "name": "Amiga Engineering"
+        },
+        {
+          "id": "7320",
+          "name": "AME Systems (Vic) Pty Ltd"
+        },
+        {
+          "id": "7319",
+          "name": "All Sat Communication"
+        },
+        {
+          "id": "7318",
+          "name": "Advanced Composite Structures Australia (ACS Australia)"
+        },
+        {
+          "id": "7317",
+          "name": "Able Industries Engineering"
+        },
+        {
+          "id": "7281",
+          "name": "Titomic Limited"
+        },
+        {
+          "id": "7269",
+          "name": "Victorian Government"
+        }
+      ],
+      "totalExhibitors": 70,
+      "allNames": [
+        "Additive Manufacturing CRC Limited",
+        "The Design Technology Company",
+        "Objective 3D",
+        "Li-S Energy",
+        "Phasor Quantum Pty Ltd",
+        "Luminact",
+        "VTR Verbindungs-Techniken Rüther GmbH",
+        "Jergens",
+        "ERG ",
+        "Click Bond",
+        "Applied Fasteners and Tooling",
+        "ZenithGroup - Defence",
+        "ZCG Scalar",
+        "XM2 Earth",
+        "Way Out Evacuation Systems Pty Ltd",
+        "Vipac Engineers & Scientists Ltd",
+        "U-Neek Bending Co.",
+        "Tufwrap Australia Pty Ltd",
+        "Total Precision Pty Ltd",
+        "Thycon Industrial Pty Ltd",
+        "Textron Systems Australia Pty Ltd",
+        "Systematiq Pty Ltd",
+        "SYPAQ Systems",
+        "Solstas Pty Ltd",
+        "Open Welding",
+        "Secure Hard Drive Destruction Pty Ltd (SHDD)",
+        "Rubicon Associates Pty Ltd",
+        "Ronson Gears",
+        "Ribcraft Australia (Ribcraft Marine Pty Ltd)",
+        "Redline Engineering",
+        "R & I Instrument & Gear Co (Aust) Pty Ltd",
+        "Plasan Australia",
+        "Parish Engineering Company Pty Ltd ",
+        "Ocean Software",
+        "DHDS PTY LTD",
+        "Mackay Australia",
+        "Mack Valves Pty Ltd",
+        "MACH Engineering (a division of Foodmach)",
+        "Lindo Technology Group Pty Ltd",
+        "Latrobe City Defence Alliance",
+        "Jack Thompson Engineering Pty Ltd (JTE)",
+        "Integra Systems",
+        "Infleqtion Australia",
+        "Hydrix Services Pty Ltd",
+        "Houston Engineering Pty Ltd",
+        "Hosico Engineering Group Pty Ltd  /  Australian Precision Technologies",
+        "Horsell",
+        "FLAIM Systems Pty Ltd",
+        "FALCON UAV",
+        "Extel Technologies Pty Ltd",
+        "EntroMat",
+        "Electric Motor Power Pty Ltd",
+        "Defence Science Institute (DSI)",
+        "COMBITEL",
+        "Campagno Engineering Pty Ltd",
+        "Cablex Pty Ltd",
+        "BlueRoom Simulations",
+        "Bartlett Manufacturing",
+        "AW Bell",
+        "AVT Australia",
+        "ARKEUS",
+        "AOS (Agent Oriented Software)",
+        "AMOG",
+        "Amiga Engineering",
+        "AME Systems (Vic) Pty Ltd",
+        "All Sat Communication",
+        "Advanced Composite Structures Australia (ACS Australia)",
+        "Able Industries Engineering",
+        "Titomic Limited",
+        "Victorian Government"
+      ]
+    },
+    {
+      "externalId": "NL33",
+      "primary": {
+        "id": "7876",
+        "name": "Navy Fitness and Physical Training"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Fitness and Physical Training"
+      ]
+    },
+    {
+      "externalId": "NLX",
+      "primary": {
+        "id": "7875",
+        "name": "Bungaree Performances"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Bungaree Performances"
+      ]
+    },
+    {
+      "externalId": "NL46",
+      "primary": {
+        "id": "7874",
+        "name": "Navy Flight Simulators and Naval Aviation Roles"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Flight Simulators and Naval Aviation Roles"
+      ]
+    },
+    {
+      "externalId": "NL41",
+      "primary": {
+        "id": "7873",
+        "name": "Navy Virtual Reality"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Virtual Reality"
+      ]
+    },
+    {
+      "externalId": "NL38",
+      "primary": {
+        "id": "7872",
+        "name": "Navy Engineering"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Engineering"
+      ]
+    },
+    {
+      "externalId": "NL37",
+      "primary": {
+        "id": "7871",
+        "name": "Marine and Electronics Technicians"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Marine and Electronics Technicians"
+      ]
+    },
+    {
+      "externalId": "NL35",
+      "primary": {
+        "id": "7870",
+        "name": "Submarine Recruiting Team"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Submarine Recruiting Team"
+      ]
+    },
+    {
+      "externalId": "NL33 (B)",
+      "primary": {
+        "id": "7869",
+        "name": "ADF Careers"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ADF Careers"
+      ]
+    },
+    {
+      "externalId": "NL31",
+      "primary": {
+        "id": "7868",
+        "name": "Defence Youth Engagement Programs"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Defence Youth Engagement Programs"
+      ]
+    },
+    {
+      "externalId": "NL28",
+      "primary": {
+        "id": "7867",
+        "name": "Royal Australian Navy"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Royal Australian Navy"
+      ]
+    },
+    {
+      "externalId": "NL32",
+      "primary": {
+        "id": "7866",
+        "name": "Navy Training Force"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Training Force"
+      ]
+    },
+    {
+      "externalId": "NL21",
+      "primary": {
+        "id": "7865",
+        "name": "Maritime Logistics"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Maritime Logistics"
+      ]
+    },
+    {
+      "externalId": "NL29",
+      "primary": {
+        "id": "7864",
+        "name": "Directorate of Navy Culture"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Directorate of Navy Culture"
+      ]
+    },
+    {
+      "externalId": "NL18",
+      "primary": {
+        "id": "7863",
+        "name": "Intelligence and Information Warfare"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Intelligence and Information Warfare"
+      ]
+    },
+    {
+      "externalId": "NL17",
+      "primary": {
+        "id": "7862",
+        "name": "Undersea Geospatial Warfare"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Undersea Geospatial Warfare"
+      ]
+    },
+    {
+      "externalId": "L23,NL12",
+      "primary": {
+        "id": "7861",
+        "name": "The Navy Anchorage"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "The Navy Anchorage"
+      ]
+    },
+    {
+      "externalId": "NL10",
+      "primary": {
+        "id": "7860",
+        "name": "Navy Health"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Health"
+      ]
+    },
+    {
+      "externalId": "NL7",
+      "primary": {
+        "id": "7859",
+        "name": "Navy Personnel Community"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Personnel Community"
+      ]
+    },
+    {
+      "externalId": "NL6",
+      "primary": {
+        "id": "7858",
+        "name": "Surface Warfare Operator"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Surface Warfare Operator"
+      ]
+    },
+    {
+      "externalId": "NL3",
+      "primary": {
+        "id": "7857",
+        "name": "Undersea Warfare (Geospatial)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Undersea Warfare (Geospatial)"
+      ]
+    },
+    {
+      "externalId": "3J62",
+      "primary": {
+        "id": "7852",
+        "name": "Canberra Cyber Hub"
+      },
+      "children": [
+        {
+          "id": "7851",
+          "name": "Aqacia"
+        },
+        {
+          "id": "7618",
+          "name": "HighCom"
+        },
+        {
+          "id": "7374",
+          "name": "x-RD"
+        },
+        {
+          "id": "7311",
+          "name": "UNSW Defence Research Insitute "
+        },
+        {
+          "id": "7309",
+          "name": "Willyama Services"
+        },
+        {
+          "id": "7308",
+          "name": "Vault Cloud"
+        },
+        {
+          "id": "7307",
+          "name": "UNSW Canberra"
+        },
+        {
+          "id": "7306",
+          "name": "UBH Group"
+        },
+        {
+          "id": "7305",
+          "name": "The Australian National University (ANU)"
+        },
+        {
+          "id": "7304",
+          "name": "RD Consulting"
+        },
+        {
+          "id": "7303",
+          "name": "Intersoft Electronics - Asia Pacific"
+        },
+        {
+          "id": "7302",
+          "name": "Early Birds Marketplace Pty Ltd (EarlyBirds)"
+        },
+        {
+          "id": "7301",
+          "name": "Department 13"
+        },
+        {
+          "id": "7300",
+          "name": "Brownstone Consulting"
+        },
+        {
+          "id": "7299",
+          "name": "Booka Consulting Pty Ltd"
+        },
+        {
+          "id": "6996",
+          "name": "ACT Government"
+        }
+      ],
+      "totalExhibitors": 17,
+      "allNames": [
+        "Canberra Cyber Hub",
+        "Aqacia",
+        "HighCom",
+        "x-RD",
+        "UNSW Defence Research Insitute ",
+        "Willyama Services",
+        "Vault Cloud",
+        "UNSW Canberra",
+        "UBH Group",
+        "The Australian National University (ANU)",
+        "RD Consulting",
+        "Intersoft Electronics - Asia Pacific",
+        "Early Birds Marketplace Pty Ltd (EarlyBirds)",
+        "Department 13",
+        "Brownstone Consulting",
+        "Booka Consulting Pty Ltd",
+        "ACT Government"
+      ]
+    },
+    {
+      "externalId": "TBA",
+      "primary": {
+        "id": "7850",
+        "name": "Task Force 72 Scale Model Ships Association"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Task Force 72 Scale Model Ships Association"
+      ]
+    },
+    {
+      "externalId": "2F56",
+      "primary": {
+        "id": "7849",
+        "name": "Mungalalu North Kimberley Airport "
+      },
+      "children": [
+        {
+          "id": "7745",
+          "name": "Pedco Engineering"
+        },
+        {
+          "id": "7731",
+          "name": "Henderson Alliance"
+        },
+        {
+          "id": "7725",
+          "name": "Murlaw/Ausco"
+        },
+        {
+          "id": "7722",
+          "name": "Defence Industry Skills Centre of Excellence"
+        },
+        {
+          "id": "7721",
+          "name": "South Metropolitan Tafe"
+        },
+        {
+          "id": "7720",
+          "name": "University of Western Australia"
+        },
+        {
+          "id": "7719",
+          "name": "Edith Cowan University"
+        },
+        {
+          "id": "7705",
+          "name": "Garli Group"
+        },
+        {
+          "id": "7625",
+          "name": "Hyperion Systems"
+        },
+        {
+          "id": "7602",
+          "name": "Curtin University"
+        },
+        {
+          "id": "7601",
+          "name": "Griffin Industrial"
+        },
+        {
+          "id": "7600",
+          "name": "Wedgetail Aerospace"
+        },
+        {
+          "id": "7599",
+          "name": "Watmar Engineering"
+        },
+        {
+          "id": "7597",
+          "name": "UXMachines Pty Ltd"
+        },
+        {
+          "id": "7596",
+          "name": "TIPT - Trauma Informed Practice Training"
+        },
+        {
+          "id": "7595",
+          "name": "Taylor Marine"
+        },
+        {
+          "id": "7593",
+          "name": "Red Piranha"
+        },
+        {
+          "id": "7592",
+          "name": "RCR Advanced Technologies"
+        },
+        {
+          "id": "7591",
+          "name": "Pressure Dynamics International"
+        },
+        {
+          "id": "7590",
+          "name": "ONETIDE"
+        },
+        {
+          "id": "7589",
+          "name": "NAUTIC Technologies"
+        },
+        {
+          "id": "7588",
+          "name": "Matrix Composites & Engineering Ltd"
+        },
+        {
+          "id": "7586",
+          "name": "INNOVAERO"
+        },
+        {
+          "id": "7585",
+          "name": "IKAD Engineering"
+        },
+        {
+          "id": "7584",
+          "name": "HoseCo"
+        },
+        {
+          "id": "7583",
+          "name": "Hofmann Engineering Pty Ltd"
+        },
+        {
+          "id": "7582",
+          "name": "HDS Hoses Australia "
+        },
+        {
+          "id": "7581",
+          "name": "Greenroom Robotics"
+        },
+        {
+          "id": "7579",
+          "name": "Global Marine Design"
+        },
+        {
+          "id": "7577",
+          "name": "Franmarine"
+        },
+        {
+          "id": "7576",
+          "name": "First Nations Strategic Alliance"
+        },
+        {
+          "id": "7575",
+          "name": "Engine Protection Equipment Pty Ltd"
+        },
+        {
+          "id": "7574",
+          "name": "EdgeTech Manufacturing"
+        },
+        {
+          "id": "7573",
+          "name": "Dongara Marine Pty Ltd"
+        },
+        {
+          "id": "7572",
+          "name": "DomeShelter Australia"
+        },
+        {
+          "id": "7571",
+          "name": "CleanSubSea"
+        },
+        {
+          "id": "7569",
+          "name": "Calytrix"
+        },
+        {
+          "id": "7568",
+          "name": "Bravo Electrical & HVAC Pty Ltd"
+        },
+        {
+          "id": "7567",
+          "name": "Blue Ocean Marine Tech Systems"
+        },
+        {
+          "id": "7566",
+          "name": "Blacktree Technology"
+        },
+        {
+          "id": "7565",
+          "name": "Bend-tech Group"
+        },
+        {
+          "id": "7564",
+          "name": "Aussie Fluid Power"
+        },
+        {
+          "id": "7563",
+          "name": "Aurora Labs"
+        },
+        {
+          "id": "7316",
+          "name": "Department of the Premier and Cabinet (DPC) - through Defence West"
+        }
+      ],
+      "totalExhibitors": 45,
+      "allNames": [
+        "Mungalalu North Kimberley Airport ",
+        "Pedco Engineering",
+        "Henderson Alliance",
+        "Murlaw/Ausco",
+        "Defence Industry Skills Centre of Excellence",
+        "South Metropolitan Tafe",
+        "University of Western Australia",
+        "Edith Cowan University",
+        "Garli Group",
+        "Hyperion Systems",
+        "Curtin University",
+        "Griffin Industrial",
+        "Wedgetail Aerospace",
+        "Watmar Engineering",
+        "UXMachines Pty Ltd",
+        "TIPT - Trauma Informed Practice Training",
+        "Taylor Marine",
+        "Red Piranha",
+        "RCR Advanced Technologies",
+        "Pressure Dynamics International",
+        "ONETIDE",
+        "NAUTIC Technologies",
+        "Matrix Composites & Engineering Ltd",
+        "INNOVAERO",
+        "IKAD Engineering",
+        "HoseCo",
+        "Hofmann Engineering Pty Ltd",
+        "HDS Hoses Australia ",
+        "Greenroom Robotics",
+        "Global Marine Design",
+        "Franmarine",
+        "First Nations Strategic Alliance",
+        "Engine Protection Equipment Pty Ltd",
+        "EdgeTech Manufacturing",
+        "Dongara Marine Pty Ltd",
+        "DomeShelter Australia",
+        "CleanSubSea",
+        "Calytrix",
+        "Bravo Electrical & HVAC Pty Ltd",
+        "Blue Ocean Marine Tech Systems",
+        "Blacktree Technology",
+        "Bend-tech Group",
+        "Aussie Fluid Power",
+        "Aurora Labs",
+        "Department of the Premier and Cabinet (DPC) - through Defence West"
+      ]
+    },
+    {
+      "externalId": "1C22",
+      "primary": {
+        "id": "7844",
+        "name": "Teledyne FLIR Defense"
+      },
+      "children": [
+        {
+          "id": "7766",
+          "name": "Teledyne Marine"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Teledyne FLIR Defense",
+        "Teledyne Marine"
+      ]
+    },
+    {
+      "externalId": "1C05",
+      "primary": {
+        "id": "7836",
+        "name": "Parraid, LLC"
+      },
+      "children": [
+        {
+          "id": "7836",
+          "name": "Naval Systems, Inc. "
+        },
+        {
+          "id": "7836",
+          "name": "Dynamic Dimension Technologies"
+        },
+        {
+          "id": "7836",
+          "name": "X-wave Innovations, Inc."
+        },
+        {
+          "id": "7836",
+          "name": "Harris Technologies, LLC"
+        },
+        {
+          "id": "7836",
+          "name": " AnTrust "
+        },
+        {
+          "id": "7836",
+          "name": "Maryland Department of Commerce"
+        }
+      ],
+      "totalExhibitors": 7,
+      "allNames": [
+        "Parraid, LLC",
+        "Naval Systems, Inc. ",
+        "Dynamic Dimension Technologies",
+        "X-wave Innovations, Inc.",
+        "Harris Technologies, LLC",
+        " AnTrust ",
+        "Maryland Department of Commerce"
+      ]
+    },
+    {
+      "externalId": "1H17",
+      "primary": {
+        "id": "7789",
+        "name": "Department of Home Affairs"
+      },
+      "children": [
+        {
+          "id": "7788",
+          "name": "Running Deep"
+        },
+        {
+          "id": "7783",
+          "name": "Navy Outlook Magazine"
+        },
+        {
+          "id": "7781",
+          "name": "Women in Defence Association"
+        }
+      ],
+      "totalExhibitors": 4,
+      "allNames": [
+        "Department of Home Affairs",
+        "Running Deep",
+        "Navy Outlook Magazine",
+        "Women in Defence Association"
+      ]
+    },
+    {
+      "externalId": "1A16",
+      "primary": {
+        "id": "7779",
+        "name": "WR Systems"
+      },
+      "children": [
+        {
+          "id": "7778",
+          "name": "Oransi"
+        },
+        {
+          "id": "7777",
+          "name": "Ocean Products Research (OPR)"
+        },
+        {
+          "id": "7776",
+          "name": "MELD Manufacturing Corporation"
+        },
+        {
+          "id": "7775",
+          "name": "Marine Acoustics"
+        },
+        {
+          "id": "7774",
+          "name": "Fairbanks Morse Defense"
+        },
+        {
+          "id": "7773",
+          "name": "Defense Maritime Solutions"
+        },
+        {
+          "id": "7772",
+          "name": "BecTech (Basic Engineering Concepts & Technologies)"
+        },
+        {
+          "id": "7771",
+          "name": "AV Inc"
+        },
+        {
+          "id": "7770",
+          "name": "Anomaly Six"
+        },
+        {
+          "id": "7175",
+          "name": "Virginia Economic Development Partnership"
+        }
+      ],
+      "totalExhibitors": 11,
+      "allNames": [
+        "WR Systems",
+        "Oransi",
+        "Ocean Products Research (OPR)",
+        "MELD Manufacturing Corporation",
+        "Marine Acoustics",
+        "Fairbanks Morse Defense",
+        "Defense Maritime Solutions",
+        "BecTech (Basic Engineering Concepts & Technologies)",
+        "AV Inc",
+        "Anomaly Six",
+        "Virginia Economic Development Partnership"
+      ]
+    },
+    {
+      "externalId": "2C34",
+      "primary": {
+        "id": "7768",
+        "name": "Tri-Tec Manufacturing"
+      },
+      "children": [
+        {
+          "id": "7767",
+          "name": "The Entwistle Company"
+        },
+        {
+          "id": "7760",
+          "name": "Leslie Controls"
+        },
+        {
+          "id": "7759",
+          "name": "Jo-Kell"
+        },
+        {
+          "id": "7758",
+          "name": "Jered, LLC"
+        },
+        {
+          "id": "7757",
+          "name": "HI-TEST Laboratories, Inc."
+        },
+        {
+          "id": "7756",
+          "name": "Graham Corporation"
+        },
+        {
+          "id": "7755",
+          "name": "Copper Alloys LTD"
+        },
+        {
+          "id": "7754",
+          "name": "Cogitic Corporation"
+        },
+        {
+          "id": "7753",
+          "name": "Butler Weldments"
+        },
+        {
+          "id": "7752",
+          "name": "Bogue Systems, Inc."
+        },
+        {
+          "id": "7751",
+          "name": "AT&F"
+        },
+        {
+          "id": "7187",
+          "name": "Mavericks Manufacturing Partners, Inc."
+        },
+        {
+          "id": "7187",
+          "name": "The Entwistle Company"
+        },
+        {
+          "id": "7187",
+          "name": "Jered, LLC"
+        },
+        {
+          "id": "7187",
+          "name": "Jo-Kell, Inc"
+        },
+        {
+          "id": "7187",
+          "name": "Tri-Tec Manufacturing"
+        },
+        {
+          "id": "7187",
+          "name": "Marine Machinery Association"
+        }
+      ],
+      "totalExhibitors": 18,
+      "allNames": [
+        "Tri-Tec Manufacturing",
+        "The Entwistle Company",
+        "Leslie Controls",
+        "Jo-Kell",
+        "Jered, LLC",
+        "HI-TEST Laboratories, Inc.",
+        "Graham Corporation",
+        "Copper Alloys LTD",
+        "Cogitic Corporation",
+        "Butler Weldments",
+        "Bogue Systems, Inc.",
+        "AT&F",
+        "Mavericks Manufacturing Partners, Inc.",
+        "The Entwistle Company",
+        "Jered, LLC",
+        "Jo-Kell, Inc",
+        "Tri-Tec Manufacturing",
+        "Marine Machinery Association"
+      ]
+    },
+    {
+      "externalId": "1F21",
+      "primary": {
+        "id": "7765",
+        "name": "Shark Marine"
+      },
+      "children": [
+        {
+          "id": "7764",
+          "name": "ScubaPro"
+        },
+        {
+          "id": "7762",
+          "name": "S & S Precision"
+        },
+        {
+          "id": "7448",
+          "name": "Patriot3, Inc."
+        }
+      ],
+      "totalExhibitors": 4,
+      "allNames": [
+        "Shark Marine",
+        "ScubaPro",
+        "S & S Precision",
+        "Patriot3, Inc."
+      ]
+    },
+    {
+      "externalId": "2C37",
+      "primary": {
+        "id": "7763",
+        "name": "Salesforce"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Salesforce"
+      ]
+    },
+    {
+      "externalId": "2F35",
+      "primary": {
+        "id": "7761",
+        "name": "Pearlson Shiplift Corporation"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Pearlson Shiplift Corporation"
+      ]
+    },
+    {
+      "externalId": "1H13",
+      "primary": {
+        "id": "7729",
+        "name": "PPC Moulding Services Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "PPC Moulding Services Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4F114",
+      "primary": {
+        "id": "7728",
+        "name": "M+J Builders "
+      },
+      "children": [
+        {
+          "id": "7727",
+          "name": "Master Builders Northern Territory "
+        },
+        {
+          "id": "7617",
+          "name": "Indigenous Business Network "
+        },
+        {
+          "id": "7616",
+          "name": "NTEX"
+        },
+        {
+          "id": "7603",
+          "name": "Bear Claw"
+        },
+        {
+          "id": "7406",
+          "name": "Tiwi Port Marine"
+        },
+        {
+          "id": "7404",
+          "name": "Shorebarge "
+        },
+        {
+          "id": "7403",
+          "name": "Fortress Industries "
+        },
+        {
+          "id": "7394",
+          "name": "Marine Technicians Australia"
+        },
+        {
+          "id": "7393",
+          "name": "Draeger Australia"
+        },
+        {
+          "id": "7392",
+          "name": "Allied Pumps Commercial"
+        },
+        {
+          "id": "7391",
+          "name": "Land Development Corporation"
+        },
+        {
+          "id": "7390",
+          "name": "Darwin Ship Lift"
+        },
+        {
+          "id": "7389",
+          "name": "Transcelestial"
+        },
+        {
+          "id": "7388",
+          "name": "Territory Instruments"
+        },
+        {
+          "id": "7387",
+          "name": "SPEE3D"
+        },
+        {
+          "id": "7386",
+          "name": "Paspalis Capital"
+        },
+        {
+          "id": "7385",
+          "name": "NORSTA Maritime"
+        },
+        {
+          "id": "7384",
+          "name": "Norship"
+        },
+        {
+          "id": "7383",
+          "name": "Micks Ally Fab"
+        },
+        {
+          "id": "7380",
+          "name": "Georgiou Group Pty Ltd"
+        },
+        {
+          "id": "7379",
+          "name": "ENZED Service Centre Darwin"
+        },
+        {
+          "id": "7378",
+          "name": "Charles Darwin University"
+        },
+        {
+          "id": "7377",
+          "name": "Baldwin Group"
+        },
+        {
+          "id": "7211",
+          "name": "Defence NT"
+        }
+      ],
+      "totalExhibitors": 25,
+      "allNames": [
+        "M+J Builders ",
+        "Master Builders Northern Territory ",
+        "Indigenous Business Network ",
+        "NTEX",
+        "Bear Claw",
+        "Tiwi Port Marine",
+        "Shorebarge ",
+        "Fortress Industries ",
+        "Marine Technicians Australia",
+        "Draeger Australia",
+        "Allied Pumps Commercial",
+        "Land Development Corporation",
+        "Darwin Ship Lift",
+        "Transcelestial",
+        "Territory Instruments",
+        "SPEE3D",
+        "Paspalis Capital",
+        "NORSTA Maritime",
+        "Norship",
+        "Micks Ally Fab",
+        "Georgiou Group Pty Ltd",
+        "ENZED Service Centre Darwin",
+        "Charles Darwin University",
+        "Baldwin Group",
+        "Defence NT"
+      ]
+    },
+    {
+      "externalId": "2J56",
+      "primary": {
+        "id": "7718",
+        "name": "Murdoch University"
+      },
+      "children": [
+        {
+          "id": "7006",
+          "name": "Glenair Inc"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Murdoch University",
+        "Glenair Inc"
+      ]
+    },
+    {
+      "externalId": "3A00",
+      "primary": {
+        "id": "7717",
+        "name": "MagStealth Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "MagStealth Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1H15",
+      "primary": {
+        "id": "7716",
+        "name": "Assystem Energy & Infrastructure Limited"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Assystem Energy & Infrastructure Limited"
+      ]
+    },
+    {
+      "externalId": "1H01",
+      "primary": {
+        "id": "7707",
+        "name": "Engineers Australia "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Engineers Australia "
+      ]
+    },
+    {
+      "externalId": "POD 06",
+      "primary": {
+        "id": "7702",
+        "name": "Versatile Defence"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Versatile Defence"
+      ]
+    },
+    {
+      "externalId": "NLT",
+      "primary": {
+        "id": "7700",
+        "name": "Navy Life "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Life "
+      ]
+    },
+    {
+      "externalId": "1C28",
+      "primary": {
+        "id": "7696",
+        "name": "The University of Mississippi"
+      },
+      "children": [
+        {
+          "id": "7696",
+          "name": "The University of Southern Mississippi"
+        },
+        {
+          "id": "7696",
+          "name": "Necessity Systems"
+        },
+        {
+          "id": "7696",
+          "name": "Seemann Composites "
+        },
+        {
+          "id": "7696",
+          "name": "Mythos AI Inc"
+        },
+        {
+          "id": "7696",
+          "name": "Camgian"
+        },
+        {
+          "id": "7696",
+          "name": "BLUEiQ"
+        },
+        {
+          "id": "7696",
+          "name": "Mississippi Development Authority"
+        }
+      ],
+      "totalExhibitors": 8,
+      "allNames": [
+        "The University of Mississippi",
+        "The University of Southern Mississippi",
+        "Necessity Systems",
+        "Seemann Composites ",
+        "Mythos AI Inc",
+        "Camgian",
+        "BLUEiQ",
+        "Mississippi Development Authority"
+      ]
+    },
+    {
+      "externalId": "2A34",
+      "primary": {
+        "id": "7695",
+        "name": "HII"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "HII"
+      ]
+    },
+    {
+      "externalId": "1F11",
+      "primary": {
+        "id": "7693",
+        "name": "ATL Composites Pty Ltd"
+      },
+      "children": [
+        {
+          "id": "7693",
+          "name": "DIAB Group"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "ATL Composites Pty Ltd",
+        "DIAB Group"
+      ]
+    },
+    {
+      "externalId": "1F09",
+      "primary": {
+        "id": "7626",
+        "name": "Aquaterro"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Aquaterro"
+      ]
+    },
+    {
+      "externalId": "POD 21",
+      "primary": {
+        "id": "7623",
+        "name": "BlueForge Alliance Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "BlueForge Alliance Australia"
+      ]
+    },
+    {
+      "externalId": "1F03",
+      "primary": {
+        "id": "7615",
+        "name": "IMarEST"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "IMarEST"
+      ]
+    },
+    {
+      "externalId": "4L106",
+      "primary": {
+        "id": "7608",
+        "name": "Systems Planning and Analysis"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Systems Planning and Analysis"
+      ]
+    },
+    {
+      "externalId": "4F129",
+      "primary": {
+        "id": "7606",
+        "name": "SCHNEIDER ELECTRIC"
+      },
+      "children": [
+        {
+          "id": "7606",
+          "name": "MM Defence & Government"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "SCHNEIDER ELECTRIC",
+        "MM Defence & Government"
+      ]
+    },
+    {
+      "externalId": "1L01",
+      "primary": {
+        "id": "7605",
+        "name": "Bodd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Bodd"
+      ]
+    },
+    {
+      "externalId": "3N76",
+      "primary": {
+        "id": "7604",
+        "name": "Dräger"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Dräger"
+      ]
+    },
+    {
+      "externalId": "3J70",
+      "primary": {
+        "id": "7561",
+        "name": "Twin Disc (Pacific)"
+      },
+      "children": [
+        {
+          "id": "7560",
+          "name": "SmartAIConnect"
+        },
+        {
+          "id": "7559",
+          "name": "Pacific Defence Sevices"
+        },
+        {
+          "id": "7558",
+          "name": "Milspec Services"
+        },
+        {
+          "id": "7557",
+          "name": "Boating Industry Association"
+        },
+        {
+          "id": "7498",
+          "name": "Volvo Penta Oceania"
+        },
+        {
+          "id": "7497",
+          "name": "Tropical Reef Shipyard"
+        },
+        {
+          "id": "7496",
+          "name": "The Yard Brisbane"
+        },
+        {
+          "id": "7495",
+          "name": "Rivergate Marina & Shipyard"
+        },
+        {
+          "id": "7494",
+          "name": "Cairncross Dockyard Brisbane"
+        },
+        {
+          "id": "7493",
+          "name": "BtB Marine"
+        },
+        {
+          "id": "7492",
+          "name": "Brassets International"
+        },
+        {
+          "id": "7491",
+          "name": "Airlift Hovercraft"
+        },
+        {
+          "id": "7490",
+          "name": "ReefWorks (Australian Institute of Marine Science)"
+        },
+        {
+          "id": "7489",
+          "name": "Prohelion"
+        },
+        {
+          "id": "7488",
+          "name": "EPE Trusted to Protect"
+        },
+        {
+          "id": "7437",
+          "name": "The Defence Advisory"
+        },
+        {
+          "id": "7436",
+          "name": "TCLH"
+        },
+        {
+          "id": "7435",
+          "name": "RUD Australia"
+        },
+        {
+          "id": "7434",
+          "name": "Norman R. Wright & Sons"
+        },
+        {
+          "id": "7421",
+          "name": "TAFE Queensland"
+        },
+        {
+          "id": "7420",
+          "name": "STEYR Motors Australia"
+        },
+        {
+          "id": "7419",
+          "name": "Queensland Defence Science Alliance"
+        },
+        {
+          "id": "7418",
+          "name": "Masters & Young"
+        },
+        {
+          "id": "7417",
+          "name": "Hybrid Composites Australia"
+        },
+        {
+          "id": "7416",
+          "name": "Gold Coast City Marina and Shipyard"
+        },
+        {
+          "id": "7415",
+          "name": "BosTECK"
+        },
+        {
+          "id": "7414",
+          "name": "AutogenAI"
+        },
+        {
+          "id": "7413",
+          "name": "Norship"
+        },
+        {
+          "id": "7412",
+          "name": "Trusted Autonomous Systems"
+        },
+        {
+          "id": "7411",
+          "name": "Queensland Gaskets"
+        },
+        {
+          "id": "7410",
+          "name": "IntelliDesign"
+        },
+        {
+          "id": "7409",
+          "name": "Hetech"
+        },
+        {
+          "id": "7408",
+          "name": "Craig International Ballistics"
+        },
+        {
+          "id": "7407",
+          "name": "AirBerth Boat Lifts"
+        }
+      ],
+      "totalExhibitors": 35,
+      "allNames": [
+        "Twin Disc (Pacific)",
+        "SmartAIConnect",
+        "Pacific Defence Sevices",
+        "Milspec Services",
+        "Boating Industry Association",
+        "Volvo Penta Oceania",
+        "Tropical Reef Shipyard",
+        "The Yard Brisbane",
+        "Rivergate Marina & Shipyard",
+        "Cairncross Dockyard Brisbane",
+        "BtB Marine",
+        "Brassets International",
+        "Airlift Hovercraft",
+        "ReefWorks (Australian Institute of Marine Science)",
+        "Prohelion",
+        "EPE Trusted to Protect",
+        "The Defence Advisory",
+        "TCLH",
+        "RUD Australia",
+        "Norman R. Wright & Sons",
+        "TAFE Queensland",
+        "STEYR Motors Australia",
+        "Queensland Defence Science Alliance",
+        "Masters & Young",
+        "Hybrid Composites Australia",
+        "Gold Coast City Marina and Shipyard",
+        "BosTECK",
+        "AutogenAI",
+        "Norship",
+        "Trusted Autonomous Systems",
+        "Queensland Gaskets",
+        "IntelliDesign",
+        "Hetech",
+        "Craig International Ballistics",
+        "AirBerth Boat Lifts"
+      ]
+    },
+    {
+      "externalId": "1F02",
+      "primary": {
+        "id": "7500",
+        "name": "Beaufort"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Beaufort"
+      ]
+    },
+    {
+      "externalId": "1C06",
+      "primary": {
+        "id": "7450",
+        "name": "Shield AI"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Shield AI"
+      ]
+    },
+    {
+      "externalId": "1C20",
+      "primary": {
+        "id": "7449",
+        "name": "RoboNation, Inc."
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "RoboNation, Inc."
+      ]
+    },
+    {
+      "externalId": "1C18",
+      "primary": {
+        "id": "7447",
+        "name": "Epirus"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Epirus"
+      ]
+    },
+    {
+      "externalId": "1C01",
+      "primary": {
+        "id": "7446",
+        "name": "Navy League of Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy League of Australia"
+      ]
+    },
+    {
+      "externalId": "2L39",
+      "primary": {
+        "id": "7438",
+        "name": "Aerosafe Risk Management"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Aerosafe Risk Management"
+      ]
+    },
+    {
+      "externalId": "3L96",
+      "primary": {
+        "id": "7401",
+        "name": "Leidos Gibbs & Cox Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Leidos Gibbs & Cox Australia"
+      ]
+    },
+    {
+      "externalId": "4L112",
+      "primary": {
+        "id": "7297",
+        "name": "C2 Robotics Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "C2 Robotics Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1H02",
+      "primary": {
+        "id": "7289",
+        "name": "The Royal Institution of Naval Architects (Australian Division) Inc. (RINA)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "The Royal Institution of Naval Architects (Australian Division) Inc. (RINA)"
+      ]
+    },
+    {
+      "externalId": "POD 24",
+      "primary": {
+        "id": "7288",
+        "name": "ORBIZ Consulting"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ORBIZ Consulting"
+      ]
+    },
+    {
+      "externalId": "4C120",
+      "primary": {
+        "id": "7287",
+        "name": "Oceaneering International, Inc."
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Oceaneering International, Inc."
+      ]
+    },
+    {
+      "externalId": "1N19",
+      "primary": {
+        "id": "7283",
+        "name": "Volz Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Volz Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2J50",
+      "primary": {
+        "id": "7282",
+        "name": "UK Ministry of Defence"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "UK Ministry of Defence"
+      ]
+    },
+    {
+      "externalId": "2L36",
+      "primary": {
+        "id": "7279",
+        "name": "Socitec"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Socitec"
+      ]
+    },
+    {
+      "externalId": "2N49",
+      "primary": {
+        "id": "7278",
+        "name": "QUBE"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "QUBE"
+      ]
+    },
+    {
+      "externalId": "3A69",
+      "primary": {
+        "id": "7277",
+        "name": "Ocius Technology Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Ocius Technology Ltd"
+      ]
+    },
+    {
+      "externalId": "3N68",
+      "primary": {
+        "id": "7276",
+        "name": "Breakaway Group"
+      },
+      "children": [
+        {
+          "id": "7276",
+          "name": "EDGE Energy Systems "
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Breakaway Group",
+        "EDGE Energy Systems "
+      ]
+    },
+    {
+      "externalId": "POD 35",
+      "primary": {
+        "id": "7275",
+        "name": "Axis Communications Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Axis Communications Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1F27",
+      "primary": {
+        "id": "7272",
+        "name": "Thinklogical"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Thinklogical"
+      ]
+    },
+    {
+      "externalId": "1F17",
+      "primary": {
+        "id": "7271",
+        "name": "Rohirrim Inc and Aurora Marketing"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Rohirrim Inc and Aurora Marketing"
+      ]
+    },
+    {
+      "externalId": "2C36",
+      "primary": {
+        "id": "7270",
+        "name": "Invenio 3d/Markforged"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Invenio 3d/Markforged"
+      ]
+    },
+    {
+      "externalId": "3C90",
+      "primary": {
+        "id": "7268",
+        "name": "Syncrolift AS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Syncrolift AS"
+      ]
+    },
+    {
+      "externalId": "3N84",
+      "primary": {
+        "id": "7267",
+        "name": "Shadbolt Group"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Shadbolt Group"
+      ]
+    },
+    {
+      "externalId": "1L12",
+      "primary": {
+        "id": "7266",
+        "name": "QinetiQ"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "QinetiQ"
+      ]
+    },
+    {
+      "externalId": "POD 04",
+      "primary": {
+        "id": "7265",
+        "name": "Medilinks Access"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Medilinks Access"
+      ]
+    },
+    {
+      "externalId": "3N86",
+      "primary": {
+        "id": "7264",
+        "name": "Lloyd's Register"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Lloyd's Register"
+      ]
+    },
+    {
+      "externalId": "3N80",
+      "primary": {
+        "id": "7263",
+        "name": "Hycon Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Hycon Australia"
+      ]
+    },
+    {
+      "externalId": "3J95",
+      "primary": {
+        "id": "7262",
+        "name": "FLIR | Raymarine Commercial"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "FLIR | Raymarine Commercial"
+      ]
+    },
+    {
+      "externalId": "4F106",
+      "primary": {
+        "id": "7261",
+        "name": "EUROTORP"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "EUROTORP"
+      ]
+    },
+    {
+      "externalId": "2C52",
+      "primary": {
+        "id": "7260",
+        "name": "Energy Power Systems Australia - CAT"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Energy Power Systems Australia - CAT"
+      ]
+    },
+    {
+      "externalId": "2N57",
+      "primary": {
+        "id": "7258",
+        "name": "Defence Industry Security Program (DISP) and Australian Government Security Vetting Agency (AGSVA)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Defence Industry Security Program (DISP) and Australian Government Security Vetting Agency (AGSVA)"
+      ]
+    },
+    {
+      "externalId": "4C130",
+      "primary": {
+        "id": "7257",
+        "name": "Dassault Systemes"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Dassault Systemes"
+      ]
+    },
+    {
+      "externalId": "3N78",
+      "primary": {
+        "id": "7256",
+        "name": "CISTECH Solutions"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "CISTECH Solutions"
+      ]
+    },
+    {
+      "externalId": "2N58",
+      "primary": {
+        "id": "7255",
+        "name": "AutogenAI"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "AutogenAI"
+      ]
+    },
+    {
+      "externalId": "4C112,NL23",
+      "primary": {
+        "id": "7254",
+        "name": "Australian Submarine Agency"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Australian Submarine Agency"
+      ]
+    },
+    {
+      "externalId": "2L55",
+      "primary": {
+        "id": "7231",
+        "name": "Goodwin Steel Castings Ltd"
+      },
+      "children": [
+        {
+          "id": "7231",
+          "name": "Westley Group Ltd"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Goodwin Steel Castings Ltd",
+        "Westley Group Ltd"
+      ]
+    },
+    {
+      "externalId": "1J25",
+      "primary": {
+        "id": "7230",
+        "name": "The SME Showcase"
+      },
+      "children": [
+        {
+          "id": "7230",
+          "name": "AVAC Services"
+        },
+        {
+          "id": "7230",
+          "name": "Viden Labs"
+        },
+        {
+          "id": "7230",
+          "name": "Human Quotient Group"
+        },
+        {
+          "id": "7230",
+          "name": "Barrington Treasury Services"
+        },
+        {
+          "id": "7230",
+          "name": "Wounded Heroes"
+        },
+        {
+          "id": "7230",
+          "name": "Swinburne University of Technology"
+        },
+        {
+          "id": "7230",
+          "name": "Certex International"
+        },
+        {
+          "id": "7230",
+          "name": "Rynal"
+        },
+        {
+          "id": "7230",
+          "name": "Bastion Defence"
+        },
+        {
+          "id": "7230",
+          "name": "Sayres Australia"
+        },
+        {
+          "id": "7230",
+          "name": "Skilliphy"
+        }
+      ],
+      "totalExhibitors": 12,
+      "allNames": [
+        "The SME Showcase",
+        "AVAC Services",
+        "Viden Labs",
+        "Human Quotient Group",
+        "Barrington Treasury Services",
+        "Wounded Heroes",
+        "Swinburne University of Technology",
+        "Certex International",
+        "Rynal",
+        "Bastion Defence",
+        "Sayres Australia",
+        "Skilliphy"
+      ]
+    },
+    {
+      "externalId": "3F70",
+      "primary": {
+        "id": "7229",
+        "name": "Thales Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Thales Australia"
+      ]
+    },
+    {
+      "externalId": "4F122",
+      "primary": {
+        "id": "7228",
+        "name": "Terradepth"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Terradepth"
+      ]
+    },
+    {
+      "externalId": "2F55",
+      "primary": {
+        "id": "7227",
+        "name": "SITEP Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "SITEP Australia"
+      ]
+    },
+    {
+      "externalId": "4J119",
+      "primary": {
+        "id": "7226",
+        "name": "Impact Subsea"
+      },
+      "children": [
+        {
+          "id": "7226",
+          "name": "ELAC Sonar GmbH"
+        },
+        {
+          "id": "7226",
+          "name": "Orion Space Solutions"
+        },
+        {
+          "id": "7226",
+          "name": "RTSYS"
+        },
+        {
+          "id": "7226",
+          "name": "Ocean Modules"
+        },
+        {
+          "id": "7226",
+          "name": "Maritime Robotics"
+        },
+        {
+          "id": "7226",
+          "name": "Klein Marine Systems"
+        },
+        {
+          "id": "7226",
+          "name": "SBG Systems"
+        },
+        {
+          "id": "7226",
+          "name": "NORBIT Security"
+        },
+        {
+          "id": "7226",
+          "name": "NORBIT Subsea"
+        },
+        {
+          "id": "7226",
+          "name": "Seismic Asia Pacific"
+        }
+      ],
+      "totalExhibitors": 11,
+      "allNames": [
+        "Impact Subsea",
+        "ELAC Sonar GmbH",
+        "Orion Space Solutions",
+        "RTSYS",
+        "Ocean Modules",
+        "Maritime Robotics",
+        "Klein Marine Systems",
+        "SBG Systems",
+        "NORBIT Security",
+        "NORBIT Subsea",
+        "Seismic Asia Pacific"
+      ]
+    },
+    {
+      "externalId": "POD 16",
+      "primary": {
+        "id": "7225",
+        "name": "SEAFORCE"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "SEAFORCE"
+      ]
+    },
+    {
+      "externalId": "2C58",
+      "primary": {
+        "id": "7224",
+        "name": "Rohde and Schwarz GmbH & Co. KG"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Rohde and Schwarz GmbH & Co. KG"
+      ]
+    },
+    {
+      "externalId": "1H22",
+      "primary": {
+        "id": "7223",
+        "name": "Quantum Systems Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Quantum Systems Australia"
+      ]
+    },
+    {
+      "externalId": "POD 29",
+      "primary": {
+        "id": "7222",
+        "name": "DNH Logistics"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "DNH Logistics"
+      ]
+    },
+    {
+      "externalId": "4F123",
+      "primary": {
+        "id": "7221",
+        "name": "Vortex"
+      },
+      "children": [
+        {
+          "id": "7221",
+          "name": "REVOBEAM"
+        },
+        {
+          "id": "7221",
+          "name": "Radiolex"
+        },
+        {
+          "id": "7221",
+          "name": "EXOTECH"
+        },
+        {
+          "id": "7221",
+          "name": "ELECOM"
+        },
+        {
+          "id": "7221",
+          "name": "ATM Lighting "
+        },
+        {
+          "id": "7221",
+          "name": "Pomerania Development Agency Co."
+        }
+      ],
+      "totalExhibitors": 7,
+      "allNames": [
+        "Vortex",
+        "REVOBEAM",
+        "Radiolex",
+        "EXOTECH",
+        "ELECOM",
+        "ATM Lighting ",
+        "Pomerania Development Agency Co."
+      ]
+    },
+    {
+      "externalId": "3N73",
+      "primary": {
+        "id": "7220",
+        "name": "Moffatt & Nichol Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Moffatt & Nichol Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4C102",
+      "primary": {
+        "id": "7219",
+        "name": "MCT Brattberg Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "MCT Brattberg Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3H96",
+      "primary": {
+        "id": "7218",
+        "name": "Marand Precision Engineering Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Marand Precision Engineering Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2N50",
+      "primary": {
+        "id": "7217",
+        "name": "Industry Capability Network"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Industry Capability Network"
+      ]
+    },
+    {
+      "externalId": "2F51",
+      "primary": {
+        "id": "7216",
+        "name": "Honeywell Aerospace Technologies"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Honeywell Aerospace Technologies"
+      ]
+    },
+    {
+      "externalId": "2N59",
+      "primary": {
+        "id": "7215",
+        "name": "Sea Sats"
+      },
+      "children": [
+        {
+          "id": "7215",
+          "name": "Elysium EPL Pty Ltd"
+        },
+        {
+          "id": "7215",
+          "name": "Swan Technology Corporation"
+        }
+      ],
+      "totalExhibitors": 3,
+      "allNames": [
+        "Sea Sats",
+        "Elysium EPL Pty Ltd",
+        "Swan Technology Corporation"
+      ]
+    },
+    {
+      "externalId": "2J51",
+      "primary": {
+        "id": "7214",
+        "name": "Elbit Systems Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Elbit Systems Ltd"
+      ]
+    },
+    {
+      "externalId": "1F22",
+      "primary": {
+        "id": "7213",
+        "name": "DMTC"
+      },
+      "children": [
+        {
+          "id": "7213",
+          "name": "Office of Defence Industry Support (ODIS)"
+        },
+        {
+          "id": "7213",
+          "name": "Department of Defence, Guided Weapons and Explosive Ordnance Group"
+        },
+        {
+          "id": "7213",
+          "name": "Department of Defence (NSSG)"
+        },
+        {
+          "id": "7213",
+          "name": "Department of Defence (CASG)"
+        }
+      ],
+      "totalExhibitors": 5,
+      "allNames": [
+        "DMTC",
+        "Office of Defence Industry Support (ODIS)",
+        "Department of Defence, Guided Weapons and Explosive Ordnance Group",
+        "Department of Defence (NSSG)",
+        "Department of Defence (CASG)"
+      ]
+    },
+    {
+      "externalId": "1J06",
+      "primary": {
+        "id": "7212",
+        "name": "Defence Science Technology Group"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Defence Science Technology Group"
+      ]
+    },
+    {
+      "externalId": "3H70",
+      "primary": {
+        "id": "7210",
+        "name": "Defence Directory"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Defence Directory"
+      ]
+    },
+    {
+      "externalId": "POD 34",
+      "primary": {
+        "id": "7208",
+        "name": "Commercial Marine Group"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Commercial Marine Group"
+      ]
+    },
+    {
+      "externalId": "2N47",
+      "primary": {
+        "id": "7207",
+        "name": "Cimolai Technology S.p.A."
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Cimolai Technology S.p.A."
+      ]
+    },
+    {
+      "externalId": "2F44",
+      "primary": {
+        "id": "7206",
+        "name": "Insitu Pacific"
+      },
+      "children": [
+        {
+          "id": "7206",
+          "name": "Liquid Robotics"
+        },
+        {
+          "id": "7206",
+          "name": "Boeing"
+        }
+      ],
+      "totalExhibitors": 3,
+      "allNames": [
+        "Insitu Pacific",
+        "Liquid Robotics",
+        "Boeing"
+      ]
+    },
+    {
+      "externalId": "3A70",
+      "primary": {
+        "id": "7205",
+        "name": "MBDA "
+      },
+      "children": [
+        {
+          "id": "7205",
+          "name": "BAE Systems Australia"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "MBDA ",
+        "BAE Systems Australia"
+      ]
+    },
+    {
+      "externalId": "3J94",
+      "primary": {
+        "id": "7204",
+        "name": "Axon"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Axon"
+      ]
+    },
+    {
+      "externalId": "4F124",
+      "primary": {
+        "id": "7203",
+        "name": "Schottel Australia Pty Ltd"
+      },
+      "children": [
+        {
+          "id": "7203",
+          "name": "Marine Plant Systems Pty Ltd"
+        },
+        {
+          "id": "7203",
+          "name": "ESI Alphatec Pty Ltd"
+        },
+        {
+          "id": "7203",
+          "name": "Concept Paints"
+        },
+        {
+          "id": "7203",
+          "name": "Australian Shipbuilding & Repair Group"
+        }
+      ],
+      "totalExhibitors": 5,
+      "allNames": [
+        "Schottel Australia Pty Ltd",
+        "Marine Plant Systems Pty Ltd",
+        "ESI Alphatec Pty Ltd",
+        "Concept Paints",
+        "Australian Shipbuilding & Repair Group"
+      ]
+    },
+    {
+      "externalId": "POD 31",
+      "primary": {
+        "id": "7202",
+        "name": "ASO Marine Consultants Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ASO Marine Consultants Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3N69,3C74",
+      "primary": {
+        "id": "7201",
+        "name": "Ascent Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Ascent Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2N45",
+      "primary": {
+        "id": "7200",
+        "name": "ALARP Solutions"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ALARP Solutions"
+      ]
+    },
+    {
+      "externalId": "1H16",
+      "primary": {
+        "id": "7199",
+        "name": "Advanced Strategic Capabilities Accelerator - Department of Defence"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Advanced Strategic Capabilities Accelerator - Department of Defence"
+      ]
+    },
+    {
+      "externalId": "3L76",
+      "primary": {
+        "id": "7198",
+        "name": "Accenture Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Accenture Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1F18",
+      "primary": {
+        "id": "7189",
+        "name": "ThayerMahan"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ThayerMahan"
+      ]
+    },
+    {
+      "externalId": "1C09",
+      "primary": {
+        "id": "7188",
+        "name": "Raytheon "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Raytheon "
+      ]
+    },
+    {
+      "externalId": "1F14",
+      "primary": {
+        "id": "7184",
+        "name": "Arete"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Arete"
+      ]
+    },
+    {
+      "externalId": "1C30",
+      "primary": {
+        "id": "7183",
+        "name": "Adtran"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Adtran"
+      ]
+    },
+    {
+      "externalId": "4C108",
+      "primary": {
+        "id": "7181",
+        "name": "Systecon Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Systecon Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1N26,3C74",
+      "primary": {
+        "id": "7180",
+        "name": "REDARC Defence & Space"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "REDARC Defence & Space"
+      ]
+    },
+    {
+      "externalId": "1L15",
+      "primary": {
+        "id": "7179",
+        "name": "Deloitte Touche Tohmatsu Pty Ltd "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Deloitte Touche Tohmatsu Pty Ltd "
+      ]
+    },
+    {
+      "externalId": "POD 08",
+      "primary": {
+        "id": "7178",
+        "name": "Control Point Rescue - iSATA"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Control Point Rescue - iSATA"
+      ]
+    },
+    {
+      "externalId": "POD 07",
+      "primary": {
+        "id": "7177",
+        "name": "Brooksbank Valves Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Brooksbank Valves Australia"
+      ]
+    },
+    {
+      "externalId": "2C38",
+      "primary": {
+        "id": "7174",
+        "name": "Hutchinson Industries, Inc."
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Hutchinson Industries, Inc."
+      ]
+    },
+    {
+      "externalId": "1C10",
+      "primary": {
+        "id": "7173",
+        "name": "General Atomics Aeronautical"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "General Atomics Aeronautical"
+      ]
+    },
+    {
+      "externalId": "1F15",
+      "primary": {
+        "id": "7172",
+        "name": "Bardex Corporation"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Bardex Corporation"
+      ]
+    },
+    {
+      "externalId": "1H26",
+      "primary": {
+        "id": "7168",
+        "name": "Ultra Maritime"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Ultra Maritime"
+      ]
+    },
+    {
+      "externalId": "2J35",
+      "primary": {
+        "id": "7167",
+        "name": "TKMS Hagenuk Marinekommunikation GmbH"
+      },
+      "children": [
+        {
+          "id": "7167",
+          "name": "TKMS"
+        },
+        {
+          "id": "7167",
+          "name": "TKMS Sonartech Atlas Pty Ltd"
+        }
+      ],
+      "totalExhibitors": 3,
+      "allNames": [
+        "TKMS Hagenuk Marinekommunikation GmbH",
+        "TKMS",
+        "TKMS Sonartech Atlas Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2N52",
+      "primary": {
+        "id": "7165",
+        "name": "Precision Laser Cleaning"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Precision Laser Cleaning"
+      ]
+    },
+    {
+      "externalId": "3L84",
+      "primary": {
+        "id": "7164",
+        "name": "NACOS Marine"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "NACOS Marine"
+      ]
+    },
+    {
+      "externalId": "4H105",
+      "primary": {
+        "id": "7163",
+        "name": "Moog Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Moog Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1J16",
+      "primary": {
+        "id": "7162",
+        "name": "Milwaukee Tool Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Milwaukee Tool Australia"
+      ]
+    },
+    {
+      "externalId": "3C94",
+      "primary": {
+        "id": "7161",
+        "name": "Kellogg Brown & Root Pty Ltd (KBR)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Kellogg Brown & Root Pty Ltd (KBR)"
+      ]
+    },
+    {
+      "externalId": "2J40",
+      "primary": {
+        "id": "7160",
+        "name": "JFD Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "JFD Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 30",
+      "primary": {
+        "id": "7159",
+        "name": "Hoppers Asia Pacific Solutions Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Hoppers Asia Pacific Solutions Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2J31",
+      "primary": {
+        "id": "7157",
+        "name": "GE Vernova"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "GE Vernova"
+      ]
+    },
+    {
+      "externalId": "3F69",
+      "primary": {
+        "id": "7155",
+        "name": "CAE"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "CAE"
+      ]
+    },
+    {
+      "externalId": "4C104",
+      "primary": {
+        "id": "7154",
+        "name": "BlastOne International"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "BlastOne International"
+      ]
+    },
+    {
+      "externalId": "2A42",
+      "primary": {
+        "id": "7153",
+        "name": "Babcock Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Babcock Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 14",
+      "primary": {
+        "id": "7152",
+        "name": "Australian Border Force"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Australian Border Force"
+      ]
+    },
+    {
+      "externalId": "2C42",
+      "primary": {
+        "id": "7151",
+        "name": "Austal "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Austal "
+      ]
+    },
+    {
+      "externalId": "3J91",
+      "primary": {
+        "id": "7150",
+        "name": "AtkinsRéalis Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "AtkinsRéalis Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1J22",
+      "primary": {
+        "id": "7149",
+        "name": "Anduril Industries"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Anduril Industries"
+      ]
+    },
+    {
+      "externalId": "1A22",
+      "primary": {
+        "id": "7144",
+        "name": "Lockheed Martin Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Lockheed Martin Australia"
+      ]
+    },
+    {
+      "externalId": "2F33",
+      "primary": {
+        "id": "7143",
+        "name": "Leonardo DRS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Leonardo DRS"
+      ]
+    },
+    {
+      "externalId": "1C16",
+      "primary": {
+        "id": "7142",
+        "name": "HawkEye 360"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "HawkEye 360"
+      ]
+    },
+    {
+      "externalId": "1A10",
+      "primary": {
+        "id": "7141",
+        "name": "General Dynamics"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "General Dynamics"
+      ]
+    },
+    {
+      "externalId": "1F29",
+      "primary": {
+        "id": "7140",
+        "name": "Amentum"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Amentum"
+      ]
+    },
+    {
+      "externalId": "4H114,4H116,4J114,4J116,4J113,4J115",
+      "primary": {
+        "id": "7128",
+        "name": "ULSAN KITA"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ULSAN KITA"
+      ]
+    },
+    {
+      "externalId": "4H121",
+      "primary": {
+        "id": "7127",
+        "name": "Teekay Shipping Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Teekay Shipping Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 15",
+      "primary": {
+        "id": "7126",
+        "name": "Spry Squared Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Spry Squared Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3N74",
+      "primary": {
+        "id": "7125",
+        "name": "RHOTHETA Elektronik GmbH"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "RHOTHETA Elektronik GmbH"
+      ]
+    },
+    {
+      "externalId": "3J70,3J78",
+      "primary": {
+        "id": "7124",
+        "name": "Queensland Government, Department of State Development, Infrastructure and Planning"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Queensland Government, Department of State Development, Infrastructure and Planning"
+      ]
+    },
+    {
+      "externalId": "4A116",
+      "primary": {
+        "id": "7123",
+        "name": "Navantia Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navantia Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1J01",
+      "primary": {
+        "id": "7122",
+        "name": "SfS Pty Ltd"
+      },
+      "children": [
+        {
+          "id": "7122",
+          "name": "Mission Systems Pty Ltd"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "SfS Pty Ltd",
+        "Mission Systems Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4J123",
+      "primary": {
+        "id": "7121",
+        "name": "Maritime Professional Solutions"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Maritime Professional Solutions"
+      ]
+    },
+    {
+      "externalId": "POD 12",
+      "primary": {
+        "id": "7120",
+        "name": "Kinexus"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Kinexus"
+      ]
+    },
+    {
+      "externalId": "1L16",
+      "primary": {
+        "id": "7119",
+        "name": "Forcys Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Forcys Australia"
+      ]
+    },
+    {
+      "externalId": "1N24",
+      "primary": {
+        "id": "7118",
+        "name": "Electromek Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Electromek Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3N82",
+      "primary": {
+        "id": "7117",
+        "name": "CLS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "CLS"
+      ]
+    },
+    {
+      "externalId": "2H46",
+      "primary": {
+        "id": "7116",
+        "name": "Civmec Defence Industries"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Civmec Defence Industries"
+      ]
+    },
+    {
+      "externalId": "3N65",
+      "primary": {
+        "id": "7115",
+        "name": "Altalena Drysuits & Protective Equipment"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Altalena Drysuits & Protective Equipment"
+      ]
+    },
+    {
+      "externalId": "4C128",
+      "primary": {
+        "id": "7114",
+        "name": "Adept Turnkey"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Adept Turnkey"
+      ]
+    },
+    {
+      "externalId": "POD 26",
+      "primary": {
+        "id": "7113",
+        "name": "LEAP Australia  |  PTC "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "LEAP Australia  |  PTC "
+      ]
+    },
+    {
+      "externalId": "POD 25",
+      "primary": {
+        "id": "7112",
+        "name": "LEAP Australia  |  Ansys "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "LEAP Australia  |  Ansys "
+      ]
+    },
+    {
+      "externalId": "1A01",
+      "primary": {
+        "id": "7103",
+        "name": "Spika Design & Manufacturing"
+      },
+      "children": [
+        {
+          "id": "7103",
+          "name": "Metal Shark Boats"
+        },
+        {
+          "id": "7103",
+          "name": "Kallman Worldwide"
+        }
+      ],
+      "totalExhibitors": 3,
+      "allNames": [
+        "Spika Design & Manufacturing",
+        "Metal Shark Boats",
+        "Kallman Worldwide"
+      ]
+    },
+    {
+      "externalId": "4A106",
+      "primary": {
+        "id": "7101",
+        "name": "SAAB Australia Pty Ltd"
+      },
+      "children": [
+        {
+          "id": "7101",
+          "name": "SAAB Australia Pty Ltd"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "SAAB Australia Pty Ltd",
+        "SAAB Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 23",
+      "primary": {
+        "id": "7100",
+        "name": "Norbar Torque Tools"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Norbar Torque Tools"
+      ]
+    },
+    {
+      "externalId": "1N14",
+      "primary": {
+        "id": "7099",
+        "name": "Motorola Solutions Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Motorola Solutions Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1H06",
+      "primary": {
+        "id": "7098",
+        "name": "Kongsberg"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Kongsberg"
+      ]
+    },
+    {
+      "externalId": "1N22,3J70",
+      "primary": {
+        "id": "7097",
+        "name": "Crystalaid "
+      },
+      "children": [
+        {
+          "id": "7097",
+          "name": "Keelback"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Crystalaid ",
+        "Keelback"
+      ]
+    },
+    {
+      "externalId": "1N22",
+      "primary": {
+        "id": "7097",
+        "name": "Grabba"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Grabba"
+      ]
+    },
+    {
+      "externalId": "POD 17",
+      "primary": {
+        "id": "7096",
+        "name": "Truflo Marine Australia (IMI)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Truflo Marine Australia (IMI)"
+      ]
+    },
+    {
+      "externalId": "POD 02",
+      "primary": {
+        "id": "7095",
+        "name": "ACM Composite Bearings"
+      },
+      "children": [
+        {
+          "id": "7095",
+          "name": "Hydraulic/Rotary Seals Australia Pty Ltd"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "ACM Composite Bearings",
+        "Hydraulic/Rotary Seals Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2L57",
+      "primary": {
+        "id": "7094",
+        "name": "HW Technologies"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "HW Technologies"
+      ]
+    },
+    {
+      "externalId": "4H100",
+      "primary": {
+        "id": "7093",
+        "name": "DroneShield Group Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "DroneShield Group Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 33",
+      "primary": {
+        "id": "7092",
+        "name": "Commercial ROV Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Commercial ROV Australia"
+      ]
+    },
+    {
+      "externalId": "2N38",
+      "primary": {
+        "id": "7091",
+        "name": "Cambridge Technologies Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Cambridge Technologies Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2C56",
+      "primary": {
+        "id": "7090",
+        "name": "Calgus Maritime Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Calgus Maritime Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3J89",
+      "primary": {
+        "id": "7089",
+        "name": "Business Review Group Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Business Review Group Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2N29",
+      "primary": {
+        "id": "7088",
+        "name": "BlueZone Group - SeeByte "
+      },
+      "children": [
+        {
+          "id": "7088",
+          "name": "BlueZone Group - SUEX"
+        },
+        {
+          "id": "7088",
+          "name": "BlueZone Group / Blueprint Subsea"
+        },
+        {
+          "id": "7088",
+          "name": "BlueZone Group"
+        }
+      ],
+      "totalExhibitors": 4,
+      "allNames": [
+        "BlueZone Group - SeeByte ",
+        "BlueZone Group - SUEX",
+        "BlueZone Group / Blueprint Subsea",
+        "BlueZone Group"
+      ]
+    },
+    {
+      "externalId": "POD 03",
+      "primary": {
+        "id": "7087",
+        "name": "Recognition PR and Marketing"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Recognition PR and Marketing"
+      ]
+    },
+    {
+      "externalId": "POD 13",
+      "primary": {
+        "id": "7086",
+        "name": "BiORG Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "BiORG Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 22",
+      "primary": {
+        "id": "7085",
+        "name": "Avant Group"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Avant Group"
+      ]
+    },
+    {
+      "externalId": "2H32",
+      "primary": {
+        "id": "7084",
+        "name": "Australian Naval Infrastructure Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Australian Naval Infrastructure Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1J17",
+      "primary": {
+        "id": "7083",
+        "name": "ADF Reserves and Employer Support"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ADF Reserves and Employer Support"
+      ]
+    },
+    {
+      "externalId": "2N33",
+      "primary": {
+        "id": "7082",
+        "name": "3D Systems "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "3D Systems "
+      ]
+    },
+    {
+      "externalId": "1F05",
+      "primary": {
+        "id": "7079",
+        "name": "World Fuel - A World Kinect Company"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "World Fuel - A World Kinect Company"
+      ]
+    },
+    {
+      "externalId": "4A100",
+      "primary": {
+        "id": "7078",
+        "name": "Ventia Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Ventia Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2L46",
+      "primary": {
+        "id": "7077",
+        "name": "VEEM Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "VEEM Ltd"
+      ]
+    },
+    {
+      "externalId": "1H18",
+      "primary": {
+        "id": "7076",
+        "name": "Shock & Vibration Technologies"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Shock & Vibration Technologies"
+      ]
+    },
+    {
+      "externalId": "4H131,2F56,4F114",
+      "primary": {
+        "id": "7075",
+        "name": "Safety Direct Solutions Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Safety Direct Solutions Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2L56",
+      "primary": {
+        "id": "7074",
+        "name": "EM Solutions"
+      },
+      "children": [
+        {
+          "id": "7074",
+          "name": "ELAC SONAR"
+        },
+        {
+          "id": "7074",
+          "name": "SEA"
+        },
+        {
+          "id": "7074",
+          "name": "Cohort plc"
+        }
+      ],
+      "totalExhibitors": 4,
+      "allNames": [
+        "EM Solutions",
+        "ELAC SONAR",
+        "SEA",
+        "Cohort plc"
+      ]
+    },
+    {
+      "externalId": "3N67",
+      "primary": {
+        "id": "7072",
+        "name": "Amphenol Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Amphenol Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2H38",
+      "primary": {
+        "id": "7067",
+        "name": "Winteb B.V."
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Winteb B.V."
+      ]
+    },
+    {
+      "externalId": "4H122",
+      "primary": {
+        "id": "7066",
+        "name": "UNSEENLABS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "UNSEENLABS"
+      ]
+    },
+    {
+      "externalId": "4F132",
+      "primary": {
+        "id": "7065",
+        "name": "NVMS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "NVMS"
+      ]
+    },
+    {
+      "externalId": "1H05",
+      "primary": {
+        "id": "7064",
+        "name": "Fortinet"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Fortinet"
+      ]
+    },
+    {
+      "externalId": "3C88",
+      "primary": {
+        "id": "7059",
+        "name": "Parbery Consulting"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Parbery Consulting"
+      ]
+    },
+    {
+      "externalId": "4J105",
+      "primary": {
+        "id": "7058",
+        "name": "DNV "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "DNV "
+      ]
+    },
+    {
+      "externalId": "4H109",
+      "primary": {
+        "id": "7057",
+        "name": "Altair Engineering Software Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Altair Engineering Software Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1L05",
+      "primary": {
+        "id": "7055",
+        "name": "SwRI"
+      },
+      "children": [
+        {
+          "id": "7055",
+          "name": "JEDS "
+        },
+        {
+          "id": "7055",
+          "name": "ANSCHÜTZ"
+        }
+      ],
+      "totalExhibitors": 3,
+      "allNames": [
+        "SwRI",
+        "JEDS ",
+        "ANSCHÜTZ"
+      ]
+    },
+    {
+      "externalId": "2N43",
+      "primary": {
+        "id": "7054",
+        "name": "Hellios Information Pty"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Hellios Information Pty"
+      ]
+    },
+    {
+      "externalId": "2N46",
+      "primary": {
+        "id": "7053",
+        "name": "ZF Services Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ZF Services Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "POD 05",
+      "primary": {
+        "id": "7052",
+        "name": "SciencoFast / InTank"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "SciencoFast / InTank"
+      ]
+    },
+    {
+      "externalId": "POD 32",
+      "primary": {
+        "id": "7051",
+        "name": "CIED Systems"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "CIED Systems"
+      ]
+    },
+    {
+      "externalId": "2N48",
+      "primary": {
+        "id": "7041",
+        "name": "Ventura Media Asia Pacific Pty Ltd (Asia Pacific Defence Reporter)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Ventura Media Asia Pacific Pty Ltd (Asia Pacific Defence Reporter)"
+      ]
+    },
+    {
+      "externalId": "4C124",
+      "primary": {
+        "id": "7040",
+        "name": "The University of Sydney "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "The University of Sydney "
+      ]
+    },
+    {
+      "externalId": "3N61",
+      "primary": {
+        "id": "7039",
+        "name": "Haskoning"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Haskoning"
+      ]
+    },
+    {
+      "externalId": "2N53",
+      "primary": {
+        "id": "7038",
+        "name": "Renold Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Renold Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1N17",
+      "primary": {
+        "id": "7037",
+        "name": "Planet"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Planet"
+      ]
+    },
+    {
+      "externalId": "3N60",
+      "primary": {
+        "id": "7036",
+        "name": "Mech-Tool Thermal Defence"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Mech-Tool Thermal Defence"
+      ]
+    },
+    {
+      "externalId": "4J102",
+      "primary": {
+        "id": "7035",
+        "name": "LBI Foundries"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "LBI Foundries"
+      ]
+    },
+    {
+      "externalId": "2L54",
+      "primary": {
+        "id": "7034",
+        "name": "Janes"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Janes"
+      ]
+    },
+    {
+      "externalId": "1N28",
+      "primary": {
+        "id": "7033",
+        "name": "GHD Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "GHD Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4J100",
+      "primary": {
+        "id": "7032",
+        "name": "Sovereign Capability Group"
+      },
+      "children": [
+        {
+          "id": "7032",
+          "name": "Electrotech Australia"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Sovereign Capability Group",
+        "Electrotech Australia"
+      ]
+    },
+    {
+      "externalId": "3L72",
+      "primary": {
+        "id": "7031",
+        "name": "Cometto S.p.A."
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Cometto S.p.A."
+      ]
+    },
+    {
+      "externalId": "4J104",
+      "primary": {
+        "id": "7030",
+        "name": "Bertin Environics (Environics Oy)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Bertin Environics (Environics Oy)"
+      ]
+    },
+    {
+      "externalId": "1H09",
+      "primary": {
+        "id": "7029",
+        "name": "Astute Electronics Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Astute Electronics Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3N70",
+      "primary": {
+        "id": "7028",
+        "name": "University of Technology Sydney"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "University of Technology Sydney"
+      ]
+    },
+    {
+      "externalId": "3N63",
+      "primary": {
+        "id": "7027",
+        "name": "Teledyne e2v"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Teledyne e2v"
+      ]
+    },
+    {
+      "externalId": "2N44",
+      "primary": {
+        "id": "7025",
+        "name": "OSI Maritime Systems Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "OSI Maritime Systems Ltd"
+      ]
+    },
+    {
+      "externalId": "1L03",
+      "primary": {
+        "id": "7024",
+        "name": "Macquarie University"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Macquarie University"
+      ]
+    },
+    {
+      "externalId": "4J107",
+      "primary": {
+        "id": "7023",
+        "name": "Fleet Support Unit - Royal Australian Navy"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Fleet Support Unit - Royal Australian Navy"
+      ]
+    },
+    {
+      "externalId": "1J02",
+      "primary": {
+        "id": "7022",
+        "name": "Aurizn"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Aurizn"
+      ]
+    },
+    {
+      "externalId": "1N16",
+      "primary": {
+        "id": "7021",
+        "name": "Amber Technology"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Amber Technology"
+      ]
+    },
+    {
+      "externalId": "4H110",
+      "primary": {
+        "id": "7020",
+        "name": "University of Melbourne"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "University of Melbourne"
+      ]
+    },
+    {
+      "externalId": "3L79",
+      "primary": {
+        "id": "7019",
+        "name": "Systematic"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Systematic"
+      ]
+    },
+    {
+      "externalId": "4F121",
+      "primary": {
+        "id": "7018",
+        "name": "STAUFF CORPORATION PTY LTD"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "STAUFF CORPORATION PTY LTD"
+      ]
+    },
+    {
+      "externalId": "1L29",
+      "primary": {
+        "id": "7017",
+        "name": "Safran Electronics & Defense Australasia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Safran Electronics & Defense Australasia"
+      ]
+    },
+    {
+      "externalId": "2H42",
+      "primary": {
+        "id": "7016",
+        "name": "Rolls-Royce PLC"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Rolls-Royce PLC"
+      ]
+    },
+    {
+      "externalId": "3H64",
+      "primary": {
+        "id": "7015",
+        "name": "Rafael Advanced Defense Systems"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Rafael Advanced Defense Systems"
+      ]
+    },
+    {
+      "externalId": "2H45",
+      "primary": {
+        "id": "7014",
+        "name": "Penske Australia & New Zealand "
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Penske Australia & New Zealand "
+      ]
+    },
+    {
+      "externalId": "2F59",
+      "primary": {
+        "id": "7013",
+        "name": "Trident Maritime Systems"
+      },
+      "children": [
+        {
+          "id": "7013",
+          "name": "ESCO Maritime Solutions"
+        },
+        {
+          "id": "7013",
+          "name": "EID"
+        },
+        {
+          "id": "7013",
+          "name": "Chess Dynamics"
+        },
+        {
+          "id": "7013",
+          "name": "Avon Protection"
+        },
+        {
+          "id": "7013",
+          "name": "Owen International Pty Ltd"
+        }
+      ],
+      "totalExhibitors": 6,
+      "allNames": [
+        "Trident Maritime Systems",
+        "ESCO Maritime Solutions",
+        "EID",
+        "Chess Dynamics",
+        "Avon Protection",
+        "Owen International Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3F91",
+      "primary": {
+        "id": "7012",
+        "name": "MacTaggart Scott Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "MacTaggart Scott Australia"
+      ]
+    },
+    {
+      "externalId": "2J30",
+      "primary": {
+        "id": "7011",
+        "name": "Leidos Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Leidos Australia"
+      ]
+    },
+    {
+      "externalId": "3F80",
+      "primary": {
+        "id": "7010",
+        "name": "L3Harris Technologies"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "L3Harris Technologies"
+      ]
+    },
+    {
+      "externalId": "2L32",
+      "primary": {
+        "id": "7009",
+        "name": "Kraken Robotic Systems Inc"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Kraken Robotic Systems Inc"
+      ]
+    },
+    {
+      "externalId": "2L45",
+      "primary": {
+        "id": "7008",
+        "name": "Helsing Limited"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Helsing Limited"
+      ]
+    },
+    {
+      "externalId": "2N51",
+      "primary": {
+        "id": "7007",
+        "name": "Helios Power Solutions Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Helios Power Solutions Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4F105",
+      "primary": {
+        "id": "7005",
+        "name": "EOS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "EOS"
+      ]
+    },
+    {
+      "externalId": "3L77",
+      "primary": {
+        "id": "7004",
+        "name": "Cubic Defence Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Cubic Defence Australia"
+      ]
+    },
+    {
+      "externalId": "3C66",
+      "primary": {
+        "id": "7003",
+        "name": "Chief Fluid Systems Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Chief Fluid Systems Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2L40",
+      "primary": {
+        "id": "7002",
+        "name": "Bronswerk Group"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Bronswerk Group"
+      ]
+    },
+    {
+      "externalId": "2L48",
+      "primary": {
+        "id": "7001",
+        "name": "Bohemia Interactive Simulations"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Bohemia Interactive Simulations"
+      ]
+    },
+    {
+      "externalId": "4H120",
+      "primary": {
+        "id": "7000",
+        "name": "Blackmagic Design"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Blackmagic Design"
+      ]
+    },
+    {
+      "externalId": "2L64",
+      "primary": {
+        "id": "6999",
+        "name": "BAUER KOMPRESSOREN Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "BAUER KOMPRESSOREN Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3H76,3J69",
+      "primary": {
+        "id": "6998",
+        "name": "ATLA, JAPAN MOD"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ATLA, JAPAN MOD"
+      ]
+    },
+    {
+      "externalId": "3A90",
+      "primary": {
+        "id": "6997",
+        "name": "ASC Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "ASC Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "1F06",
+      "primary": {
+        "id": "6995",
+        "name": "Toll Group - Government and Defence"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Toll Group - Government and Defence"
+      ]
+    },
+    {
+      "externalId": "1L22",
+      "primary": {
+        "id": "6994",
+        "name": "Saronic Technologies"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Saronic Technologies"
+      ]
+    },
+    {
+      "externalId": "2H60",
+      "primary": {
+        "id": "6993",
+        "name": "Omni Executive Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Omni Executive Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4L101",
+      "primary": {
+        "id": "6992",
+        "name": "EXAIL"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "EXAIL"
+      ]
+    },
+    {
+      "externalId": "2J61",
+      "primary": {
+        "id": "6991",
+        "name": "BlueScope Distribution"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "BlueScope Distribution"
+      ]
+    },
+    {
+      "externalId": "3L74",
+      "primary": {
+        "id": "6990",
+        "name": "Australian Defence Magazine (ADM)"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Australian Defence Magazine (ADM)"
+      ]
+    },
+    {
+      "externalId": "2H56",
+      "primary": {
+        "id": "6989",
+        "name": "Wamee Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Wamee Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3H92",
+      "primary": {
+        "id": "6988",
+        "name": "Versalux Lighting Systems Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Versalux Lighting Systems Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4H129",
+      "primary": {
+        "id": "6987",
+        "name": "Touchpoint Technology Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Touchpoint Technology Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4F110",
+      "primary": {
+        "id": "6986",
+        "name": "Thornton Tomasetti Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Thornton Tomasetti Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4L99",
+      "primary": {
+        "id": "6985",
+        "name": "SH Defence"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "SH Defence"
+      ]
+    },
+    {
+      "externalId": "3F89",
+      "primary": {
+        "id": "6984",
+        "name": "Roxtec Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Roxtec Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3N71",
+      "primary": {
+        "id": "6983",
+        "name": "Nicomatic Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Nicomatic Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4F130",
+      "primary": {
+        "id": "6982",
+        "name": "Navy Health Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Navy Health Ltd"
+      ]
+    },
+    {
+      "externalId": "3L90",
+      "primary": {
+        "id": "6981",
+        "name": "Marenav Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Marenav Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2N35",
+      "primary": {
+        "id": "6980",
+        "name": "Forge Dynamics"
+      },
+      "children": [
+        {
+          "id": "6980",
+          "name": "LANMAR"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Forge Dynamics",
+        "LANMAR"
+      ]
+    },
+    {
+      "externalId": "2N32",
+      "primary": {
+        "id": "6979",
+        "name": "Kirra Services"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Kirra Services"
+      ]
+    },
+    {
+      "externalId": "1J03",
+      "primary": {
+        "id": "6978",
+        "name": "K39 Consulting"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "K39 Consulting"
+      ]
+    },
+    {
+      "externalId": "1N12",
+      "primary": {
+        "id": "6977",
+        "name": "DG Air Trading Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "DG Air Trading Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2L42",
+      "primary": {
+        "id": "6976",
+        "name": "CORAS"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "CORAS"
+      ]
+    },
+    {
+      "externalId": "2N56",
+      "primary": {
+        "id": "6975",
+        "name": "Consunet Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Consunet Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "3C68",
+      "primary": {
+        "id": "6974",
+        "name": "Chris Tucker Marine Design"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Chris Tucker Marine Design"
+      ]
+    },
+    {
+      "externalId": "3N66",
+      "primary": {
+        "id": "6973",
+        "name": "CAPDA Consulting"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "CAPDA Consulting"
+      ]
+    },
+    {
+      "externalId": "1F01",
+      "primary": {
+        "id": "6972",
+        "name": "C4i Solutions"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "C4i Solutions"
+      ]
+    },
+    {
+      "externalId": "2L52",
+      "primary": {
+        "id": "6971",
+        "name": "AMI Group"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "AMI Group"
+      ]
+    },
+    {
+      "externalId": "2H52",
+      "primary": {
+        "id": "6970",
+        "name": "AeroPM"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "AeroPM"
+      ]
+    },
+    {
+      "externalId": "1N20",
+      "primary": {
+        "id": "6969",
+        "name": "Panoptic Solutions"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Panoptic Solutions"
+      ]
+    },
+    {
+      "externalId": "2N30",
+      "primary": {
+        "id": "6968",
+        "name": "JY Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "JY Australia"
+      ]
+    },
+    {
+      "externalId": "4C106",
+      "primary": {
+        "id": "6967",
+        "name": "HIFraser Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "HIFraser Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "2L44",
+      "primary": {
+        "id": "6966",
+        "name": "Gidgee Global Group"
+      },
+      "children": [
+        {
+          "id": "6966",
+          "name": "Gidgee Global Group - HY K9"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Gidgee Global Group",
+        "Gidgee Global Group - HY K9"
+      ]
+    },
+    {
+      "externalId": "2N40",
+      "primary": {
+        "id": "6965",
+        "name": "Amokabel Australia Pty Ltd"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Amokabel Australia Pty Ltd"
+      ]
+    },
+    {
+      "externalId": "4H106",
+      "primary": {
+        "id": "6964",
+        "name": "Optical Cable Corporation"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Optical Cable Corporation"
+      ]
+    },
+    {
+      "externalId": "3L70",
+      "primary": {
+        "id": "6963",
+        "name": "Advanced Micro Devices, Inc"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Advanced Micro Devices, Inc"
+      ]
+    },
+    {
+      "externalId": "1L09",
+      "primary": {
+        "id": "6962",
+        "name": "Australian Naval Classification Authority"
+      },
+      "children": [
+        {
+          "id": "6962",
+          "name": "Australian Naval Seaworthiness Authority"
+        }
+      ],
+      "totalExhibitors": 2,
+      "allNames": [
+        "Australian Naval Classification Authority",
+        "Australian Naval Seaworthiness Authority"
+      ]
+    },
+    {
+      "externalId": "POD 10",
+      "primary": {
+        "id": "6961",
+        "name": "Wichard Pacific"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Wichard Pacific"
+      ]
+    },
+    {
+      "externalId": "POD 27",
+      "primary": {
+        "id": "6960",
+        "name": "MetOcean Telematics"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "MetOcean Telematics"
+      ]
+    },
+    {
+      "externalId": "POD 28",
+      "primary": {
+        "id": "6959",
+        "name": "Mariner Travel"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Mariner Travel"
+      ]
+    },
+    {
+      "externalId": "POD 01",
+      "primary": {
+        "id": "6958",
+        "name": "Empirical Solutions"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Empirical Solutions"
+      ]
+    },
+    {
+      "externalId": "POD 19",
+      "primary": {
+        "id": "6957",
+        "name": "Defence Health"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Defence Health"
+      ]
+    },
+    {
+      "externalId": "POD 18",
+      "primary": {
+        "id": "6956",
+        "name": "Analox Limited"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Analox Limited"
+      ]
+    },
+    {
+      "externalId": "POD 09",
+      "primary": {
+        "id": "6955",
+        "name": "Quantum Australia"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Quantum Australia"
+      ]
+    },
+    {
+      "externalId": "POD 36",
+      "primary": {
+        "id": "6954",
+        "name": "Envirofluid"
+      },
+      "children": [],
+      "totalExhibitors": 1,
+      "allNames": [
+        "Envirofluid"
+      ]
+    },
+    {
+      "externalId": "4L104",
+      "primary": {
+        "id": "6665",
+        "name": "Indian Ocean Defence & Security Conference & Exhibition 2026"
+      },
+      "children": [
+        {
+          "id": "6665",
+          "name": "Avalon Australian International Airshow 2027"
+        },
+        {
+          "id": "6665",
+          "name": "AMDA Foundation Limited"
+        },
+        {
+          "id": "6665",
+          "name": "Rotortech Vertical Flight Exposition 2026"
+        },
+        {
+          "id": "6665",
+          "name": "Land Forces International Land Defence Exposition 2026"
+        }
+      ],
+      "totalExhibitors": 5,
+      "allNames": [
+        "Indian Ocean Defence & Security Conference & Exhibition 2026",
+        "Avalon Australian International Airshow 2027",
+        "AMDA Foundation Limited",
+        "Rotortech Vertical Flight Exposition 2026",
+        "Land Forces International Land Defence Exposition 2026"
+      ]
+    }
+  ]
+}

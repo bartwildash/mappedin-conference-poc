@@ -1,18 +1,36 @@
 {
   "name": "mappedin-conference-poc",
-  "version": "1.0.0",
-  "description": "Production-ready 3D conference map with exhibitor discovery and navigation. Optimized for mobile, iPad, and web app embedding.",
+  "version": "2.0.0",
+  "description": "Production-ready 3D conference map rebuilt with Svelte, TypeScript, Tailwind CSS, and shadcn-svelte. Optimized for mobile, iPad, and web app embedding.",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "transform-exhibitors": "node transform-exhibitors.mjs"
   },
   "dependencies": {
-    "@mappedin/mappedin-js": "^6.0.0"
+    "@mappedin/mappedin-js": "^6.0.0",
+    "lucide-static": "^0.548.0"
   },
   "devDependencies": {
-    "vite": "^5.4.0"
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tsconfig/svelte": "^5.0.5",
+    "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
+    "postcss": "^8.5.6",
+    "shadcn-svelte": "^1.0.9",
+    "svelte": "^5.41.2",
+    "svelte-check": "^4.3.3",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.1",
+    "tailwindcss": "^3.4.16",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.12"
   },
   "keywords": [
     "mappedin",
@@ -22,7 +40,11 @@
     "exhibitor-directory",
     "mobile-optimized",
     "touch-ui",
-    "pwa"
+    "pwa",
+    "svelte",
+    "typescript",
+    "tailwindcss",
+    "shadcn-svelte"
   ],
   "repository": {
     "type": "git",
