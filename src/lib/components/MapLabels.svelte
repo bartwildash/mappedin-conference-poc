@@ -11,7 +11,7 @@
   // - high rank, 14px grey text, zoom 19+: Special Areas (stages, lounges)
   // - medium rank, 11px + 16px icon, zoom 19+: Food & Drink (earlier visibility)
   // - medium rank, 11px + 16px icon, zoom 20+: POIs, Elevators, Stairs
-  // - low rank, 9px blue + 12px blue icon, zoom 50+: Restrooms (SMALLEST, latest, blue)
+  // - low rank, 9px blue + 12px blue icon, zoom 22: Restrooms (SMALLEST, latest, blue - max zoom only)
 
   onMount(() => {
     const unsubView = mapView.subscribe(view => {
@@ -134,6 +134,14 @@
   function addLabelsAndMarkers(view: any, data: any, exhibitorData: any[]) {
     console.log('🏷️  Adding labels and markers...');
 
+    // Remove any default Mappedin labels first
+    try {
+      view.Labels.removeAll();
+      console.log('🧹 Cleared all default labels');
+    } catch (e) {
+      console.log('Note: No default labels to clear');
+    }
+
     let successCount = 0;
 
     // 1. Add labels to ALL objects (exhibitors are objects!)
@@ -141,6 +149,14 @@
     console.log(`📊 Total objects: ${objects.length}`);
 
     objects.forEach((obj: any) => {
+      // Skip restrooms - they're handled in the amenity section with zoom 50
+      const objNameLower = (obj.name || '').toLowerCase();
+      if (objNameLower.includes('restroom') || objNameLower.includes('washroom') ||
+          objNameLower.includes('bathroom') || objNameLower.includes('toilet') ||
+          objNameLower.includes('wc')) {
+        return; // Skip this object
+      }
+
       // Determine if this is an exhibitor or a special area
       let rank = 'high'; // Default: Special Area (high rank)
       let labelColor = '#4a5568'; // Grey for special areas
@@ -371,9 +387,9 @@
           appearance.textVisibleAtZoomLevel = 20;
           appearance.iconVisibleAtZoomLevel = 20;
         } else if (rank === 'low') {
-          // Low priority (restrooms): Visible at zoom 50+ (EXTREMELY close zoom only)
-          appearance.textVisibleAtZoomLevel = 50;
-          appearance.iconVisibleAtZoomLevel = 50;
+          // Low priority (restrooms): Visible at zoom 22 (max zoom only)
+          appearance.textVisibleAtZoomLevel = 22;
+          appearance.iconVisibleAtZoomLevel = 22;
         }
 
         view.Labels.add(space, amenityName, {
