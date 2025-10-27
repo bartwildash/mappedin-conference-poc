@@ -54,7 +54,9 @@
   // Debounced search for FROM field - searches both exhibitors and amenities
   function handleFromSearch() {
     clearTimeout(fromSearchTimeout);
+    console.log('[DirectionsModal] FROM search triggered, query:', fromSearch);
     fromSearchTimeout = setTimeout(() => {
+      console.log('[DirectionsModal] FROM search executing after debounce, query length:', fromSearch.length);
       if (fromSearch.length >= 2) {
         const results: SearchResult[] = [];
 
@@ -99,9 +101,11 @@
 
         fromResults = results;
         showFromResults = true;
+        console.log('[DirectionsModal] FROM search complete:', results.length, 'results, showFromResults:', showFromResults);
       } else {
         fromResults = [];
         showFromResults = false;
+        console.log('[DirectionsModal] FROM search query too short or empty');
       }
     }, 200);
   }
