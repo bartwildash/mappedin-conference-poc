@@ -231,7 +231,7 @@
 </script>
 
 <Dialog open={$directionsOpen} onOpenChange={(open) => directionsOpen.set(open)}>
-  <div class="space-y-4">
+  <div class="space-y-4 overflow-visible">
     <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
@@ -253,7 +253,7 @@
     <Separator />
 
     <!-- From/To Fields -->
-    <div class="space-y-3">
+    <div class="space-y-3 overflow-visible">
       <!-- From -->
       <div class="relative">
         <div class="flex items-center gap-2 mb-2">
@@ -281,7 +281,7 @@
               />
             </div>
             {#if showFromResults && fromResults.length > 0}
-              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-50 border-2 backdrop-blur-sm bg-background/95">
+              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-[100] border-2 bg-background">
                 <div class="px-3 py-2 bg-muted/50 border-b">
                   <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                     {fromResults.length} result{fromResults.length !== 1 ? 's' : ''}
@@ -384,7 +384,7 @@
               />
             </div>
             {#if showToResults && toResults.length > 0}
-              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-50 border-2 backdrop-blur-sm bg-background/95">
+              <Card class="absolute top-full mt-2 w-full max-h-64 overflow-y-auto shadow-xl z-[100] border-2 bg-background">
                 <div class="px-3 py-2 bg-muted/50 border-b">
                   <span class="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                     {toResults.length} result{toResults.length !== 1 ? 's' : ''}
