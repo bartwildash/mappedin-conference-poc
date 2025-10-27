@@ -73,7 +73,7 @@
 
 {#if isOpen && activeItem}
   <div class="absolute bottom-4 left-4 right-4 z-20 max-w-md mx-auto md:left-auto md:right-4 md:max-w-lg" transition:slide={{ duration: 300, opacity: 0.95 }}>
-    <Card class="shadow-2xl border-2 backdrop-blur-sm bg-background/98">
+    <Card class="shadow-2xl border-2 bg-background">
       <div class="p-4 md:p-6 space-y-4">
         <!-- Header -->
         <div class="flex items-start justify-between gap-3">
