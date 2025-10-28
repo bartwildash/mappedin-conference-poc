@@ -15,6 +15,8 @@
     mapId: '688ea50e362b1d000ba0822b'
   };
 
+  let cameraChangeHandler: ((event: any) => void) | null = null;
+
   onMount(async () => {
     try {
       showStatus('Loading map...', 'info', 0);
@@ -42,11 +44,12 @@
       await loadExhibitors();
 
       // Listen to camera changes for zoom tracking
-      view.on('camera-change', (event: any) => {
+      cameraChangeHandler = (event: any) => {
         if (event.zoom !== undefined) {
           currentZoom.set(event.zoom);
         }
-      });
+      };
+      view.on('camera-change', cameraChangeHandler);
 
       showStatus('Map loaded successfully!', 'success', 2000);
 
@@ -57,7 +60,14 @@
   });
 
   onDestroy(() => {
-    // Clean up map instance if needed
+    // Remove event listeners to prevent memory leaks
+    const view = $mapView;
+    if (view && cameraChangeHandler) {
+      view.off('camera-change', cameraChangeHandler);
+      cameraChangeHandler = null;
+    }
+
+    // Clean up map instance
     mapView.set(null);
     mapData.set(null);
   });

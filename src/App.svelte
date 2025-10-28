@@ -3,11 +3,11 @@
   import MapView from '$lib/components/MapView.svelte';
   import MapLabels from '$lib/components/MapLabels.svelte';
   import Search from '$lib/components/Search.svelte';
-  import DetailCard from '$lib/components/DetailCard.svelte';
-  import DirectionsModal from '$lib/components/DirectionsModal.svelte';
+  import LocationCard from '$lib/components/LocationCard.svelte';
   import StatusBar from '$lib/components/StatusBar.svelte';
   import FloorSelector from '$lib/components/FloorSelector.svelte';
   import AccessibilityToggle from '$lib/components/AccessibilityToggle.svelte';
+  import BlueDotControl from '$lib/components/BlueDotControl.svelte';
   import Toast from '$lib/components/ui/toast.svelte';
 
   // Bridge utilities for embedding
@@ -69,16 +69,16 @@
   <!-- UI Overlay Components -->
   <Search />
   <StatusBar />
-  <DetailCard />
-  <DirectionsModal />
+  <LocationCard />
   <FloorSelector />
   <AccessibilityToggle />
+  <BlueDotControl />
 
   <!-- Toast Notifications -->
   <Toast />
 
-  <!-- Branding -->
-  <div class="absolute bottom-4 left-4 text-sm text-muted-foreground/60 z-10 select-none">
+  <!-- Branding (moved to avoid BlueDot button) -->
+  <div class="absolute bottom-20 left-4 text-sm text-muted-foreground/60 z-10 select-none sm:bottom-24 md:bottom-28">
     Powered by <span class="font-semibold">Mappedin</span>
   </div>
 </main>

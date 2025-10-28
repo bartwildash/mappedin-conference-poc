@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { get } from 'svelte/store';
   import { mapView, mapData, isMapReady, pathfindingFrom, pathfindingTo, amenities } from '$lib/stores/map';
   import type { AmenityItem } from '$lib/stores/map';
   import { exhibitors } from '$lib/stores/exhibitors';
@@ -12,6 +13,8 @@
   // - 'high' rank, 11px text, zoom 19+: Food & Drink (high priority for user needs)
   // - 'medium' rank, 11px text, zoom 20+: POIs, Elevators, Stairs
   // - 'low' rank, 9px blue text, zoom 22: Restrooms (lowest priority, maximum zoom only)
+
+  let clickHandler: ((event: any) => void) | null = null;
 
   onMount(() => {
     const unsubView = mapView.subscribe(view => {
@@ -26,10 +29,26 @@
       });
       return unsubData;
     });
-    return unsubView;
+
+    // Return cleanup function
+    return () => {
+      // Clean up click handler
+      const view = $mapView;
+      if (view && clickHandler) {
+        view.off('click', clickHandler);
+        clickHandler = null;
+      }
+      // Unsubscribe from stores
+      unsubView();
+    };
   });
 
   function setupClickHandlers(view: any, data: any) {
+    // Remove old click handler if exists to prevent duplicates
+    if (clickHandler) {
+      view.off('click', clickHandler);
+    }
+
     // Make all spaces interactive and clickable
     const spaces = data.getByType('space');
     spaces.forEach((space: any) => {
@@ -49,12 +68,10 @@
     });
 
     // Add click event listener
-    view.on('click', (event: any) => {
-      // Check if we're in direction selection mode
-      let isSelectingFrom = false;
-      let isSelectingTo = false;
-      selectingFromLocation.subscribe(val => { isSelectingFrom = val; })();
-      selectingToLocation.subscribe(val => { isSelectingTo = val; })();
+    clickHandler = (event: any) => {
+      // Use get() to read store values inside event handler ($ syntax only works in reactive context)
+      const isSelectingFrom = get(selectingFromLocation);
+      const isSelectingTo = get(selectingToLocation);
 
       if (event.spaces && event.spaces.length > 0) {
         const space = event.spaces[0];
@@ -126,7 +143,10 @@
         });
         locationCardOpen.set(true);
       }
-    });
+    };
+
+    // Attach the click handler to the view
+    view.on('click', clickHandler);
   }
 
   function addLabelsAndMarkers(view: any, data: any, exhibitorData: any[]) {
@@ -193,11 +213,11 @@
           if (rank === 'high') {
             // Exhibitors and special areas: Progressive visibility
             if (isExhibitor) {
-              // Exhibitors: Start showing at zoom 18
-              appearance.textVisibleAtZoomLevel = 18;
+              // Exhibitors: Start showing early when zoomed OUT (zoom 14)
+              appearance.textVisibleAtZoomLevel = 14;
             } else {
-              // Special areas: Visible at zoom 19
-              appearance.textVisibleAtZoomLevel = 19;
+              // Special areas: Visible as you zoom in moderately (zoom 18)
+              appearance.textVisibleAtZoomLevel = 18;
             }
           }
 
@@ -370,15 +390,15 @@
 
         // Set visibility thresholds based on rank and amenity type
         if (rank === 'high') {
-          // High priority amenities (food & drink): Visible at zoom 19+
-          appearance.textVisibleAtZoomLevel = 19;
-          appearance.iconVisibleAtZoomLevel = 19;
+          // High priority amenities (food & drink, cafes): Visible as you zoom in (zoom 18)
+          appearance.textVisibleAtZoomLevel = 18;
+          appearance.iconVisibleAtZoomLevel = 18;
         } else if (rank === 'medium') {
-          // Medium priority (prayer rooms, POIs, etc): Visible at zoom 20+
+          // Medium priority (prayer rooms, POIs, etc): Visible at closer zoom (zoom 20)
           appearance.textVisibleAtZoomLevel = 20;
           appearance.iconVisibleAtZoomLevel = 20;
         } else if (rank === 'low') {
-          // Low priority (restrooms): Visible at zoom 22 (max zoom only)
+          // Low priority (restrooms): Visible only when VERY zoomed in (zoom 22)
           appearance.textVisibleAtZoomLevel = 22;
           appearance.iconVisibleAtZoomLevel = 22;
         }
