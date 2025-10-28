@@ -16,8 +16,7 @@
 
     <!-- Iframe Embedding Support -->
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN" />
-    <meta http-equiv="Content-Security-Policy" content="frame-ancestors 'self' https://*.github.io https://*.cloudflare.com https://*.pages.dev" />
+    <!-- Note: X-Frame-Options and CSP frame-ancestors must be set via HTTP headers, not meta tags -->
 
     <!-- Performance & Rendering -->
     <meta name="format-detection" content="telephone=no" />

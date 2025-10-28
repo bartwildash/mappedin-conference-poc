@@ -142,7 +142,6 @@
 
     // 1. Add labels to ALL objects (exhibitors are objects!)
     const objects = data.getByType('object') || [];
-    console.log(`📊 Total objects: ${objects.length}`);
 
     objects.forEach((obj: any) => {
       // Skip restrooms - they're handled in the amenity section with zoom 50
@@ -447,7 +446,5 @@
 
     // Update amenities store for search
     amenities.set(foundAmenities);
-
-    console.log(`✅ Added ${amenityCount} amenity labels (${foundAmenities.length} searchable)`);
   }
 </script>
