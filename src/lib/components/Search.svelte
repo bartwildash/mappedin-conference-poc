@@ -65,7 +65,6 @@
         unsubAmenities();
 
         searchResults = results;
-        console.log('Search results:', results.length, '(exhibitors + amenities)');
         showResults = true;
         isSearching = false;
         selectedIndex = -1;

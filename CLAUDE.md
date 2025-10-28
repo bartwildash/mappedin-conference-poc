@@ -73,9 +73,9 @@ appearance: {
 - `index.html` - Main application with all enhancements
 - `public/css/floor-zoom-controls.css` - Minor style adjustments
 
-## Lessons Learned: Dynamic Focus System
+## Lessons Learned: Mappedin Label System
 
-### Understanding Mappedin's Label Ranking
+### Understanding Label Ranking & Zoom-Based Visibility
 
 Through iterative development, we learned that Mappedin's label system requires three components working together:
 
@@ -113,7 +113,7 @@ rank: 'low', textSize: 9px, zoom: 22 (blue color)
 - **Visual distinction matters** - Blue restrooms prevent confusion with other amenities
 - **Size creates hierarchy** - 14px exhibitors vs 9px restrooms = 36% size difference
 
-See `DYNAMIC_FOCUS_GUIDE.md` for comprehensive technical documentation.
+See `LABEL_SYSTEM_GUIDE.md` for comprehensive technical documentation using official Mappedin terminology.
 
 ## Architecture
 

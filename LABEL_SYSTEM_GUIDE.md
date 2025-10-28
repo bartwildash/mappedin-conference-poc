@@ -1,67 +1,75 @@
-# Dynamic Focus Management Guide
+# Mappedin Label System Guide
 
-## Understanding Mappedin's Label System
+## Overview
 
-This guide documents our journey learning and optimizing Mappedin's dynamic focus and label ranking system for the conference map application.
+This guide documents how we implement Mappedin Web SDK v6's label ranking and zoom-based visibility features for the conference map application.
 
-## Core Concepts
+**Important**: This guide uses official Mappedin terminology from their v6 SDK documentation.
 
-### 1. Label Ranking System
+## Mappedin Label Features
 
-Mappedin uses **named tiers** for label ranking, not numeric values:
+### 1. Label Ranking (Collision Detection)
+
+Mappedin uses **Collision Ranking Tiers** (`TCollisionRankingTier`) to control which labels show when multiple labels overlap:
 
 ```typescript
-rank: 'high' | 'medium' | 'low' | 'always-visible'
+rank: 'low' | 'medium' | 'high' | 'always-visible'
 ```
 
-**Important**: These are strings, not numbers! Early attempts to use numeric ranks (1-10) failed because Mappedin's collision detection doesn't recognize them.
+**How it works**: When labels occupy the same space, the label with the highest rank will be shown. Labels with lower ranks are automatically hidden to prevent clutter.
 
-### 2. Progressive Disclosure
+**Official definition**: "Fine-tune the visibility of colliders, enhancing map readability and user experience by prioritizing important information."
 
-Labels appear at different zoom levels based on importance. This prevents visual clutter and creates a progressive exploration experience:
+### 2. Zoom-Level Visibility Control
+
+Labels can appear/disappear at specific zoom levels using `iconVisibleAtZoomLevel`:
 
 ```typescript
 appearance: {
-  textVisibleAtZoomLevel: 18,  // Zoom level (higher = more zoomed in)
-  iconVisibleAtZoomLevel: 18
+  iconVisibleAtZoomLevel: 18  // Zoom level where icon becomes visible
 }
 ```
 
-**Zoom Level Scale**:
-- **Zoom 17-18**: Very far out (venue overview)
+**How zoom levels work**:
+- **-Infinity**: Always visible
+- **0**: Visible at maximum zoom (fully zoomed in)
+- **Specific number (18-22)**: Visible at that zoom level and closer
+- **Infinity**: Never visible
+
+**Zoom Level Scale** (Mappedin uses Mercator zoom):
+- **Zoom 17-18**: Far out (venue overview)
 - **Zoom 19-20**: Medium distance (area view)
 - **Zoom 21-22**: Close up (booth level)
-- **Zoom 23-24**: Very close (detail view)
+- **Zoom 22**: Maximum zoom in Mappedin v6
+
+**Note**: `textVisibleAtZoomLevel` works the same way for label text visibility.
 
 ### 3. Visual Hierarchy
 
-Label visibility is controlled by THREE factors working together:
+Our implementation combines THREE Mappedin features:
 
-1. **Rank** ('high', 'medium', 'low') - Determines collision priority
-2. **Text Size** (9-14px) - Visual dominance
-3. **Zoom Threshold** (18-24) - When labels appear
+1. **Rank** (collision priority) - Which label wins when overlapping
+2. **Text Size** (visual prominence) - How big the label appears
+3. **Zoom Threshold** (progressive disclosure) - When labels appear
 
 ## Our Implementation
 
-### Current Label Hierarchy
+### Label Hierarchy
 
 From `src/lib/components/MapLabels.svelte`:
 
 ```typescript
-// Rank: high, Size: 14px, Zoom: 18+
-Exhibitors (black text, LARGEST, earliest visibility)
+// HIGH RANK: Exhibitors (earliest visibility)
+rank: 'high', textSize: 14px, zoom: 18+
 
-// Rank: high, Size: 14px, Zoom: 19+
-Special Areas (grey text, stages, lounges)
+// HIGH RANK: Food & Drink (early visibility for user needs)
+rank: 'high', textSize: 11px, zoom: 19+
 
-// Rank: high, Size: 11px + 16px icon, Zoom: 19+
-Food & Drink (early visibility for user needs)
+// MEDIUM RANK: General amenities
+rank: 'medium', textSize: 11px, zoom: 20+
 
-// Rank: medium, Size: 11px + 16px icon, Zoom: 20+
-POIs, Elevators, Stairs, Prayer Rooms
-
-// Rank: low, Size: 9px + 12px icon, Zoom: 22
-Restrooms (blue, SMALLEST, latest visibility)
+// LOW RANK: Restrooms (latest visibility)
+rank: 'low', textSize: 9px, zoom: 22 (maximum zoom only)
 ```
 
 ### Code Example
@@ -83,7 +91,7 @@ view.Labels.add(exhibitor, exhibitor.name, {
 // Food & Drink labels
 view.Labels.add(space, amenityName, {
   interactive: false,
-  rank: 'high',  // Same rank as exhibitors
+  rank: 'high',  // Same collision priority as exhibitors
   appearance: {
     textSize: 11,  // But smaller text
     color: '#333',
@@ -97,7 +105,7 @@ view.Labels.add(space, amenityName, {
 // Restroom labels
 view.Labels.add(space, amenityName, {
   interactive: false,
-  rank: 'low',  // Lowest priority
+  rank: 'low',  // Lowest collision priority
   appearance: {
     textSize: 9,   // Smallest text
     color: '#3b82f6',  // Blue for distinction
@@ -120,7 +128,7 @@ rank: 10  // Doesn't work!
 
 ✅ **Correct**:
 ```typescript
-rank: 'high'  // Use named tiers
+rank: 'high'  // Use Mappedin's named tiers
 ```
 
 ### Problem 2: Too Many 'always-visible' Labels
@@ -138,13 +146,25 @@ appearance: {
 }
 ```
 
-### Problem 3: Restrooms Dominating Visually
+### Problem 3: Zoom Levels Above Maximum
 
-Early implementations had restrooms appearing too early and too large:
-- Text: 12px (same as general amenities)
-- Icon: 20px (too large)
-- Zoom: 21 (too early)
-- Color: Black (no distinction)
+**Critical**: Mappedin v6 maximum zoom is **22**, not 24 or higher!
+
+Setting `textVisibleAtZoomLevel: 24` causes fallback to always visible (opposite of intended behavior).
+
+❌ **Wrong**:
+```typescript
+textVisibleAtZoomLevel: 24  // Out of range!
+```
+
+✅ **Correct**:
+```typescript
+textVisibleAtZoomLevel: 22  // Maximum zoom
+```
+
+### Problem 4: Restrooms Dominating Visually
+
+Early implementations had restrooms appearing too early and too large, causing user complaints about clutter.
 
 ✅ **Solution**: Make them smallest and latest:
 ```typescript
@@ -157,24 +177,11 @@ appearance: {
 }
 ```
 
-### Problem 4: Important Amenities Appearing Too Late
-
-Food & drink is critical for user experience but was appearing at same level as POIs.
-
-✅ **Solution**: Elevate to 'high' rank with earlier zoom threshold:
-```typescript
-rank: 'high',  // Same as exhibitors
-appearance: {
-  textSize: 11,  // But smaller text
-  textVisibleAtZoomLevel: 19  // Earlier than other amenities
-}
-```
-
 ## Best Practices
 
 ### 1. Use Size + Rank + Zoom Together
 
-Create hierarchy by combining all three factors:
+Create hierarchy by combining all three features:
 
 ```typescript
 // Primary content (exhibitors)
@@ -200,7 +207,7 @@ Prioritize labels based on what users need to find:
 
 ### 3. Test at Different Zoom Levels
 
-Always test your label hierarchy at zoom levels: 17, 19, 21, 23
+Always test your label hierarchy at zoom levels: 17, 19, 21, 22
 
 ```bash
 # Run dev server
@@ -247,7 +254,7 @@ console.log(`   - ${restroomCount} restrooms (low, zoom 22)`);
 - [ ] Exhibitors appear first (zoom 18)
 - [ ] Food & drink appear with special areas (zoom 19)
 - [ ] General amenities appear at medium zoom (zoom 20)
-- [ ] Restrooms only appear when very close (zoom 22 - maximum zoom)
+- [ ] Restrooms only appear at maximum zoom (zoom 22)
 - [ ] No label overlap at exhibitor level
 - [ ] Blue restrooms are visually distinct
 - [ ] Text is readable over all backgrounds
@@ -274,19 +281,34 @@ Mappedin can handle thousands of labels, but consider:
 - `src/lib/utils/icons.ts` - Icon generation
 - `src/lib/stores/map.ts` - Map state management
 
-## Resources
+## Mappedin Official Resources
 
-- [Mappedin Web SDK Documentation](https://developer.mappedin.com/)
-- [Label API Reference](https://docs.mappedin.com/web-sdk/labels)
-- [Dynamic Focus Best Practices](https://docs.mappedin.com/web-sdk/camera#camera-focus)
+- [Labels Guide (v6)](https://developer.mappedin.com/v6/web-sdk-guides/labels/)
+- [TCollisionRankingTier API](https://docs.mappedin.com/web/v6/latest/types/TCollisionRankingTier.html)
+- [Camera API](https://developer.mappedin.com/v6/web-sdk-guides/camera/)
+
+## What About "Dynamic Focus"?
+
+**Dynamic Focus** is a different Mappedin feature for outdoor maps with multiple buildings. It automatically fades buildings in/out as the camera pans over them.
+
+**We are NOT using Dynamic Focus** - we're using:
+- **Label Ranking** (collision detection)
+- **Zoom-Level Visibility** (progressive disclosure)
+- **Camera Focus** (`Camera.focusOn()` for navigation)
 
 ## Changelog
+
+### 2025-10-28
+- Renamed from DYNAMIC_FOCUS_GUIDE.md to LABEL_SYSTEM_GUIDE.md
+- Updated all terminology to match official Mappedin v6 documentation
+- Clarified difference between our label system and Mappedin's Dynamic Focus feature
+- Corrected maximum zoom from 24 to 22
 
 ### 2025-10-27
 - Corrected restroom zoom threshold to 22 (maximum zoom in Mappedin v6)
 - Changed food & drink from medium rank (zoom 20) to high rank (zoom 19)
 - Updated label hierarchy comments
-- Created this guide
+- Created original guide
 
 ### Previous Session
 - Changed restroom color from black to blue (#3b82f6)
@@ -298,4 +320,4 @@ Mappedin can handle thousands of labels, but consider:
 
 ---
 
-**Remember**: Dynamic focus is about creating a progressive exploration experience. Users should discover details as they zoom in, not be overwhelmed with everything at once.
+**Remember**: Use official Mappedin terminology: **Label Ranking** for collision detection, **Zoom-Level Visibility** for progressive disclosure, and **Camera Focus** for navigation.

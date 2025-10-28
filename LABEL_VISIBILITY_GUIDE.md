@@ -1,6 +1,6 @@
 # Smart Label Visibility System
 
-> **⚠️ DEPRECATED**: This guide describes an obsolete approach using manual `updateState()` calls and camera event listeners. The current implementation uses Mappedin's built-in `textVisibleAtZoomLevel` and `iconVisibleAtZoomLevel` properties instead. See `DYNAMIC_FOCUS_GUIDE.md` for the current system.
+> **⚠️ DEPRECATED**: This guide describes an obsolete approach using manual `updateState()` calls and camera event listeners. The current implementation uses Mappedin's built-in `textVisibleAtZoomLevel` and `iconVisibleAtZoomLevel` properties for zoom-based visibility control. See `LABEL_SYSTEM_GUIDE.md` for the current implementation using official Mappedin terminology.
 
 ## Overview
 

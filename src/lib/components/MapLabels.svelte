@@ -6,12 +6,12 @@
   import { selectedLocation, locationCardOpen, selectingFromLocation, selectingToLocation } from '$lib/stores/ui';
   import { getIconSVG, getAmenityIcon } from '$lib/utils/icons';
 
-  // Label rank/priority using Mappedin's tier system + size hierarchy:
-  // - high rank, 14px black text, zoom 18+: Exhibitors (LARGEST, earliest)
-  // - high rank, 14px grey text, zoom 19+: Special Areas (stages, lounges)
-  // - high rank, 11px + 16px icon, zoom 19+: Food & Drink (earlier visibility)
-  // - medium rank, 11px + 16px icon, zoom 20+: POIs, Elevators, Stairs
-  // - low rank, 9px blue + 12px blue icon, zoom 22: Restrooms (SMALLEST, latest, blue - max zoom only)
+  // Label system using Mappedin's collision ranking tiers (TCollisionRankingTier) + zoom-based visibility:
+  // - 'high' rank, 14px text, zoom 18+: Exhibitors (highest priority, earliest visibility)
+  // - 'high' rank, 14px text, zoom 19+: Special Areas (stages, lounges)
+  // - 'high' rank, 11px text, zoom 19+: Food & Drink (high priority for user needs)
+  // - 'medium' rank, 11px text, zoom 20+: POIs, Elevators, Stairs
+  // - 'low' rank, 9px blue text, zoom 22: Restrooms (lowest priority, maximum zoom only)
 
   onMount(() => {
     const unsubView = mapView.subscribe(view => {
@@ -127,19 +127,15 @@
         locationCardOpen.set(true);
       }
     });
-
-    console.log('✅ Click handlers setup for spaces and objects');
   }
 
   function addLabelsAndMarkers(view: any, data: any, exhibitorData: any[]) {
-    console.log('🏷️  Adding labels and markers...');
 
     // Remove any default Mappedin labels first
     try {
       view.Labels.removeAll();
-      console.log('🧹 Cleared all default labels');
     } catch (e) {
-      console.log('Note: No default labels to clear');
+      // No default labels to clear
     }
 
     let successCount = 0;
@@ -246,9 +242,6 @@
       })
     );
 
-    console.log(`✅ Added ${successCount} object labels:`);
-    console.log(`   - ${exhibitorObjects.length} exhibitors (high, zoom 18+)`);
-    console.log(`   - ${specialAreaObjects.length} special areas (high, zoom 19+)`);
 
     // 2. Add amenity labels (restrooms, cafes, etc.)
     addAmenityLabels(view, data);
@@ -260,7 +253,6 @@
 
     // Get all SPACES (not locations) - amenities are spaces with categories
     const spaces = data.getByType('space');
-    console.log(`🔍 Checking ${spaces.length} spaces for amenities...`);
 
     spaces.forEach((space: any) => {
       const name = space.name?.toLowerCase() || '';
